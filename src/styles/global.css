@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap");
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+  body {
+    background-color: oklch(0.985 0.012 75);
+    color: oklch(0.22 0.03 40);
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: "Fraunces", Georgia, serif;
+    letter-spacing: -0.02em;
+  }
+  * {
+    border-color: oklch(0.91 0.02 65);
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .bg-warm-gradient { background: linear-gradient(135deg, oklch(0.93 0.06 55), oklch(0.88 0.09 45)); }
+  .bg-primary-gradient { background: linear-gradient(135deg, oklch(0.7 0.14 50), oklch(0.6 0.15 35)); }
+}
