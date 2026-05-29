@@ -109,14 +109,74 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </div>
     </section>
 
-    <!-- ─── WAVE 2 ────────────────────────────────────────────────────────────── -->
+    <!-- ─── AGITATION — suite directe de l'histoire, même fond crème ──────────── -->
+    <section class="px-6 pb-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold mb-4 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
+          T'as déjà essayé tout ça.
+        </h2>
+        <p class="text-lg mb-12" style="color:oklch(0.5 0.03 45)">
+          Et rien n'a tenu. Parce que rien n'était fait pour toi.
+        </p>
+        <ul class="space-y-4">
+          {[
+            ["Gel nettoyant à l'acide salicylique", "Ça assèche. Ça irrite. L'acné revient dès que tu arrêtes."],
+            ["Crème au niacinamide (vue sur YouTube)", "Efficace pour certains profils. Pas le tien. Aucun résultat."],
+            ["Antibiotiques du dermatologue", "3 mois de calme. Puis retour en force dès que tu arrêtes."],
+            ["Routine à 8 étapes trouvée sur Reddit", "Conçue pour une skin de r/SkincareAddiction. Pas pour ta peau à toi."],
+            ["Roaccutane", "Tu y as pensé. Ou tu l'as fait. Les effets secondaires t'ont freiné — ou ça a marché 2 ans, puis retour."],
+            ["Nouveaux produits chaque mois", "Le cimetière sous l'évier. Des centaines d'euros. Toujours rien."],
+          ].map(([title, sub]) => (
+            <li class="fail-card flex gap-4 rounded-2xl border p-5" style="border-color:oklch(0.91 0.02 65)">
+              <span class="mt-0.5 text-lg" style="color:oklch(0.6 0.2 25)">✗</span>
+              <div>
+                <p class="font-semibold" style="color:oklch(0.22 0.03 40)">{title}</p>
+                <p class="text-sm mt-1" style="color:oklch(0.5 0.03 45)">{sub}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div class="mt-12 rounded-3xl p-8 text-center" style="background:oklch(0.86 0.08 50)">
+          <p class="text-xl font-semibold leading-snug" style="color:oklch(0.32 0.08 40)">
+            Le problème, c'est pas les produits.<br />
+            C'est qu'ils sont faits pour <em>tout le monde</em>.<br />
+            Et toi, t'es pas tout le monde.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── LE DÉCLIC — suite directe, même fond crème ───────────────────────── -->
+    <section class="px-6 pb-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+      <div class="max-w-2xl mx-auto">
+        <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
+          <p>Ce jour-là, j'ai arrêté de chercher <strong>LE produit miracle</strong>.</p>
+          <p>J'ai commencé à construire <strong>UN protocole</strong>.</p>
+          <p>Pas une liste d'ingrédients au hasard. Pas une routine YouTube.</p>
+          <p>Un système. Adapté à <em>mon</em> type de peau, <em>mes</em> déclencheurs, <em>mes</em> habitudes.</p>
+          <p>
+            J'ai appris à lire les INCI. À comprendre pourquoi certains produits irritaient ma barrière cutanée.
+            À ajuster semaine après semaine ce qui fonctionnait ou pas.
+          </p>
+          <p>
+            <strong>[EDIT : Décris ici le résultat que tu as obtenu — combien de semaines, ce que tu as constaté.]</strong>
+          </p>
+          <p>
+            Et pour la première fois en <strong>[X] ans</strong>, j'ai regardé mon visage dans le miroir sans détourner les yeux.
+          </p>
+          <p>C'est ça, le protocole que j'ai codifié pour toi.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── WAVE (crème → blanc) — fin du bloc histoire ──────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,30 C360,0 1080,60 1440,30 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
+        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
       </svg>
     </div>
 
-    <!-- ─── AVANT / APRÈS ────────────────────────────────────────────────────── -->
+    <!-- ─── AVANT / APRÈS — preuve visuelle après l'histoire ─────────────────── -->
     <!-- EDIT: Remplace les zones grises par tes vraies photos avant/après -->
     <section class="max-w-3xl mx-auto px-6 py-24" data-reveal>
       <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
@@ -126,122 +186,39 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         La preuve en images.
       </h2>
       <p class="text-center text-lg mb-14" style="color:oklch(0.5 0.03 45)">
-        <!-- EDIT: Ajoute ici le contexte (ex: "12 semaines de protocole, sans antibiotiques.") -->
-        [EDIT : Contexte de la transformation — durée, point de départ]
+        [EDIT : Contexte — ex: "12 semaines de protocole, sans antibiotiques."]
       </p>
-
       <div class="grid grid-cols-2 gap-4 md:gap-8">
-        <!-- Avant -->
         <div class="flex flex-col gap-3">
-          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]"
-            style="background:oklch(0.93 0.05 55)">
-            <!-- EDIT: Remplace ce div par <img src="/avant.jpg" ... /> -->
+          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
+            <!-- EDIT: <img src="/avant.jpg" class="w-full h-full object-cover" alt="Avant" /> -->
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="text-sm font-medium" style="color:oklch(0.66 0.14 45)">[Photo avant]</span>
             </div>
             <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-              style="background:oklch(0.22 0.03 40 / 0.75);color:white">
-              Avant
-            </div>
+              style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
           </div>
         </div>
-
-        <!-- Après -->
         <div class="flex flex-col gap-3">
-          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]"
-            style="background:oklch(0.93 0.05 55)">
-            <!-- EDIT: Remplace ce div par <img src="/apres.jpg" ... /> -->
+          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
+            <!-- EDIT: <img src="/apres.jpg" class="w-full h-full object-cover" alt="Après" /> -->
             <div class="absolute inset-0 flex items-center justify-center">
               <span class="text-sm font-medium" style="color:oklch(0.66 0.14 45)">[Photo après]</span>
             </div>
             <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-              style="background:oklch(0.66 0.14 45);color:white">
-              <!-- EDIT: Remplace par la durée réelle -->
-              [X semaines]
-            </div>
+              style="background:oklch(0.66 0.14 45);color:white">[X semaines]</div>
           </div>
         </div>
       </div>
-
       <p class="text-center text-sm mt-6" style="color:oklch(0.5 0.03 45)">
-        <!-- EDIT: Détail de la transformation -->
         [EDIT : Courte légende — ex: "Peau grasse, acné modérée. Protocole sur 10 semaines, sans médicaments."]
       </p>
     </section>
 
-    <!-- ─── WAVE 2.5 ──────────────────────────────────────────────────────────── -->
+    <!-- ─── WAVE (blanc → crème) ─────────────────────────────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── AGITATION (scroll reveal starts here) ────────────────────────────── -->
-    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-3xl font-bold mb-4 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
-        T'as déjà essayé tout ça.
-      </h2>
-      <p class="text-lg mb-12" style="color:oklch(0.5 0.03 45)">
-        Et rien n'a tenu. Parce que rien n'était fait pour toi.
-      </p>
-
-      <ul class="space-y-4">
-        {[
-          ["Gel nettoyant à l'acide salicylique", "Ça assèche. Ça irrite. L'acné revient dès que tu arrêtes."],
-          ["Crème au niacinamide (vue sur YouTube)", "Efficace pour certains profils. Pas le tien. Aucun résultat."],
-          ["Antibiotiques du dermatologue", "3 mois de calme. Puis retour en force dès que tu arrêtes."],
-          ["Routine à 8 étapes trouvée sur Reddit", "Conçue pour une skin de r/SkincareAddiction. Pas pour ta peau à toi."],
-          ["Roaccutane", "Tu y as pensé. Ou tu l'as fait. Les effets secondaires t'ont freiné — ou ça a marché 2 ans, puis retour."],
-          ["Nouveaux produits chaque mois", "Le cimetière sous l'évier. Des centaines d'euros. Toujours rien."],
-        ].map(([title, sub]) => (
-          <li class="fail-card flex gap-4 rounded-2xl border p-5" style="border-color:oklch(0.91 0.02 65)">
-            <span class="mt-0.5 text-lg" style="color:oklch(0.6 0.2 25)">✗</span>
-            <div>
-              <p class="font-semibold" style="color:oklch(0.22 0.03 40)">{title}</p>
-              <p class="text-sm mt-1" style="color:oklch(0.5 0.03 45)">{sub}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div class="mt-12 rounded-3xl p-8 text-center" style="background:oklch(0.86 0.08 50)">
-        <p class="text-xl font-semibold leading-snug" style="color:oklch(0.32 0.08 40)">
-          Le problème, c'est pas les produits.<br />
-          C'est qu'ils sont faits pour <em>tout le monde</em>.<br />
-          Et toi, t'es pas tout le monde.
-        </p>
-      </div>
-    </div>
-    </section>
-
-    <!-- ─── LE DÉCLIC ────────────────────────────────────────────────────────── -->
-    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
-    <div class="max-w-2xl mx-auto">
-      <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-        <p>Ce jour-là, j'ai arrêté de chercher <strong>LE produit miracle</strong>.</p>
-        <p>J'ai commencé à construire <strong>UN protocole</strong>.</p>
-        <p>Pas une liste d'ingrédients au hasard. Pas une routine YouTube.</p>
-        <p>Un système. Adapté à <em>mon</em> type de peau, <em>mes</em> déclencheurs, <em>mes</em> habitudes.</p>
-        <p>
-          J'ai appris à lire les INCI. À comprendre pourquoi certains produits irritaient ma barrière cutanée.
-          À ajuster semaine après semaine ce qui fonctionnait ou pas.
-        </p>
-        <p>
-          <strong>[EDIT : Décris ici le résultat que tu as obtenu — combien de semaines, ce que tu as constaté.]</strong>
-        </p>
-        <p>
-          Et pour la première fois en <strong>[X] ans</strong>, j'ai regardé mon visage dans le miroir sans détourner les yeux.
-        </p>
-        <p>C'est ça, le protocole que j'ai codifié pour toi.</p>
-      </div>
-    </div>
-    </section>
-
-    <!-- ─── WAVE 3 (crème → blanc) ───────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
+        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
       </svg>
     </div>
 
