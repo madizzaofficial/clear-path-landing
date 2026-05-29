@@ -40,11 +40,6 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
 
-      <!-- Badge -->
-      <div class="hero-badge inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold uppercase tracking-widest mb-6">
-        Protocole · 12 semaines · Suivi coach
-      </div>
-
       <!-- Headline -->
       <h1 class="hero-title text-balance max-w-3xl text-5xl font-bold leading-[1.05] md:text-7xl mb-6">
         Tu as tout essayé.<br />
@@ -57,16 +52,9 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         construit pour <em>ton</em> type de peau, suivi par un coach semaine après semaine pendant 12 semaines.
       </p>
 
-      <!-- CTA -->
-      <div class="hero-cta flex flex-col sm:flex-row items-center gap-4">
-        <a href={CTA_URL} class="btn-primary rounded-full px-8 py-4 text-base font-bold">
-          Commencer le protocole →
-        </a>
-      </div>
-
       <!-- Social proof strip -->
       <div class="hero-proof mt-16 flex flex-wrap justify-center gap-8 text-sm" style="color:oklch(0.5 0.03 45)">
-        {["Bilan peau personnalisé", "Routine sur mesure", "Suivi hebdomadaire coach", "Analyseur INCI inclus"].map((item) => (
+        {["Bilan peau personnalisé", "Routine sur mesure", "Suivi hebdomadaire coach", "Accès à mon Whatsapp privé"].map((item) => (
           <div class="flex items-center gap-2">
             <span class="proof-check">✓</span> {item}
           </div>
@@ -128,8 +116,69 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </svg>
     </div>
 
+    <!-- ─── AVANT / APRÈS ────────────────────────────────────────────────────── -->
+    <!-- EDIT: Remplace les zones grises par tes vraies photos avant/après -->
+    <section class="max-w-3xl mx-auto px-6 py-24" data-reveal>
+      <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
+        Avant / Après
+      </p>
+      <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
+        La preuve en images.
+      </h2>
+      <p class="text-center text-lg mb-14" style="color:oklch(0.5 0.03 45)">
+        <!-- EDIT: Ajoute ici le contexte (ex: "12 semaines de protocole, sans antibiotiques.") -->
+        [EDIT : Contexte de la transformation — durée, point de départ]
+      </p>
+
+      <div class="grid grid-cols-2 gap-4 md:gap-8">
+        <!-- Avant -->
+        <div class="flex flex-col gap-3">
+          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]"
+            style="background:oklch(0.93 0.05 55)">
+            <!-- EDIT: Remplace ce div par <img src="/avant.jpg" ... /> -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-medium" style="color:oklch(0.66 0.14 45)">[Photo avant]</span>
+            </div>
+            <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
+              style="background:oklch(0.22 0.03 40 / 0.75);color:white">
+              Avant
+            </div>
+          </div>
+        </div>
+
+        <!-- Après -->
+        <div class="flex flex-col gap-3">
+          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]"
+            style="background:oklch(0.93 0.05 55)">
+            <!-- EDIT: Remplace ce div par <img src="/apres.jpg" ... /> -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-sm font-medium" style="color:oklch(0.66 0.14 45)">[Photo après]</span>
+            </div>
+            <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
+              style="background:oklch(0.66 0.14 45);color:white">
+              <!-- EDIT: Remplace par la durée réelle -->
+              [X semaines]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-center text-sm mt-6" style="color:oklch(0.5 0.03 45)">
+        <!-- EDIT: Détail de la transformation -->
+        [EDIT : Courte légende — ex: "Peau grasse, acné modérée. Protocole sur 10 semaines, sans médicaments."]
+      </p>
+    </section>
+
+    <!-- ─── WAVE 2.5 ──────────────────────────────────────────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
+      </svg>
+    </div>
+
     <!-- ─── AGITATION (scroll reveal starts here) ────────────────────────────── -->
-    <section class="max-w-2xl mx-auto px-6 py-24" data-reveal>
+    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <div class="max-w-2xl mx-auto">
       <h2 class="text-3xl font-bold mb-4 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
         T'as déjà essayé tout ça.
       </h2>
@@ -156,17 +205,19 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         ))}
       </ul>
 
-      <div class="mt-12 rounded-3xl p-8 text-center" style="background:oklch(0.93 0.05 55)">
+      <div class="mt-12 rounded-3xl p-8 text-center" style="background:oklch(0.86 0.08 50)">
         <p class="text-xl font-semibold leading-snug" style="color:oklch(0.32 0.08 40)">
           Le problème, c'est pas les produits.<br />
           C'est qu'ils sont faits pour <em>tout le monde</em>.<br />
           Et toi, t'es pas tout le monde.
         </p>
       </div>
+    </div>
     </section>
 
     <!-- ─── LE DÉCLIC ────────────────────────────────────────────────────────── -->
-    <section class="max-w-2xl mx-auto px-6 py-24" data-reveal>
+    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <div class="max-w-2xl mx-auto">
       <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
         <p>Ce jour-là, j'ai arrêté de chercher <strong>LE produit miracle</strong>.</p>
         <p>J'ai commencé à construire <strong>UN protocole</strong>.</p>
@@ -184,12 +235,13 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         </p>
         <p>C'est ça, le protocole que j'ai codifié pour toi.</p>
       </div>
+    </div>
     </section>
 
-    <!-- ─── WAVE 3 ────────────────────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+    <!-- ─── WAVE 3 (crème → blanc) ───────────────────────────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
+        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
       </svg>
     </div>
 
@@ -281,14 +333,15 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </div>
     </section>
 
-    <!-- ─── WAVE 5 ────────────────────────────────────────────────────────────── -->
+    <!-- ─── WAVE 5 (blanc → crème) ──────────────────────────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
       </svg>
     </div>
 
-    <!-- ─── TÉMOIGNAGES ──────────────────────────────────────────────────────── -->
+    <!-- ─── TÉMOIGNAGES (masqué — à réactiver quand assez de retours) ───────── -->
+    <!--
     <section class="py-24 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-4xl mx-auto">
         <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
@@ -298,32 +351,17 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
           Ce que ça change, concrètement.
         </h2>
         <div class="grid gap-6 md:grid-cols-3">
-          {[
-            { name: "[Prénom, Âge]", skin: "Peau grasse · Acné modérée", text: "[EDIT : Ajoute un vrai témoignage d'élève avec un résultat chiffré.]", weeks: "8 semaines" },
-            { name: "[Prénom, Âge]", skin: "Peau mixte · Comédons", text: "[EDIT : Témoignage 2. L'expérience avec le coach et la routine personnalisée.]", weeks: "6 semaines" },
-            { name: "[Prénom, Âge]", skin: "Peau sensible · Séquelles post-acnéiques", text: "[EDIT : Témoignage 3. Quelqu'un qui avait tout essayé avant.]", weeks: "12 semaines" },
-          ].map((t) => (
-            <div class="testimonial-card rounded-3xl p-7 flex flex-col gap-4">
-              <p class="text-sm leading-relaxed italic flex-1" style="color:oklch(0.32 0.03 40)">"{t.text}"</p>
-              <div class="pt-4 border-t" style="border-color:oklch(0.91 0.02 65)">
-                <p class="font-semibold text-sm" style="color:oklch(0.22 0.03 40)">{t.name}</p>
-                <p class="text-xs" style="color:oklch(0.5 0.03 45)">{t.skin} · {t.weeks} de protocole</p>
-              </div>
-            </div>
-          ))}
+          TEMOIGNAGE 1 — [Prénom, Âge] · Peau grasse · Acné modérée · 8 semaines
+          TEMOIGNAGE 2 — [Prénom, Âge] · Peau mixte · Comédons · 6 semaines
+          TEMOIGNAGE 3 — [Prénom, Âge] · Peau sensible · Séquelles post-acnéiques · 12 semaines
         </div>
       </div>
     </section>
-
-    <!-- ─── WAVE 6 ────────────────────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,45 C480,0 960,60 1440,20 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
-      </svg>
-    </div>
+    -->
 
     <!-- ─── SI TU NE FAIS RIEN ───────────────────────────────────────────────── -->
-    <section class="max-w-2xl mx-auto px-6 py-24" data-reveal>
+    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <div class="max-w-2xl mx-auto">
       <h2 class="text-3xl font-bold mb-16 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
         Ce qui se passe si tu fais rien.
       </h2>
@@ -360,10 +398,11 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
           Je commence le protocole →
         </a>
       </div>
+    </div>
     </section>
 
-    <!-- ─── WAVE 7 ────────────────────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+    <!-- ─── WAVE 7 (crème → crème : FAQ garde le même fond) ─────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,20 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
       </svg>
