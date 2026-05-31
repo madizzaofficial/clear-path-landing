@@ -41,37 +41,42 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
 
-      <!-- Headline -->
-      <h1 class="hero-title text-balance max-w-3xl text-5xl font-bold leading-[1.05] md:text-7xl mb-6">
-        Tu as tout essayé.<br />
-        <span class="text-gradient">L'acné est toujours là.</span>
-      </h1>
+      <!-- Contenu centré verticalement dans l'espace disponible -->
+      <div class="flex-1 flex flex-col items-center justify-center w-full">
 
-      <!-- Subheadline -->
-      <p class="hero-sub max-w-xl text-lg leading-relaxed mb-10" style="color:oklch(0.5 0.03 45)">
-        Un protocole acné construit pour <em>ta</em> peau. Suivi par un coach, semaine après semaine, pendant 90 jours.
-      </p>
+        <!-- Headline -->
+        <h1 class="hero-title text-balance max-w-3xl text-5xl font-bold leading-[1.05] md:text-7xl mb-6">
+          Tu as tout essayé.<br />
+          <span class="text-gradient">L'acné est toujours là.</span>
+        </h1>
 
-      <!-- Benefit checks -->
-      <div class="hero-proof grid grid-cols-1 gap-4 w-full max-w-xl text-left sm:grid-cols-2 mb-10">
-        {[
-          { check: "✓", title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
-          { check: "✓", title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
-          { check: "✓", title: "Suivi coach 90 jours", desc: "Métriques hebdomadaires + ajustements de routine inclus" },
-          { check: "✓", title: "WhatsApp privé", desc: "Accès direct à Mehdi pour toutes tes questions" },
-        ].map((b) => (
-          <div class="flex items-start gap-3">
-            <span class="proof-check mt-0.5 shrink-0">{b.check}</span>
-            <div>
-              <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{b.title}</p>
-              <p class="text-xs mt-0.5 leading-snug" style="color:oklch(0.55 0.03 50)">{b.desc}</p>
+        <!-- Subheadline -->
+        <p class="hero-sub max-w-xl text-lg leading-relaxed mb-10" style="color:oklch(0.5 0.03 45)">
+          Un protocole acné construit pour <em>ta</em> peau. Suivi par un coach, semaine après semaine, pendant 90 jours.
+        </p>
+
+        <!-- Benefit checks -->
+        <div class="hero-proof grid grid-cols-1 gap-4 w-full max-w-xl text-left sm:grid-cols-2">
+          {[
+            { check: "✓", title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
+            { check: "✓", title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
+            { check: "✓", title: "Suivi coach 90 jours", desc: "Métriques hebdomadaires + ajustements de routine inclus" },
+            { check: "✓", title: "WhatsApp privé", desc: "Accès direct à Mehdi pour toutes tes questions" },
+          ].map((b) => (
+            <div class="flex items-start gap-3">
+              <span class="proof-check mt-0.5 shrink-0">{b.check}</span>
+              <div>
+                <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{b.title}</p>
+                <p class="text-xs mt-0.5 leading-snug" style="color:oklch(0.55 0.03 50)">{b.desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
       </div>
 
-      <!-- Scroll indicator — dans le flux, poussé en bas par mt-auto -->
-      <div class="scroll-indicator mt-auto flex flex-col items-center gap-2">
+      <!-- Scroll indicator — toujours en bas -->
+      <div class="scroll-indicator flex flex-col items-center gap-2">
         <span class="text-xs uppercase tracking-widest" style="color:oklch(0.7 0.03 60)">Scroll</span>
         <div class="scroll-line"></div>
       </div>
