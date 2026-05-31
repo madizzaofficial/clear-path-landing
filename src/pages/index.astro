@@ -34,7 +34,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </nav>
 
     <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
-    <section class="hero-section relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-36 text-center overflow-hidden">
+    <section class="hero-section relative min-h-screen flex flex-col items-center px-6 pt-32 pb-12 text-center overflow-hidden">
 
       <!-- Animated blobs -->
       <div class="blob blob-1"></div>
@@ -48,20 +48,12 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </h1>
 
       <!-- Subheadline -->
-      <p class="hero-sub max-w-xl text-lg leading-relaxed mb-8" style="color:oklch(0.5 0.03 45)">
+      <p class="hero-sub max-w-xl text-lg leading-relaxed mb-10" style="color:oklch(0.5 0.03 45)">
         Un protocole acné construit pour <em>ta</em> peau. Suivi par un coach, semaine après semaine, pendant 90 jours.
       </p>
 
-      <!-- CTA principal -->
-      <a href={CTA_URL} class="btn-primary rounded-full px-10 py-4 text-base font-bold mb-4">
-        Commencer le protocole — {PRICE}€ →
-      </a>
-      <p class="text-sm mb-10" style="color:oklch(0.6 0.03 50)">
-        <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · Accès à vie · Places limitées
-      </p>
-
       <!-- Benefit checks -->
-      <div class="hero-proof grid grid-cols-1 gap-3 w-full max-w-xl text-left sm:grid-cols-2">
+      <div class="hero-proof grid grid-cols-1 gap-4 w-full max-w-xl text-left sm:grid-cols-2 mb-10">
         {[
           { check: "✓", title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
           { check: "✓", title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
@@ -78,8 +70,8 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         ))}
       </div>
 
-      <!-- Scroll indicator -->
-      <div class="scroll-indicator absolute bottom-8 left-0 right-0 flex flex-col items-center gap-2">
+      <!-- Scroll indicator — dans le flux, poussé en bas par mt-auto -->
+      <div class="scroll-indicator mt-auto flex flex-col items-center gap-2">
         <span class="text-xs uppercase tracking-widest" style="color:oklch(0.7 0.03 60)">Scroll</span>
         <div class="scroll-line"></div>
       </div>
