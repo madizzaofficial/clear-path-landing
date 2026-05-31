@@ -47,22 +47,36 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </h1>
 
       <!-- Subheadline -->
-      <p class="hero-sub max-w-xl text-lg leading-relaxed mb-10" style="color:oklch(0.5 0.03 45)">
-        Le premier protocole acné entièrement personnalisé —
-        construit pour <em>ton</em> type de peau, suivi par un coach semaine après semaine pendant 12 semaines.
+      <p class="hero-sub max-w-xl text-lg leading-relaxed mb-8" style="color:oklch(0.5 0.03 45)">
+        Un protocole acné construit pour <em>ta</em> peau. Suivi par un coach, semaine après semaine, pendant 12 semaines.
       </p>
 
-      <!-- Social proof strip -->
-      <div class="hero-proof mt-16 flex flex-wrap justify-center gap-8 text-sm" style="color:oklch(0.5 0.03 45)">
-        {["Bilan peau personnalisé", "Routine sur mesure", "Suivi hebdomadaire coach", "Accès à mon Whatsapp privé"].map((item) => (
-          <div class="flex items-center gap-2">
-            <span class="proof-check">✓</span> {item}
+      <!-- CTA principal -->
+      <a href={CTA_URL} class="btn-primary rounded-full px-10 py-4 text-base font-bold mb-4">
+        Commencer le protocole — {PRICE}€ →
+      </a>
+      <p class="text-sm mb-12" style="color:oklch(0.6 0.03 50)">
+        <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · Accès à vie · Places limitées
+      </p>
+
+      <!-- Benefit cards -->
+      <div class="hero-proof grid grid-cols-2 gap-3 w-full max-w-2xl md:grid-cols-4">
+        {[
+          { icon: "🔬", label: "Bilan peau", sub: "Personnalisé sur mesure" },
+          { icon: "🧴", label: "Routine sur mesure", sub: "Matin & soir, adaptée à toi" },
+          { icon: "📈", label: "Suivi coach 12 sem.", sub: "Ajustements chaque semaine" },
+          { icon: "💬", label: "WhatsApp privé", sub: "Accès direct à Mehdi" },
+        ].map((b) => (
+          <div class="flex flex-col items-center gap-1.5 rounded-2xl border px-3 py-4 text-center" style="border-color:oklch(0.91 0.02 65);background:oklch(0.985 0.012 75 / 0.6)">
+            <span class="text-2xl">{b.icon}</span>
+            <p class="text-xs font-bold leading-tight" style="color:oklch(0.22 0.03 40)">{b.label}</p>
+            <p class="text-[11px] leading-tight" style="color:oklch(0.55 0.03 50)">{b.sub}</p>
           </div>
         ))}
       </div>
 
       <!-- Scroll indicator -->
-      <div class="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+      <div class="scroll-indicator absolute bottom-8 left-0 right-0 flex flex-col items-center gap-2">
         <span class="text-xs uppercase tracking-widest" style="color:oklch(0.7 0.03 60)">Scroll</span>
         <div class="scroll-line"></div>
       </div>
@@ -76,33 +90,31 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </div>
 
     <!-- ─── HOOK : HISTOIRE (no reveal — 2ème bloc visible) ─────────────────── -->
-    <section style="background:oklch(0.965 0.025 75)" class="px-6 py-24">
+    <section style="background:oklch(0.965 0.025 75)" class="px-6 py-16">
       <div class="max-w-2xl mx-auto">
-        <p class="section-label text-xs font-bold uppercase tracking-widest mb-8" style="color:oklch(0.66 0.14 45)">
-          Mon histoire
-        </p>
         <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-          <p>Il y a <strong>[X] ans</strong>, j'avais une peau que je ne reconnaissais plus.</p>
+          <p>Il y a <strong>5 ans</strong>, j'avais une peau que je ne reconnaissais plus.</p>
           <p>Des boutons. Des marques. Des cicatrices rouges qui ne partaient pas.</p>
           <p>
             Je refusais qu'on me prenne en photo.<br />
-            Je regardais mes pieds quand je parlais aux gens.<br />
-            Je portais une casquette pour cacher mon front.
+            Je regardais en bas quand je parlais aux gens.<br />
+            J'annulais des sorties avec mes amis et mes proches.
           </p>
           <p>Ce qui me tuait intérieurement, c'était pas juste les boutons.</p>
           <p>C'était le regard des autres.<br />Ou plutôt, le regard que j'imaginais qu'ils posaient sur moi.</p>
           <p><strong>Alors j'ai cherché. J'ai tout essayé.</strong></p>
           <p>
             Le gel nettoyant "dermatologiquement testé".<br />
-            La crème au niacinamide recommandée par 50 créateurs YouTube.<br />
-            Les antibiotiques prescrits par le dermatologue — 3 mois de calme, puis retour en force.<br />
-            La routine à 8 étapes trouvée sur Reddit.<br />
-            J'ai même failli commencer le Roaccutane.
+            La crème au niacinamide recommandée par 50 infleunceurs Instagram.<br />
+            Les produits prescrits par le dermatologue.<br />
+            La routine à 8 étapes trouvée sur Youtube.<br />
+            J'ai même pris 2 fois le traitement Roaccutane.
           </p>
           <p>
-            <strong>[EDIT : Ajoute ici un moment personnel fort — une situation précise où l'acné t'a vraiment impacté.]</strong>
+            <strong>Imagine : Un jour, pendant que je travaillais, un de mes collégues m'a regardé, l'air dégoûté en me disant : "Mon pauvre, je sais pas comment
+            tu es sorti de chez toi avec un visage pareil..."</strong>
           </p>
-          <p>J'avais dépensé des centaines d'euros en produits qui finissaient tous sous l'évier.</p>
+          <p>J'étais désemparé. <br /><br />J'avais dépensé des centaines d'euros en produits qui finissaient tous sous l'évier.</p>
           <p>Un soir, je me retrouve là, face au miroir, à regarder ma peau.</p>
           <p>Et je me dis : <em>c'est ça pour toujours ?</em></p>
         </div>
@@ -110,7 +122,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </section>
 
     <!-- ─── AGITATION — suite directe de l'histoire, même fond crème ──────────── -->
-    <section class="px-6 pb-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
         <h2 class="text-3xl font-bold mb-4 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
           T'as déjà essayé tout ça.
@@ -147,7 +159,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </section>
 
     <!-- ─── LE DÉCLIC — suite directe, même fond crème ───────────────────────── -->
-    <section class="px-6 pb-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
         <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
           <p>Ce jour-là, j'ai arrêté de chercher <strong>LE produit miracle</strong>.</p>
@@ -178,10 +190,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
 
     <!-- ─── AVANT / APRÈS — preuve visuelle après l'histoire ─────────────────── -->
     <!-- EDIT: Remplace les zones grises par tes vraies photos avant/après -->
-    <section class="max-w-3xl mx-auto px-6 py-24" data-reveal>
-      <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
-        Avant / Après
-      </p>
+    <section class="max-w-3xl mx-auto px-6 py-16" data-reveal>
       <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
         La preuve en images.
       </h2>
@@ -223,11 +232,8 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </div>
 
     <!-- ─── LA MÉTHODE ───────────────────────────────────────────────────────── -->
-    <section class="py-24 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-4xl mx-auto">
-        <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
-          La méthode
-        </p>
         <h2 class="text-3xl font-bold text-center mb-4 md:text-5xl text-balance" style="color:oklch(0.22 0.03 40)">
           Protocole Clear, c'est pas une routine.<br />
           <span class="text-gradient">C'est un système.</span>
@@ -263,10 +269,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </div>
 
     <!-- ─── CE QUE TU REÇOIS ─────────────────────────────────────────────────── -->
-    <section class="max-w-4xl mx-auto px-6 py-24" data-reveal>
-      <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
-        Ce que tu reçois
-      </p>
+    <section class="max-w-4xl mx-auto px-6 py-16" data-reveal>
       <h2 class="text-3xl font-bold text-center mb-16 md:text-5xl" style="color:oklch(0.22 0.03 40)">
         Tout ce dont tu as besoin.<br />Rien de superflu.
       </h2>
@@ -319,11 +322,8 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
 
     <!-- ─── TÉMOIGNAGES (masqué — à réactiver quand assez de retours) ───────── -->
     <!--
-    <section class="py-24 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-4xl mx-auto">
-        <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
-          Ils ont suivi le protocole
-        </p>
         <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
           Ce que ça change, concrètement.
         </h2>
@@ -337,7 +337,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     -->
 
     <!-- ─── SI TU NE FAIS RIEN ───────────────────────────────────────────────── -->
-    <section class="px-6 py-24" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)" data-reveal>
     <div class="max-w-2xl mx-auto">
       <h2 class="text-3xl font-bold mb-16 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
         Ce qui se passe si tu fais rien.
@@ -386,11 +386,8 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </div>
 
     <!-- ─── FAQ ──────────────────────────────────────────────────────────────── -->
-    <section class="py-24 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
-        <p class="section-label text-xs font-bold uppercase tracking-widest mb-4 text-center" style="color:oklch(0.66 0.14 45)">
-          Questions fréquentes
-        </p>
         <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
           Ce que tu te demandes sûrement.
         </h2>
@@ -416,11 +413,8 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     </section>
 
     <!-- ─── CTA FINAL ─────────────────────────────────────────────────────────── -->
-    <section class="py-24 px-6 text-center" data-reveal>
+    <section class="py-16 px-6 text-center" data-reveal>
       <div class="max-w-2xl mx-auto">
-        <p class="section-label text-xs font-bold uppercase tracking-widest mb-6" style="color:oklch(0.66 0.14 45)">
-          Ta décision
-        </p>
         <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.22 0.03 40)">
           Ta peau, dans<br />
           <span class="text-gradient">12 semaines.</span>
