@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+import Analytics from "@vercel/analytics/astro";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Merci — Protocole Clear</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript" is:inline>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "x5kf9doj5x");
+    </script>
+  </head>
+
+  <body>
+    <main class="min-h-screen flex items-center justify-center px-6 py-16" style="background:oklch(0.985 0.012 75)">
+      <div class="max-w-md w-full text-center">
+
+        <img src="/logo_clear.png" alt="Protocole Clear" width="64" height="64" style="border-radius:50%;margin:0 auto 24px;" />
+
+        <div class="rounded-3xl p-8 mb-6" style="background:oklch(0.995 0.006 80);box-shadow:0 8px 32px oklch(0.4 0.05 40 / 0.08)">
+          <div class="text-5xl mb-4">🎉</div>
+          <h1 class="font-display text-2xl font-bold mb-3" style="color:oklch(0.22 0.03 40)">
+            C'est bon, tu es dedans !
+          </h1>
+          <p class="text-base leading-relaxed mb-6" style="color:oklch(0.5 0.03 45)">
+            Ton paiement est confirmé. Tu vas recevoir <strong style="color:oklch(0.32 0.03 40)">un email avec ton lien d'accès personnel</strong> dans les prochaines minutes.
+          </p>
+
+          <div class="rounded-2xl p-5 text-left" style="background:oklch(0.965 0.025 75)">
+            <p class="text-sm font-bold uppercase tracking-widest mb-3" style="color:oklch(0.66 0.14 45)">Les prochaines étapes</p>
+            <ol class="space-y-3 text-sm leading-relaxed" style="color:oklch(0.4 0.03 42)">
+              <li><strong>1.</strong> Ouvre l'email « Ton accès Protocole Clear est prêt » <span style="color:oklch(0.55 0.03 50)">(vérifie les spams/promotions)</span></li>
+              <li><strong>2.</strong> Clique sur le lien et crée ton compte</li>
+              <li><strong>3.</strong> Remplis ton bilan peau (~10 minutes, avec tes photos)</li>
+              <li><strong>4.</strong> Je construis ta routine sous 24-48h</li>
+            </ol>
+          </div>
+        </div>
+
+        <p class="text-sm" style="color:oklch(0.5 0.03 45)">
+          Rien reçu après 10 minutes ? Écris-moi :
+          <a href="mailto:support@protocole-clear.com" class="font-semibold hover:underline" style="color:oklch(0.58 0.13 40)">support@protocole-clear.com</a>
+        </p>
+
+      </div>
+    </main>
+
+    <Analytics />
+
+    <script>
+      import { track } from '@vercel/analytics';
+      // Conversion : l'arrivée sur /merci = vente confirmée
+      track('purchase_complete');
+    </script>
+  </body>
+</html>

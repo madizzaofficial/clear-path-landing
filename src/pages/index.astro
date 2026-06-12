@@ -5,6 +5,55 @@ import Analytics from "@vercel/analytics/astro";
 const PRICE = "97";
 const PRICE_ORIGINAL = "197";
 const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
+
+// EDIT: mets ton vrai compte Instagram (canal DM pour les hésitants)
+const INSTAGRAM_URL = "https://instagram.com/TON_COMPTE";
+
+// EDIT: URL de ta VSL (fichier .mp4 hébergé — Bunny, R2, ou /vsl.mp4 dans public/).
+// Tant que c'est vide, le hero affiche les photos avant/après seules.
+// Quand tu la remplis, les photos deviennent la miniature cliquable de la vidéo.
+const VSL_URL = "";
+
+// Barre CTA sticky mobile en bas d'écran. Désactivée : redondante avec le CTA
+// navbar toujours visible. Repasse à true si les données montrent qu'elle manque.
+const STICKY_CTA = false;
+
+const MARQUEE_ITEMS = [
+  "Bilan peau personnalisé",
+  "Routine sur mesure",
+  "Suivi coach 90 jours",
+  "Analyseur INCI",
+  "WhatsApp privé",
+  "Garantie résultat",
+];
+
+// ── Témoignages ──────────────────────────────────────────────────────────────
+// Passe à `true` quand tu as remplacé les placeholders par de vrais retours.
+// N'active JAMAIS avec des témoignages fictifs (risque légal + confiance).
+const SHOW_TESTIMONIALS = false;
+const TESTIMONIALS = [
+  {
+    quote: "[Remplace par un vrai retour — idéalement 2-3 phrases concrètes : situation de départ, ce qui a changé, comment elle/il se sent maintenant.]",
+    name: "[Prénom]",
+    age: "[24 ans]",
+    profile: "Peau grasse · Acné modérée",
+    duration: "8 semaines de protocole",
+  },
+  {
+    quote: "[Vrai retour élève #2]",
+    name: "[Prénom]",
+    age: "[19 ans]",
+    profile: "Peau mixte · Comédons",
+    duration: "6 semaines de protocole",
+  },
+  {
+    quote: "[Vrai retour élève #3]",
+    name: "[Prénom]",
+    age: "[28 ans]",
+    profile: "Peau sensible · Marques post-acné",
+    duration: "90 jours de protocole",
+  },
+];
 ---
 
 <!doctype html>
@@ -16,6 +65,30 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     <title>Protocole Clear — Ta peau nette en 90 jours</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- Open Graph (aperçus WhatsApp / Instagram / Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://protocole-clear.com/" />
+    <meta property="og:title" content="Protocole Clear — Ta peau nette en 90 jours" />
+    <meta property="og:description" content="Un protocole acné construit pour ta peau, suivi par un coach pendant 90 jours. Bilan peau + routine sur mesure + ajustements inclus." />
+    <meta property="og:image" content="https://protocole-clear.com/icon-512.png" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Protocole Clear" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Protocole Clear — Ta peau nette en 90 jours" />
+    <meta name="twitter:description" content="Un protocole acné construit pour ta peau, suivi par un coach pendant 90 jours." />
+    <meta name="twitter:image" content="https://protocole-clear.com/icon-512.png" />
+
+    <!-- Microsoft Clarity — heatmaps de scroll + session replays -->
+    <script type="text/javascript" is:inline>
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "x5kf9doj5x");
+    </script>
   </head>
 
   <body>
@@ -28,7 +101,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
           Protocole Clear
         </span>
       </div>
-      <a href={CTA_URL} class="btn-primary rounded-full px-5 py-2 text-sm font-semibold">
+      <a href={CTA_URL} data-cta="navbar" class="btn-primary flex min-h-11 items-center rounded-full px-5 text-sm font-semibold">
         Commencer →
       </a>
     </nav>
@@ -45,32 +118,62 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       <div class="flex-1 flex flex-col items-center justify-center w-full">
 
         <!-- Headline -->
-        <h1 class="hero-title text-balance max-w-3xl text-5xl font-bold leading-[1.05] md:text-7xl mb-6">
+        <h1 class="hero-title text-balance max-w-3xl text-[2.25rem] font-bold leading-[1.12] sm:text-5xl md:text-7xl mb-6">
           Tu as tout essayé.<br />
-          <span class="text-gradient">L'acné est toujours là.</span>
+          <span class="text-gradient">L'acné est <br class="sm:hidden" />toujours là.</span>
         </h1>
 
         <!-- Subheadline -->
-        <p class="hero-sub max-w-xl text-lg leading-relaxed mb-10" style="color:oklch(0.5 0.03 45)">
-          Un protocole acné construit pour <em>ta</em> peau. Suivi par un coach, semaine après semaine, pendant 90 jours.
+        <p class="hero-sub max-w-xl text-lg leading-relaxed mb-8" style="color:oklch(0.5 0.03 45)">
+          Un protocole acné construit pour <em>ta</em> peau, suivi par un coach semaine après semaine.
+          Objectif&nbsp;: <strong style="color:oklch(0.32 0.03 40)">une peau que tu reconnais, en 90 jours.</strong>
         </p>
 
-        <!-- Benefit checks -->
-        <div class="hero-proof grid grid-cols-1 gap-4 w-full max-w-xl text-left sm:grid-cols-2">
-          {[
-            { check: "✓", title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
-            { check: "✓", title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
-            { check: "✓", title: "Suivi coach 90 jours", desc: "Métriques hebdomadaires + ajustements de routine inclus" },
-            { check: "✓", title: "WhatsApp privé", desc: "Accès direct à Mehdi pour toutes tes questions" },
-          ].map((b) => (
-            <div class="flex items-start gap-3">
-              <span class="proof-check mt-0.5 shrink-0">{b.check}</span>
-              <div>
-                <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{b.title}</p>
-                <p class="text-xs mt-0.5 leading-snug" style="color:oklch(0.55 0.03 50)">{b.desc}</p>
+        <!-- Preuve visuelle — VSL si disponible, sinon photos avant/après -->
+        <div class="hero-proof w-full max-w-md mx-auto">
+          {VSL_URL ? (
+            <>
+              <div id="vsl-facade" class="vsl-facade relative overflow-hidden rounded-3xl" role="button" tabindex="0"
+                aria-label="Lire la vidéo : mon histoire et le protocole en 2 minutes">
+                <div class="grid grid-cols-2">
+                  <div class="relative">
+                    <img src="/avant.jpg" class="w-full aspect-[3/4] object-cover" alt="Ma peau avant le protocole" fetchpriority="high" />
+                    <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
+                      style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
+                  </div>
+                  <div class="relative">
+                    <img src="/apres.jpg" class="w-full aspect-[3/4] object-cover" alt="Ma peau après 90 jours de protocole" fetchpriority="high" />
+                    <div class="absolute bottom-3 right-3 rounded-full px-3 py-1 text-xs font-bold"
+                      style="background:oklch(0.66 0.14 45);color:white">Après</div>
+                  </div>
+                </div>
+                <div class="vsl-overlay absolute inset-0 flex flex-col items-center justify-center gap-4">
+                  <span class="vsl-play flex items-center justify-center rounded-full" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </span>
+                  <span class="rounded-full px-4 py-1.5 text-sm font-bold"
+                    style="background:oklch(0.22 0.03 40 / 0.8);color:white">Mon histoire en 2 minutes</span>
+                </div>
+              </div>
+              <video id="vsl-player" class="hidden w-full rounded-3xl" src={VSL_URL} controls playsinline preload="none"></video>
+            </>
+          ) : (
+            <div class="grid grid-cols-2 gap-2 px-2">
+              <div class="hero-photo photo-tilt-l relative overflow-hidden rounded-2xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
+                <img src="/avant.jpg" class="w-full h-full object-cover" alt="Ma peau avant le protocole" fetchpriority="high" />
+                <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
+                  style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
+              </div>
+              <div class="hero-photo photo-tilt-r relative overflow-hidden rounded-2xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
+                <img src="/apres.jpg" class="w-full h-full object-cover" alt="Ma peau après 90 jours de protocole" fetchpriority="high" />
+                <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
+                  style="background:oklch(0.66 0.14 45);color:white">Après</div>
               </div>
             </div>
-          ))}
+          )}
+          <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
+            Ma peau, après 90 jours du protocole. Sans filtre ni retouche.
+          </p>
         </div>
 
       </div>
@@ -81,6 +184,35 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
         <div class="scroll-line"></div>
       </div>
     </section>
+
+    <!-- ─── BANDE BÉNÉFICES (compacte, sous le hero) ─────────────────────────── -->
+    <section class="px-6 pb-14" data-reveal>
+      <div class="max-w-3xl mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {[
+          { title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
+          { title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
+          { title: "Suivi coach 90 jours", desc: "Métriques hebdomadaires + ajustements de routine inclus" },
+          { title: "WhatsApp privé", desc: "Accès direct à Mehdi pour toutes tes questions" },
+        ].map((b) => (
+          <div class="flex items-start gap-3 rounded-2xl border p-4" style="border-color:oklch(0.91 0.02 65);background:oklch(0.995 0.006 80)">
+            <span class="proof-check mt-0.5 shrink-0">✓</span>
+            <div>
+              <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{b.title}</p>
+              <p class="text-xs mt-0.5 leading-snug" style="color:oklch(0.55 0.03 50)">{b.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ─── BANDEAU DÉFILANT ─────────────────────────────────────────────────── -->
+    <div class="marquee py-3.5" aria-hidden="true">
+      <div class="marquee-track">
+        {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((t) => (
+          <span class="marquee-item">{t}<span class="marquee-dot">✦</span></span>
+        ))}
+      </div>
+    </div>
 
     <!-- ─── WAVE 1 ────────────────────────────────────────────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
@@ -93,6 +225,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     <section style="background:oklch(0.965 0.025 75)" class="px-6 py-16">
       <div class="max-w-2xl mx-auto">
         <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
+          <p>La photo de gauche, là-haut&nbsp;? <strong>C'est moi.</strong></p>
           <p>Il y a <strong>5 ans</strong>, j'avais une peau que je ne reconnaissais plus.</p>
           <p>Des boutons. Des marques. Des cicatrices rouges qui ne partaient pas.</p>
           <p>
@@ -104,9 +237,10 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
           <p>C'était le regard des autres.<br />Ou plutôt, le regard que j'imaginais qu'ils posaient sur moi.</p>
           <p><strong>Alors j'ai cherché. J'ai tout essayé... produits, traitements, routines.</strong></p>
           <p>Des centaines d'euros engloutis. Des mois à attendre des résultats qui ne venaient pas.</p>
-          <p>
-            <strong>Un jour, pendant que je travaillais, un de mes collègues m'a regardé et m'a dit : "Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil…"</strong>
-          </p>
+          <p>Jusqu'au jour où, au travail, un collègue m'a regardé et m'a lâché :</p>
+          <blockquote class="pull-quote">
+            <p>« Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil… »</p>
+          </blockquote>
           <p>J'étais désemparé.</p>
           <p>Un soir, je me retrouve là, face au miroir, à regarder ma peau.</p>
           <p>Et je me dis : <em>c'est ça pour toujours ?</em></p>
@@ -147,53 +281,90 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </div>
     </section>
 
-    <!-- ─── WAVE (crème → blanc) — fin du bloc histoire ──────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── AVANT / APRÈS — preuve visuelle après l'histoire ─────────────────── -->
-    <!-- EDIT: Remplace les zones grises par tes vraies photos avant/après -->
-    <section class="max-w-3xl mx-auto px-6 py-16" data-reveal>
-      <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
-        La preuve en images.
-      </h2>
-      <p class="text-center text-lg mb-14" style="color:oklch(0.5 0.03 45)">
-        Après application du protocole pendant 90 jours.
-      </p>
-      <div class="grid grid-cols-2 gap-4 md:gap-8">
-        <div class="flex flex-col gap-3">
-          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
-            <img src="/avant.png" class="w-full h-full object-cover" alt="Avant" />
-            <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-              style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
+    <!-- ─── QUI JE SUIS ──────────────────────────────────────────────────────── -->
+    <!-- EDIT: remplace /apres.jpg par une photo de toi aujourd'hui (souriant, face caméra) -->
+    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
+      <div class="max-w-2xl mx-auto">
+        <div class="coach-card flex flex-col sm:flex-row items-center gap-6 rounded-3xl p-7" style="background:oklch(0.995 0.006 80)">
+          <img src="/apres.jpg" alt="Mehdi, fondateur de Protocole Clear"
+            class="h-28 w-28 shrink-0 rounded-full object-cover"
+            style="border:3px solid oklch(0.86 0.08 50)" loading="lazy" />
+          <div class="text-center sm:text-left">
+            <p class="font-display text-xl font-semibold mb-1" style="color:oklch(0.22 0.03 40)">Moi, c'est Mehdi.</p>
+            <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">
+              5 ans à me battre contre mon acné, des centaines d'heures à étudier les INCI et la barrière cutanée.
+              Aujourd'hui je suis chaque élève personnellement : c'est moi que tu auras sur WhatsApp.
+            </p>
           </div>
         </div>
-        <div class="flex flex-col gap-3">
-          <div class="before-after-img relative overflow-hidden rounded-3xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
-            <img src="/apres.jpg" class="w-full h-full object-cover" alt="Après" />
-            <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-              style="background:oklch(0.66 0.14 45);color:white">Après</div>
-          </div>
+
+        <!-- CTA intégré au flux — même fond, pas de rupture visuelle -->
+        <div class="mt-10 text-center">
+          <a href={CTA_URL} data-cta="mi-page" class="btn-primary inline-block rounded-full px-7 py-4 text-base font-bold">
+            Je veux ma routine sur mesure →
+          </a>
+          <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
+            Paiement unique de {PRICE}€ · Bilan peau en 10 minutes · Garantie résultat 90 jours
+          </p>
         </div>
       </div>
-      <p class="text-center text-sm mt-6" style="color:oklch(0.5 0.03 45)">
-        Peau grasse avec acné inflammatoire. Photos sans aucun filtre ni retouche.
-      </p>
     </section>
 
-    <!-- ─── WAVE (blanc → crème) ─────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
+    <!-- ─── TÉMOIGNAGES (îlot blanc complet : vague + section + vague) ───────── -->
+    {SHOW_TESTIMONIALS && (
+      <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
+        </svg>
+      </div>
+    )}
+    {SHOW_TESTIMONIALS && (
+      <section class="py-16 px-6" data-reveal>
+        <div class="max-w-5xl mx-auto">
+          <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
+            Ils ont suivi le protocole.
+          </h2>
+          <p class="text-center text-lg mb-12" style="color:oklch(0.5 0.03 45)">
+            Des retours d'élèves, avec leur profil peau et leur durée de suivi.
+          </p>
+
+          <!-- Mobile : carrousel scroll-snap · Desktop : grille 3 colonnes -->
+          <div class="testimonial-track flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0">
+            {TESTIMONIALS.map((t) => (
+              <figure class="testimonial-card snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto rounded-3xl p-7 flex flex-col gap-5">
+                <span class="text-4xl leading-none font-display" style="color:oklch(0.66 0.14 45)" aria-hidden="true">“</span>
+                <blockquote class="text-base leading-relaxed flex-1" style="color:oklch(0.32 0.03 40)">
+                  {t.quote}
+                </blockquote>
+                <figcaption class="flex items-center gap-3 pt-2 border-t" style="border-color:oklch(0.93 0.02 65)">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                    style="background:oklch(0.93 0.05 55);color:oklch(0.58 0.13 40)">
+                    {t.name.replace(/[[\]]/g, "").charAt(0)}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{t.name} · {t.age}</span>
+                    <span class="block text-xs mt-0.5" style="color:oklch(0.55 0.03 50)">{t.profile} · {t.duration}</span>
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    {SHOW_TESTIMONIALS && (
+      <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
+        </svg>
+      </div>
+    )}
 
     <!-- ─── LA MÉTHODE ───────────────────────────────────────────────────────── -->
-    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section class="pt-8 pb-16 px-6 md:py-16" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-4xl mx-auto">
+        <p class="eyebrow text-center">La méthode</p>
         <h2 class="text-3xl font-bold text-center mb-4 md:text-5xl text-balance" style="color:oklch(0.22 0.03 40)">
           Protocole Clear, c'est pas une routine.<br />
           <span class="text-gradient">C'est un système.</span>
@@ -204,15 +375,20 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
 
         <div class="grid gap-6 md:grid-cols-3">
           {[
-            { num: "01", title: "Bilan peau", desc: "Tu remplis ton bilan complet : type de peau, types d'acné, intensité, routine actuelle, objectif. Tu envoies tes photos. Le coach analyse et construit ta routine sur mesure.", icon: "🔬" },
-            { num: "02", title: "Routine sur mesure", desc: "Le coach sélectionne les produits adaptés à ton profil exact dans l'application. Routine matin et soir, ordre d'application, instructions précises. Analyseur INCI inclus.", icon: "🧴" },
-            { num: "03", title: "Suivi 90 jours", desc: "Chaque semaine, tu notes tes métriques. Le coach analyse l'évolution et ajuste la routine si nécessaire.", icon: "📈" },
+            { num: "01", title: "Bilan peau", desc: "Tu remplis ton bilan complet : type de peau, types d'acné, intensité, routine actuelle, objectif. Tu envoies tes photos. Le coach analyse et construit ta routine sur mesure.",
+              icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9 2 2 4-4" },
+            { num: "02", title: "Routine sur mesure", desc: "Le coach sélectionne les produits adaptés à ton profil exact dans l'application. Routine matin et soir, ordre d'application, instructions précises. Analyseur INCI inclus.",
+              icon: "M12 2.7 6.3 8.4a8 8 0 1 0 11.4 0L12 2.7Z" },
+            { num: "03", title: "Suivi 90 jours", desc: "Chaque semaine, tu notes tes métriques. Le coach analyse l'évolution et ajuste la routine si nécessaire.",
+              icon: "m22 7-8.5 8.5-5-5L2 17M16 7h6v6" },
           ].map((p) => (
-            <div class="method-card rounded-3xl p-8 flex flex-col gap-4">
-              <div class="flex items-center gap-3">
-                <span class="text-2xl">{p.icon}</span>
-                <span class="text-xs font-bold tracking-widest uppercase" style="color:oklch(0.66 0.14 45)">{p.num}</span>
-              </div>
+            <div class="method-card relative overflow-hidden rounded-3xl p-8 flex flex-col gap-4">
+              <span class="ghost-num font-display" aria-hidden="true">{p.num}</span>
+              <span class="method-icon flex h-11 w-11 items-center justify-center rounded-2xl" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={p.icon} />
+                </svg>
+              </span>
               <h3 class="text-xl font-bold" style="color:oklch(0.22 0.03 40)">{p.title}</h3>
               <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">{p.desc}</p>
             </div>
@@ -230,6 +406,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
 
     <!-- ─── CE QUE TU REÇOIS ─────────────────────────────────────────────────── -->
     <section class="max-w-4xl mx-auto px-6 py-16" data-reveal>
+      <p class="eyebrow text-center">L'offre</p>
       <h2 class="text-3xl font-bold text-center mb-16 md:text-5xl" style="color:oklch(0.22 0.03 40)">
         Tout ce dont tu as besoin.<br />Rien de superflu.
       </h2>
@@ -264,15 +441,15 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
             <span class="text-2xl font-medium line-through" style="color:oklch(0.55 0.03 60)">{PRICE_ORIGINAL}€</span>
             <span class="text-6xl font-bold font-display" style="color:oklch(0.99 0.01 80)">{PRICE}€</span>
           </div>
-          <p class="text-sm mb-8" style="color:oklch(0.7 0.03 60)">Accès à vie</p>
-          <a href={CTA_URL} class="btn-primary block rounded-full px-8 py-4 text-base font-bold mb-4">
+          <p class="text-sm mb-8" style="color:oklch(0.7 0.03 60)">90 jours de suivi coach · Application à vie</p>
+          <a href={CTA_URL} data-cta="pricing" class="btn-primary block rounded-full px-8 py-4 text-base font-bold mb-4">
             Commencer maintenant →
           </a>
-          <p class="text-xs" style="color:oklch(0.7 0.03 60)">20 places restantes · Suivi individuel</p>
+          <p class="text-xs js-places" style="color:oklch(0.7 0.03 60)">Suivi individuel · Places limitées chaque mois</p>
           <div style="margin-top:20px;padding:14px 16px;border-radius:16px;background:oklch(0.18 0.02 40);border:1px solid oklch(0.3 0.04 45)">
             <p style="margin:0;font-size:12px;color:oklch(0.75 0.05 60);line-height:1.55">
-              🛡️ <strong style="color:oklch(0.85 0.06 60)">Garantie résultat 90 jours</strong><br>
-              Si tu n'as pas d'amélioration visible après 90 jours, je t'accompagne jusqu'à ce que tu en aies,gratuitement.
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="oklch(0.85 0.06 60)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><strong style="color:oklch(0.85 0.06 60)">Garantie résultat 90 jours</strong><br>
+              Si tu n'as pas d'amélioration visible après 90 jours, je t'accompagne jusqu'à ce que tu en aies, gratuitement.
             </p>
           </div>
         </div>
@@ -286,58 +463,64 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </svg>
     </div>
 
-    <!-- ─── TÉMOIGNAGES (masqué — à réactiver quand assez de retours) ───────── -->
-    <!--
-    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
-          Ce que ça change, concrètement.
-        </h2>
-        <div class="grid gap-6 md:grid-cols-3">
-          TEMOIGNAGE 1 — [Prénom, Âge] · Peau grasse · Acné modérée · 8 semaines
-          TEMOIGNAGE 2 — [Prénom, Âge] · Peau mixte · Comédons · 6 semaines
-          TEMOIGNAGE 3 — [Prénom, Âge] · Peau sensible · Séquelles post-acnéiques · 90 jours
-        </div>
-      </div>
-    </section>
-    -->
-
-    <!-- ─── SI TU NE FAIS RIEN ───────────────────────────────────────────────── -->
+    <!-- ─── DEUX CHEMINS (comparatif) ────────────────────────────────────────── -->
     <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-3xl font-bold mb-16 md:text-4xl text-balance" style="color:oklch(0.22 0.03 40)">
-        Ce qui se passe si tu fais rien.
+    <div class="max-w-3xl mx-auto">
+      <p class="eyebrow text-center">Le choix</p>
+      <h2 class="text-3xl font-bold mb-12 md:text-4xl text-balance text-center" style="color:oklch(0.22 0.03 40)">
+        Là, maintenant, t'as deux options.
       </h2>
-      <div class="space-y-8">
-        {[
-          { label: "Dans 3 mois", text: "Même peau. Même honte devant le miroir. Même cimetière de produits sous l'évier. T'auras dépensé encore X€ en essais qui ne tiennent pas. Et les 3 mois pendant lesquels tu aurais pu avancer seront derrière toi.", color: "oklch(0.86 0.08 50)", textColor: "oklch(0.58 0.13 40)" },
-          { label: "Dans 1 an", text: "Ta peau a continué à encaisser. Les marques se sont accumulées. T'as peut-être commencé les antibiotiques ou le Roaccutane par défaut. Les gens autour de toi avanceront. Toi, t'en seras au même point.", color: "oklch(0.82 0.10 35)", textColor: "oklch(0.50 0.15 30)" },
-          { label: "Dans 3 ans", text: "T'auras le regret d'avoir attendu. Les cicatrices d'acné sont les plus dures à traiter après coup. Le protocole qui aurait pris 90 jours il y a 3 ans prend maintenant 12 mois. Et tu le sais.", color: "oklch(0.70 0.16 25)", textColor: "oklch(0.99 0.01 80)" },
-        ].map((item, i) => (
-          <div class="timeline-item flex gap-6">
-            <div class="flex flex-col items-center">
-              <div class="h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
-                style={`background:${item.color};color:${item.textColor}`}>
-                {i + 1}
-              </div>
-              {i < 2 && <div class="w-px flex-1 mt-2" style="background:oklch(0.91 0.02 65)"></div>}
-            </div>
-            <div class="pb-8">
-              <p class="font-bold text-lg mb-2" style="color:oklch(0.22 0.03 40)">{item.label}</p>
-              <p class="text-base leading-relaxed" style="color:oklch(0.5 0.03 45)">{item.text}</p>
-            </div>
-          </div>
-        ))}
+
+      <div class="grid gap-4 md:grid-cols-2 md:gap-6">
+        <!-- Porte 1 : ne rien faire (affichée en premier, on finit sur le positif) -->
+        <div class="compare-card rounded-3xl p-7" style="background:oklch(0.99 0.01 75);border:1px solid oklch(0.89 0.03 50)">
+          <p class="text-sm font-bold uppercase tracking-widest mb-5" style="color:oklch(0.55 0.10 30)">
+            Si tu ne fais rien
+          </p>
+          <ul class="space-y-4">
+            {[
+              "Tu continues à tester des produits au hasard",
+              "Encore 200 ou 300€ qui finissent sous l'évier",
+              "Les marques s'installent, et elles sont plus dures à traiter chaque mois",
+              "Dans 3 mois : même miroir, même honte",
+            ].map((t) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 shrink-0 font-bold" style="color:oklch(0.60 0.14 30)">✗</span>
+                <span class="text-sm leading-relaxed" style="color:oklch(0.45 0.04 40)">{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Porte 2 : rejoindre le protocole -->
+        <div class="compare-card rounded-3xl p-7" style="background:oklch(0.995 0.006 80);border:2px solid oklch(0.66 0.14 45)">
+          <p class="text-sm font-bold uppercase tracking-widest mb-5" style="color:oklch(0.66 0.14 45)">
+            Si tu rejoins le protocole
+          </p>
+          <ul class="space-y-4">
+            {[
+              "Une routine construite pour ta peau, dès le premier jour",
+              `${PRICE}€ une seule fois, ajustements inclus pendant 90 jours`,
+              "Premiers résultats visibles vers 4 à 6 semaines",
+              "Un coach qui te répond et ajuste, chaque semaine",
+            ].map((t) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-0.5 shrink-0 font-bold" style="color:oklch(0.66 0.14 45)">✓</span>
+                <span class="text-sm leading-relaxed" style="color:oklch(0.32 0.03 40)">{t}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div class="dark-cta mt-8 rounded-3xl p-8" style="background:oklch(0.22 0.03 40)">
-        <p class="text-xl font-semibold leading-snug mb-6" style="color:oklch(0.99 0.01 80)">
-          Dans 90 jours, tu seras soit le même,<br />soit quelqu'un avec une peau que tu reconnais.
+        <p class="text-xl font-semibold leading-snug mb-6 text-balance" style="color:oklch(0.99 0.01 80)">
+          Dans 90 jours, tu seras soit le même, soit quelqu'un avec une peau que tu reconnais.
         </p>
         <p class="text-base mb-8" style="color:oklch(0.7 0.03 60)">
           La seule différence entre les deux, c'est une décision. Celle que tu prends maintenant.
         </p>
-        <a href={CTA_URL} class="btn-primary inline-block rounded-full px-8 py-4 text-base font-bold">
+        <a href={CTA_URL} data-cta="deux-portes" class="btn-primary inline-block rounded-full px-8 py-4 text-base font-bold">
           Je commence le protocole →
         </a>
       </div>
@@ -354,22 +537,27 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     <!-- ─── FAQ ──────────────────────────────────────────────────────────────── -->
     <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
+        <p class="eyebrow text-center">Questions fréquentes</p>
         <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
           Ce que tu te demandes sûrement.
         </h2>
         <div class="space-y-4">
           {[
-            { q: "C'est quoi exactement le suivi coach ?", a: "Le coach accède à ton espace dans l'application, voit tes métriques hebdomadaires, tes photos de progression et peut ajuster ta routine directement. Tout est centralisé dans l'app." },
-            { q: "Je dois acheter les produits en plus ?", a: "Oui. Les produits ne sont pas inclus dans le protocole — mais ils sont sélectionnés selon ton profil et ton budget. En moyenne, une routine acné personnalisée coûte moins cher que 3 mois de tentatives hasardeuses en pharmacie." },
+            { q: "C'est pour qui ?", a: "Pour toute personne (homme ou femme, à partir de 16 ans) qui a de l'acné légère à modérée : comédons, boutons inflammatoires, microkystes. Si tu as une acné kystique sévère, le protocole peut accompagner un traitement dermatologique, mais il ne le remplace pas." },
+            { q: "C'est quoi exactement le suivi coach ?", a: "Le coach accède à ton espace dans l'application, voit tes métriques hebdomadaires, tes photos de progression et peut ajuster ta routine directement. Tout est centralisé dans l'app, et tu as un accès WhatsApp direct pour tes questions." },
+            { q: "Je dois acheter les produits en plus ?", a: "Oui, les produits ne sont pas inclus. Ils sont choisis selon ton profil et ton budget : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
+            { q: "Je suis sous traitement (Roaccutane, antibiotiques…), c'est compatible ?", a: "Oui, dans la plupart des cas. La routine est construite en tenant compte de ton traitement : on évite les actifs qui font doublon ou qui sur-irritent une peau déjà sensibilisée. Indique-le simplement dans ton bilan peau, et en cas de doute on en parle directement." },
             { q: "Combien de temps avant de voir des résultats ?", a: "En général, les premières améliorations se voient entre 4 à 6 semaines. La peau a son propre rythme (renouvellement d'environ 28 jours). Les 90 jours sont nécessaires pour stabiliser les résultats." },
-            { q: "Et si ça ne marche pas pour moi ?", a: "Si après 90 jours de suivi sérieux tu ne constates aucune amélioration, le coach ajuste le protocole en profondeur. Ce n'est pas une routine générique — c'est un suivi actif, pas un PDF et bonne chance." },
+            { q: "Et si ça ne marche pas pour moi ?", a: "C'est exactement pour ça qu'il y a la garantie résultat : si après 90 jours de suivi sérieux tu n'as pas d'amélioration visible, je continue à t'accompagner gratuitement jusqu'à ce que tu en aies. Le risque est de mon côté, pas du tien." },
             { q: "C'est une application ? Ça marche sur téléphone ?", a: "Oui. L'application est accessible depuis n'importe quel navigateur, mobile ou desktop. Aucun téléchargement requis." },
-            { q: "Le prix inclut tout ?", a: `Le paiement de ${PRICE}€ est unique. Il couvre les 90 jours de suivi coach, l'accès à l'application, le bilan initial, les ajustements de routine et en bonus, un analyseur INCI. Aucun abonnement caché.` },
+            { q: "Le prix inclut tout ?", a: `Le paiement de ${PRICE}€ est unique. Il couvre les 90 jours de suivi coach, l'accès à vie à l'application, le bilan initial, les ajustements de routine et en bonus, un analyseur INCI. Aucun abonnement caché.` },
           ].map((item) => (
             <details class="faq-item group rounded-2xl border overflow-hidden" style="border-color:oklch(0.91 0.02 65)">
               <summary class="flex items-center justify-between cursor-pointer px-6 py-5 font-semibold select-none list-none" style="color:oklch(0.22 0.03 40)">
                 {item.q}
-                <span class="faq-arrow ml-4 shrink-0 transition-transform group-open:rotate-180" style="color:oklch(0.66 0.14 45)">↓</span>
+                <span class="faq-arrow ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-transform group-open:rotate-180" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
               </summary>
               <div class="px-6 pb-5 text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">{item.a}</div>
             </details>
@@ -378,30 +566,63 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
       </div>
     </section>
 
-    <!-- ─── CTA FINAL ─────────────────────────────────────────────────────────── -->
-    <section class="py-16 px-6 text-center" data-reveal>
-      <div class="max-w-2xl mx-auto">
-        <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.22 0.03 40)">
+    <!-- ─── WAVE (crème → sombre) ────────────────────────────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,25 C420,60 1020,0 1440,35 L1440,60 L0,60 Z" fill="oklch(0.22 0.03 40)" />
+      </svg>
+    </div>
+
+    <!-- ─── CTA FINAL (sombre — miroir de la pricing card) ───────────────────── -->
+    <section class="final-cta relative overflow-hidden py-20 px-6 text-center" style="background:oklch(0.22 0.03 40)" data-reveal>
+      <div class="relative z-10 max-w-2xl mx-auto">
+        <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.99 0.01 80)">
           Ta peau clean, dans<br />
           <span class="text-gradient">90 jours.</span>
         </h2>
-        <p class="text-lg leading-relaxed mb-10 max-w-lg mx-auto" style="color:oklch(0.5 0.03 45)">
+        <p class="text-lg leading-relaxed mb-10 max-w-lg mx-auto" style="color:oklch(0.72 0.03 60)">
           Arrête de chercher le prochain produit miracle.
           Commence un protocole fait pour toi, suivi par quelqu'un qui comprend ce que tu traverses.
         </p>
-        <a href={CTA_URL} class="btn-primary inline-block rounded-full px-10 py-5 text-lg font-bold mb-4">
-          Commencer le protocole — {PRICE}€
+        <a href={CTA_URL} data-cta="final" class="btn-primary inline-block rounded-full px-10 py-5 text-lg font-bold mb-4">
+          Commencer le protocole
         </a>
-        <p class="text-sm" style="color:oklch(0.5 0.03 45)">
-          <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · Accès à vie · 20 places restantes
+        <p class="text-sm" style="color:oklch(0.65 0.03 60)">
+          <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · 90 jours de suivi coach · <span class="js-places-inline">Places limitées</span>
         </p>
-        <p class="text-sm mt-4" style="color:oklch(0.5 0.03 45)">
-          🛡️ Garantie résultat 90 jours. Si pas d'amélioration visible, je continue avec toi gratuitement.
+        <p class="text-sm mt-4 inline-flex items-center gap-1.5" style="color:oklch(0.72 0.03 60)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="oklch(0.75 0.12 50)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          Garantie résultat 90 jours. Si pas d'amélioration visible, je continue avec toi gratuitement.
         </p>
+
+        <!-- Chemin DM — transforme les hésitants en conversations -->
+        <div class="mt-10 rounded-3xl p-6" style="background:oklch(0.26 0.03 40);border:1px solid oklch(0.34 0.04 45)">
+          <p class="text-base font-semibold mb-1" style="color:oklch(0.95 0.02 75)">
+            Pas encore sûr que ce soit pour toi ?
+          </p>
+          <p class="text-sm mb-4" style="color:oklch(0.68 0.03 60)">
+            Écris-moi directement, je te réponds personnellement. Pas de script, pas de pression.
+          </p>
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener" data-cta="dm-instagram"
+            class="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-bold transition-colors"
+            style="border-color:oklch(0.66 0.14 45);color:oklch(0.85 0.08 50)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
+            Pose-moi tes questions sur Instagram
+          </a>
+        </div>
       </div>
     </section>
 
     <Analytics />
+
+    <!-- ─── STICKY CTA MOBILE (apparaît après l'offre, mobile uniquement) ────── -->
+    {STICKY_CTA && (
+      <div id="sticky-cta" class="sticky-cta fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-3 md:hidden" aria-hidden="true">
+        <a href={CTA_URL} data-cta="sticky" class="btn-primary flex items-center justify-center rounded-full px-6 py-4 text-base font-bold">
+          Commencer le protocole
+        </a>
+      </div>
+    )}
 
     <!-- ─── FOOTER ────────────────────────────────────────────────────────────── -->
     <footer class="border-t px-6 py-10" style="border-color:oklch(0.91 0.02 65)">
@@ -440,12 +661,24 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     color: oklch(0.99 0.01 80);
     transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 20px oklch(0.66 0.14 45 / 0.35);
+    white-space: nowrap; /* jamais de flèche orpheline en 2e ligne */
   }
   .btn-primary:hover {
     opacity: 0.92;
     transform: translateY(-2px);
     box-shadow: 0 8px 30px oklch(0.66 0.14 45 / 0.45);
   }
+  /* Press feedback tactile (96% du trafic) + focus clavier */
+  .btn-primary:active { transform: scale(0.97); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 3px solid oklch(0.66 0.14 45);
+    outline-offset: 2px;
+    border-radius: 9999px;
+  }
+  a, button, summary { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+  /* ─── Sélection de texte aux couleurs de la marque ─── */
+  ::selection { background: oklch(0.86 0.08 50); color: oklch(0.22 0.03 40); }
 
   /* ─── Gradient text ─── */
   .text-gradient {
@@ -498,6 +731,7 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
   }
 
   /* ─── Hero elements entrance ─── */
+  .hero-section { min-height: 100dvh; } /* dvh : stable avec la barre d'adresse iOS */
   .hero-section > *:not(.blob) { position: relative; z-index: 1; }
 
   .hero-badge {
@@ -561,6 +795,38 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     transform: translateY(-4px);
     box-shadow: 0 12px 40px oklch(0.4 0.05 40 / 0.12);
   }
+  .method-icon {
+    background: oklch(0.93 0.05 55);
+    color: oklch(0.58 0.13 40);
+  }
+
+  /* ─── Stagger : les cartes d'une grille entrent en cascade (30-80ms/item) ─── */
+  [data-reveal] .method-card,
+  [data-reveal] .feature-card,
+  [data-reveal] .compare-card,
+  [data-reveal] .testimonial-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-reveal].revealed .method-card,
+  [data-reveal].revealed .feature-card,
+  [data-reveal].revealed .compare-card,
+  [data-reveal].revealed .testimonial-card {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  [data-reveal].revealed .method-card:nth-child(2),
+  [data-reveal].revealed .compare-card:nth-child(2),
+  [data-reveal].revealed .testimonial-card:nth-child(2),
+  [data-reveal].revealed .feature-card:nth-child(even) { transition-delay: 0.1s; }
+  [data-reveal].revealed .method-card:nth-child(3),
+  [data-reveal].revealed .testimonial-card:nth-child(3) { transition-delay: 0.2s; }
+  [data-reveal].revealed .feature-card:nth-child(3),
+  [data-reveal].revealed .feature-card:nth-child(4) { transition-delay: 0.15s; }
+  [data-reveal].revealed .feature-card:nth-child(5),
+  [data-reveal].revealed .feature-card:nth-child(6) { transition-delay: 0.25s; }
 
   .feature-card {
     background: oklch(0.995 0.006 80);
@@ -596,7 +862,18 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
   /* ─── FAQ ─── */
   .faq-item { background: oklch(0.995 0.006 80); transition: background 0.2s ease; }
   .faq-item:hover { background: oklch(0.99 0.01 75); }
-  .faq-arrow { display: inline-block; }
+  .faq-arrow {
+    background: oklch(0.93 0.05 55);
+    color: oklch(0.58 0.13 40);
+  }
+  /* Contenu FAQ : fade + slide à l'ouverture (au lieu d'un snap brut) */
+  .faq-item[open] > div {
+    animation: faq-open 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes faq-open {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
   /* ─── Dark CTA ─── */
   .dark-cta {
@@ -622,14 +899,260 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* ─── Photos hero (style polaroïd) ─── */
+  .hero-photo {
+    border: 5px solid white;
+    box-shadow: 0 12px 36px oklch(0.4 0.05 40 / 0.18);
+    transition: transform 0.3s ease;
+  }
+  .photo-tilt-l { transform: rotate(-3deg); }
+  .photo-tilt-r { transform: rotate(2.5deg) translateY(8px); }
+  @media (hover: hover) {
+    .photo-tilt-l:hover { transform: rotate(-1.5deg) scale(1.02); }
+    .photo-tilt-r:hover { transform: rotate(1deg) translateY(4px) scale(1.02); }
+  }
+
+  /* ─── Bandeau défilant ─── */
+  .marquee {
+    background: oklch(0.22 0.03 40);
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 30s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding-right: 1.75rem;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: oklch(0.88 0.04 65);
+  }
+  .marquee-dot {
+    margin-left: 1.75rem;
+    color: oklch(0.66 0.14 45);
+    font-size: 10px;
+  }
+  @keyframes marquee-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── Pull-quote (la phrase du collègue) ─── */
+  .pull-quote {
+    border-left: 3px solid oklch(0.66 0.14 45);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    margin: 2rem 0;
+  }
+  .pull-quote p {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.5rem;
+    line-height: 1.35;
+    font-weight: 600;
+    font-style: italic;
+    color: oklch(0.28 0.05 40);
+  }
+
+  /* ─── Numéros fantômes (cartes méthode) ─── */
+  .ghost-num {
+    position: absolute;
+    top: -0.12em;
+    right: 0.04em;
+    font-size: 6.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: oklch(0.66 0.14 45 / 0.08);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ─── Eyebrow (label de section) ─── */
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: oklch(0.66 0.14 45);
+    margin-bottom: 14px;
+  }
+
+  /* ─── Final sombre : halo orangé comme la pricing card ─── */
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 75% 55% at 50% 0%, oklch(0.66 0.14 45 / 0.18), transparent);
+    pointer-events: none;
+  }
+
+  /* ─── Façade VSL (miniature avant/après + play, le player charge au tap) ─── */
+  .vsl-facade {
+    cursor: pointer;
+    box-shadow: 0 8px 32px oklch(0.4 0.05 40 / 0.15);
+    transition: transform 0.25s ease;
+  }
+  .vsl-facade:active { transform: scale(0.985); }
+  .vsl-facade:focus-visible { outline: 3px solid oklch(0.66 0.14 45); outline-offset: 3px; }
+  .vsl-overlay {
+    background: oklch(0.22 0.03 40 / 0.28);
+    transition: background 0.2s ease;
+  }
+  @media (hover: hover) {
+    .vsl-facade:hover .vsl-overlay { background: oklch(0.22 0.03 40 / 0.38); }
+  }
+  .vsl-play {
+    width: 72px;
+    height: 72px;
+    background: oklch(0.66 0.14 45);
+    color: oklch(0.99 0.01 80);
+    box-shadow: 0 8px 30px oklch(0.66 0.14 45 / 0.55);
+    animation: play-pulse 2.2s ease-in-out infinite;
+  }
+  .vsl-play svg { margin-left: 3px; }
+  @keyframes play-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+
+  /* ─── Carte coach ─── */
+  .coach-card {
+    box-shadow: 0 1px 2px oklch(0.4 0.05 40 / 0.04), 0 8px 24px oklch(0.4 0.05 40 / 0.06);
+  }
+
+  /* ─── Comparatif deux portes ─── */
+  .compare-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .compare-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px oklch(0.4 0.05 40 / 0.10);
+  }
+
+  /* ─── Sticky CTA mobile (safe-area iPhone : barre home) ─── */
+  .sticky-cta {
+    background: linear-gradient(to top, oklch(0.985 0.012 75) 60%, transparent);
+    transform: translateY(120%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+  .sticky-cta.visible {
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .sticky-cta a { box-shadow: 0 8px 30px oklch(0.66 0.14 45 / 0.45); }
+
+  /* ─── Perf mobile : blobs allégés (96% du trafic est mobile) ─── */
+  @media (max-width: 768px) {
+    .blob { filter: blur(40px); opacity: 0.4; }
+    .blob-1 { width: 380px; height: 380px; }
+    .blob-2 { width: 320px; height: 320px; }
+    .blob-3 { display: none; }
+  }
+
+  /* ─── Accessibilité : respect du reduced motion ─── */
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .scroll-line, .hero-title, .hero-sub, .hero-proof, .scroll-indicator, .vsl-play {
+      animation: none !important;
+    }
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+    [data-reveal] .method-card, [data-reveal] .feature-card,
+    [data-reveal] .compare-card, [data-reveal] .testimonial-card {
+      opacity: 1; transform: none; transition: none;
+    }
+    .sticky-cta { transition: none; }
+    .faq-item[open] > div { animation: none; }
+    .marquee-track { animation: none; }
+  }
 </style>
 
 <script>
+  import { track } from '@vercel/analytics';
+
   // ─── Navbar scroll effect
   const navbar = document.querySelector('.navbar') as HTMLElement;
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   }, { passive: true });
+
+  // ─── Tracking : clics CTA (position identifiée par data-cta)
+  document.querySelectorAll<HTMLAnchorElement>('[data-cta]').forEach((el) => {
+    el.addEventListener('click', () => {
+      track('cta_click', { position: el.dataset.cta ?? 'unknown' });
+    });
+  });
+
+  // ─── Tracking : profondeur de scroll (paliers uniques)
+  const scrollMarks = new Set<number>();
+  window.addEventListener('scroll', () => {
+    const depth = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+    for (const mark of [25, 50, 75, 100]) {
+      if (depth * 100 >= mark && !scrollMarks.has(mark)) {
+        scrollMarks.add(mark);
+        track('scroll_depth', { percent: mark });
+      }
+    }
+  }, { passive: true });
+
+  // ─── Tracking : ouverture des questions FAQ
+  document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((d) => {
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        const q = d.querySelector('summary')?.textContent?.trim().slice(0, 80) ?? '';
+        track('faq_open', { question: q });
+      }
+    });
+  });
+
+  // ─── Sticky CTA mobile : après ~2,5 écrans, masqué si un CTA inline est déjà visible
+  const stickyBar = document.getElementById('sticky-cta');
+  if (stickyBar) {
+    const visibleCtas = new Set<Element>();
+    const updateSticky = () => {
+      const show = window.scrollY > window.innerHeight * 2.5 && visibleCtas.size === 0;
+      stickyBar.classList.toggle('visible', show);
+      stickyBar.setAttribute('aria-hidden', String(!show));
+    };
+    const inlineCtas = document.querySelectorAll('[data-cta="mi-page"], [data-cta="pricing"], [data-cta="deux-portes"], [data-cta="final"]');
+    const ctaObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { e.isIntersecting ? visibleCtas.add(e.target) : visibleCtas.delete(e.target); });
+      updateSticky();
+    }, { rootMargin: '0px 0px -60px 0px' });
+    inlineCtas.forEach((el) => ctaObserver.observe(el));
+    window.addEventListener('scroll', updateSticky, { passive: true });
+  }
+
+  // ─── VSL : façade légère → player au tap, avec tracking de visionnage
+  const facade = document.getElementById('vsl-facade');
+  const player = document.getElementById('vsl-player') as HTMLVideoElement | null;
+  if (facade && player) {
+    const startVideo = () => {
+      facade.classList.add('hidden');
+      player.classList.remove('hidden');
+      player.play();
+      track('vsl_play');
+    };
+    facade.addEventListener('click', startVideo);
+    facade.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startVideo(); }
+    });
+    const watched = new Set<number>();
+    player.addEventListener('timeupdate', () => {
+      if (!player.duration) return;
+      const pct = (player.currentTime / player.duration) * 100;
+      for (const mark of [25, 50, 75, 95]) {
+        if (pct >= mark && !watched.has(mark)) {
+          watched.add(mark);
+          track('vsl_progress', { percent: mark });
+        }
+      }
+    });
+  }
 
   // ─── Scroll reveal (sections 3+ only)
   const observer = new IntersectionObserver((entries) => {
@@ -642,4 +1165,20 @@ const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+
+  // ─── Compteur de places réel (capacité mensuelle − paiements Stripe du mois)
+  // En cas d'échec du fetch, le texte fallback honnête reste affiché.
+  fetch('https://app.protocole-clear.com/api/public/places')
+    .then((r) => (r.ok ? r.json() : null))
+    .then((data) => {
+      if (!data || typeof data.places !== 'number' || data.places <= 0) return;
+      const txt = `${data.places} place${data.places > 1 ? 's' : ''} restante${data.places > 1 ? 's' : ''} ce mois-ci`;
+      document.querySelectorAll('.js-places').forEach((el) => {
+        el.textContent = `${txt} · Suivi individuel`;
+      });
+      document.querySelectorAll('.js-places-inline').forEach((el) => {
+        el.textContent = txt;
+      });
+    })
+    .catch(() => {});
 </script>
