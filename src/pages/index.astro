@@ -18,15 +18,6 @@ const VSL_URL = "";
 // navbar toujours visible. Repasse à true si les données montrent qu'elle manque.
 const STICKY_CTA = false;
 
-const MARQUEE_ITEMS = [
-  "Bilan peau personnalisé",
-  "Routine sur mesure",
-  "Suivi coach 90 jours",
-  "Analyseur INCI",
-  "WhatsApp privé",
-  "Garantie résultat",
-];
-
 // ── Témoignages ──────────────────────────────────────────────────────────────
 // Passe à `true` quand tu as remplacé les placeholders par de vrais retours.
 // N'active JAMAIS avec des témoignages fictifs (risque légal + confiance).
@@ -205,15 +196,6 @@ const TESTIMONIALS = [
       </div>
     </section>
 
-    <!-- ─── BANDEAU DÉFILANT ─────────────────────────────────────────────────── -->
-    <div class="marquee py-3.5" aria-hidden="true">
-      <div class="marquee-track">
-        {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((t) => (
-          <span class="marquee-item">{t}<span class="marquee-dot">✦</span></span>
-        ))}
-      </div>
-    </div>
-
     <!-- ─── WAVE 1 ────────────────────────────────────────────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,14 +268,14 @@ const TESTIMONIALS = [
     <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
         <div class="coach-card flex flex-col sm:flex-row items-center gap-6 rounded-3xl p-7" style="background:oklch(0.995 0.006 80)">
-          <img src="/apres.jpg" alt="Mehdi, fondateur de Protocole Clear"
+          <img src="/mehdi.jpg" alt="Mehdi, fondateur de Protocole Clear"
             class="h-28 w-28 shrink-0 rounded-full object-cover"
             style="border:3px solid oklch(0.86 0.08 50)" loading="lazy" />
           <div class="text-center sm:text-left">
             <p class="font-display text-xl font-semibold mb-1" style="color:oklch(0.22 0.03 40)">Moi, c'est Mehdi.</p>
             <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">
-              5 ans à me battre contre mon acné, des centaines d'heures à étudier les INCI et la barrière cutanée.
-              Aujourd'hui je suis chaque élève personnellement : c'est moi que tu auras sur WhatsApp.
+              J'ai 27 ans, et je souffrais d'acné depuis 10 ans. 10 ans à me battre contre mes boutons, des centaines d'heures à étudier les compositions des produits et la barrière cutanée.
+              Aujourd'hui, j'ai enfin gagné le combat. Je crée du contenu sur la skincare et comment traiter son acné, et je suis chaque élève personnellement jusqu'à amélioration de leur peau.
             </p>
           </div>
         </div>
@@ -304,7 +286,7 @@ const TESTIMONIALS = [
             Je veux ma routine sur mesure →
           </a>
           <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
-            Paiement unique de {PRICE}€ · Bilan peau en 10 minutes · Garantie résultat 90 jours
+            Paiement unique de {PRICE}€ · Bilan peau prêt en 48h max · Garantie résultat 90 jours
           </p>
         </div>
       </div>
@@ -480,7 +462,7 @@ const TESTIMONIALS = [
           <ul class="space-y-4">
             {[
               "Tu continues à tester des produits au hasard",
-              "Encore 200 ou 300€ qui finissent sous l'évier",
+              "Encore 200 ou 300€ qui finissent dans le vent",
               "Les marques s'installent, et elles sont plus dures à traiter chaque mois",
               "Dans 3 mois : même miroir, même honte",
             ].map((t) => (
@@ -501,8 +483,8 @@ const TESTIMONIALS = [
             {[
               "Une routine construite pour ta peau, dès le premier jour",
               `${PRICE}€ une seule fois, ajustements inclus pendant 90 jours`,
-              "Premiers résultats visibles vers 4 à 6 semaines",
-              "Un coach qui te répond et ajuste, chaque semaine",
+              "Premiers résultats visibles vers 6 à 8 semaines",
+              "Un coach qui te répond et ajuste si nécessaire, chaque semaine",
             ].map((t) => (
               <li class="flex items-start gap-3">
                 <span class="mt-0.5 shrink-0 font-bold" style="color:oklch(0.66 0.14 45)">✓</span>
@@ -543,7 +525,7 @@ const TESTIMONIALS = [
         </h2>
         <div class="space-y-4">
           {[
-            { q: "C'est pour qui ?", a: "Pour toute personne (homme ou femme, à partir de 16 ans) qui a de l'acné légère à modérée : comédons, boutons inflammatoires, microkystes. Si tu as une acné kystique sévère, le protocole peut accompagner un traitement dermatologique, mais il ne le remplace pas." },
+            { q: "C'est pour qui ?", a: "Pour toute personne (homme ou femme, à partir de 18 ans) qui a de l'acné légère à modérée : comédons, boutons inflammatoires, microkystes. Si tu as une acné kystique sévère, le protocole peut accompagner un traitement dermatologique, mais il ne le remplace pas." },
             { q: "C'est quoi exactement le suivi coach ?", a: "Le coach accède à ton espace dans l'application, voit tes métriques hebdomadaires, tes photos de progression et peut ajuster ta routine directement. Tout est centralisé dans l'app, et tu as un accès WhatsApp direct pour tes questions." },
             { q: "Je dois acheter les produits en plus ?", a: "Oui, les produits ne sont pas inclus. Ils sont choisis selon ton profil et ton budget : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
             { q: "Je suis sous traitement (Roaccutane, antibiotiques…), c'est compatible ?", a: "Oui, dans la plupart des cas. La routine est construite en tenant compte de ton traitement : on évite les actifs qui font doublon ou qui sur-irritent une peau déjà sensibilisée. Indique-le simplement dans ton bilan peau, et en cas de doute on en parle directement." },
@@ -603,7 +585,7 @@ const TESTIMONIALS = [
           <p class="text-sm mb-4" style="color:oklch(0.68 0.03 60)">
             Écris-moi directement, je te réponds personnellement. Pas de script, pas de pression.
           </p>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noopener" data-cta="dm-instagram"
+          <a href="https://www.instagram.com/glowupbymehdi/" target="_blank" rel="noopener" data-cta="dm-instagram"
             class="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-bold transition-colors"
             style="border-color:oklch(0.66 0.14 45);color:oklch(0.85 0.08 50)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
@@ -913,36 +895,6 @@ const TESTIMONIALS = [
     .photo-tilt-r:hover { transform: rotate(1deg) translateY(4px) scale(1.02); }
   }
 
-  /* ─── Bandeau défilant ─── */
-  .marquee {
-    background: oklch(0.22 0.03 40);
-    overflow: hidden;
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee-scroll 30s linear infinite;
-  }
-  .marquee-item {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    padding-right: 1.75rem;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: oklch(0.88 0.04 65);
-  }
-  .marquee-dot {
-    margin-left: 1.75rem;
-    color: oklch(0.66 0.14 45);
-    font-size: 10px;
-  }
-  @keyframes marquee-scroll {
-    to { transform: translateX(-50%); }
-  }
-
   /* ─── Pull-quote (la phrase du collègue) ─── */
   .pull-quote {
     border-left: 3px solid oklch(0.66 0.14 45);
@@ -1067,7 +1019,6 @@ const TESTIMONIALS = [
     }
     .sticky-cta { transition: none; }
     .faq-item[open] > div { animation: none; }
-    .marquee-track { animation: none; }
   }
 </style>
 
