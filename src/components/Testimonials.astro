@@ -1,0 +1,227 @@
+---
+interface Testimonial {
+  name: string;
+  age: string;
+  profile: string;
+  duration: string;
+  avant: string[];
+  apres: string[];
+}
+
+interface Props {
+  testimonials: Testimonial[];
+}
+
+const { testimonials } = Astro.props;
+---
+
+<section class="py-16" data-reveal>
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
+      Ils ont suivi le protocole.
+    </h2>
+    <p class="text-center text-lg mb-12" style="color:oklch(0.5 0.03 45)">
+      Des retours d'élèves, avec leur profil peau et leur durée de suivi.
+    </p>
+  </div>
+
+  <div class="carousel-outer">
+    <!-- Les cartes sont dupliquées une fois dans le HTML pour le loop infini -->
+    <div class="carousel-track" id="testimonial-track">
+      {[...testimonials, ...testimonials].map((t, idx) => (
+        <figure class="testimonial-card" aria-hidden={idx >= testimonials.length ? "true" : undefined}>
+          <div class="photo-area">
+            {t.avant.map((src, i) => (
+              <div class="photo-row">
+                <div class="photo-cell">
+                  <img src={src} alt={`${t.name} avant`} loading="lazy" class="photo-img" draggable="false" />
+                  <div class="photo-label photo-label--avant">Avant</div>
+                </div>
+                <div class="photo-cell">
+                  <img src={t.apres[i]} alt={`${t.name} après`} loading="lazy" class="photo-img" draggable="false" />
+                  <div class="photo-label photo-label--apres">Après</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <figcaption class="caption">
+            <span class="caption-name">{t.name} · {t.age}</span>
+            <span class="caption-meta">{t.profile} · {t.duration}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .carousel-outer {
+    overflow: hidden;
+    cursor: grab;
+  }
+  .carousel-outer:active {
+    cursor: grabbing;
+  }
+
+  /* Le track se déplace via transform, pas overflow scroll */
+  .carousel-track {
+    display: flex;
+    gap: 20px;
+    padding: 8px 24px 20px;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .testimonial-card {
+    flex-shrink: 0;
+    width: min(420px, 78vw);
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: oklch(0.995 0.006 80);
+    box-shadow: 0 1px 2px oklch(0.4 0.05 40 / 0.04), 0 8px 24px oklch(0.4 0.05 40 / 0.06);
+  }
+
+  .photo-area {
+    height: 340px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo-row {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+  }
+
+  .photo-cell {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    pointer-events: none;
+  }
+
+  .photo-label {
+    position: absolute;
+    bottom: 8px;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    pointer-events: none;
+  }
+  .photo-label--avant { left: 8px; background: oklch(0.22 0.03 40 / 0.75); }
+  .photo-label--apres { right: 8px; background: oklch(0.66 0.14 45); }
+
+  .caption {
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .caption-name { font-size: 14px; font-weight: 600; color: oklch(0.22 0.03 40); }
+  .caption-meta { font-size: 12px; color: oklch(0.55 0.03 50); }
+
+  [data-reveal] .testimonial-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-reveal].revealed .testimonial-card { opacity: 1; transform: translateY(0); }
+  [data-reveal].revealed .testimonial-card:nth-child(2) { transition-delay: 0.08s; }
+  [data-reveal].revealed .testimonial-card:nth-child(3) { transition-delay: 0.16s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] .testimonial-card { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const track = document.getElementById('testimonial-track') as HTMLElement | null;
+  if (!track) throw new Error('no track');
+
+  // Largeur d'une carte + gap, calculée depuis le DOM
+  const card = track.children[0] as HTMLElement;
+  const GAP = 20;
+  const cardW = () => card.offsetWidth + GAP;
+  // La moitié des cartes = les originales (l'autre moitié = les clones)
+  const origCount = track.children.length / 2;
+  const loopW = () => cardW() * origCount;
+
+  let offset = 0;
+  const SPEED = 0.5;
+  let isPaused = false;
+  let isDragging = false;
+  let pointerStartX = 0;
+  let offsetAtDragStart = 0;
+
+  const clamp = (v: number) => {
+    let w = loopW();
+    v = v % w;
+    if (v < 0) v += w;
+    return v;
+  };
+
+  const tick = () => {
+    if (!isPaused) {
+      offset = clamp(offset + SPEED);
+      track.style.transform = `translateX(${-offset}px)`;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+
+  // ── Hover pause (desktop) ────────────────────
+  track.addEventListener('mouseenter', () => { if (!isDragging) isPaused = true; });
+  track.addEventListener('mouseleave', () => { if (!isDragging) isPaused = false; });
+
+  // ── Mouse drag ───────────────────────────────
+  track.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    isPaused = true;
+    pointerStartX = e.clientX;
+    offsetAtDragStart = offset;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const delta = pointerStartX - e.clientX;
+    offset = clamp(offsetAtDragStart + delta);
+    track.style.transform = `translateX(${-offset}px)`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    setTimeout(() => { isPaused = false; }, 900);
+  });
+
+  // ── Touch drag ───────────────────────────────
+  track.addEventListener('touchstart', (e) => {
+    isPaused = true;
+    pointerStartX = e.touches[0].clientX;
+    offsetAtDragStart = offset;
+  }, { passive: true });
+
+  track.addEventListener('touchmove', (e) => {
+    const delta = pointerStartX - e.touches[0].clientX;
+    offset = clamp(offsetAtDragStart + delta);
+    track.style.transform = `translateX(${-offset}px)`;
+  }, { passive: true });
+
+  track.addEventListener('touchend', () => {
+    setTimeout(() => { isPaused = false; }, 1000);
+  });
+</script>

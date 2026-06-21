@@ -1,18 +1,16 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
+import Testimonials from "../components/Testimonials.astro";
 
 const PRICE = "97";
 const PRICE_ORIGINAL = "197";
 const CTA_URL = "https://buy.stripe.com/4gM6oz5c28Rq35x5Wybsc00";
 
 // EDIT: mets ton vrai compte Instagram (canal DM pour les hésitants)
-const INSTAGRAM_URL = "https://instagram.com/TON_COMPTE";
+const INSTAGRAM_URL = "https://instagram.com/glowupbymehdi";
 
-// EDIT: URL de ta VSL (fichier .mp4 hébergé — Bunny, R2, ou /vsl.mp4 dans public/).
-// Tant que c'est vide, le hero affiche les photos avant/après seules.
-// Quand tu la remplis, les photos deviennent la miniature cliquable de la vidéo.
-const VSL_URL = "";
+// VSL hébergée sur Bunny Stream — iframe intégrée directement dans le hero.
 
 // Barre CTA sticky mobile en bas d'écran. Désactivée : redondante avec le CTA
 // navbar toujours visible. Repasse à true si les données montrent qu'elle manque.
@@ -21,28 +19,31 @@ const STICKY_CTA = false;
 // ── Témoignages ──────────────────────────────────────────────────────────────
 // Passe à `true` quand tu as remplacé les placeholders par de vrais retours.
 // N'active JAMAIS avec des témoignages fictifs (risque légal + confiance).
-const SHOW_TESTIMONIALS = false;
+const SHOW_TESTIMONIALS = true;
 const TESTIMONIALS = [
   {
-    quote: "[Remplace par un vrai retour — idéalement 2-3 phrases concrètes : situation de départ, ce qui a changé, comment elle/il se sent maintenant.]",
-    name: "[Prénom]",
-    age: "[24 ans]",
-    profile: "Peau grasse · Acné modérée",
-    duration: "8 semaines de protocole",
-  },
-  {
-    quote: "[Vrai retour élève #2]",
-    name: "[Prénom]",
-    age: "[19 ans]",
-    profile: "Peau mixte · Comédons",
-    duration: "6 semaines de protocole",
-  },
-  {
-    quote: "[Vrai retour élève #3]",
-    name: "[Prénom]",
-    age: "[28 ans]",
-    profile: "Peau sensible · Marques post-acné",
+    name: "Camélia",
+    age: "XX ans",
+    profile: "Peau grasse · Acné inflammatoire",
     duration: "90 jours de protocole",
+    avant: ["/camelia-avant-joues.png", "/camelia-avant-menton.png"],
+    apres: ["/camelia-apres-joues.png", "/camelia-apres-menton.png"],
+  },
+  {
+    name: "Georges",
+    age: "XX ans",
+    profile: "Peau mixte · Comédons",
+    duration: "70 jours de protocole",
+    avant: ["/georges-avant.png"],
+    apres: ["/georges-apres.png"],
+  },
+  {
+    name: "Nathan",
+    age: "XX ans",
+    profile: "Peau grasse · Acné généralisée",
+    duration: "90 jours de protocole",
+    avant: ["/nathan-avant.png"],
+    apres: ["/nathan-apres.png"],
   },
 ];
 ---
@@ -52,15 +53,15 @@ const TESTIMONIALS = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Le premier protocole acné entièrement personnalisé, suivi par un coach pendant 90 jours. Fini les produits au hasard." />
-    <title>Protocole Clear — Ta peau nette en 90 jours</title>
+    <meta name="description" content="Un protocole acné personnalisé, suivi par un coach pendant 90 jours. Fini les produits au hasard." />
+    <title>Protocole Clear · Ta peau nette en 90 jours</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
 
     <!-- Open Graph (aperçus WhatsApp / Instagram / Facebook) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://protocole-clear.com/" />
-    <meta property="og:title" content="Protocole Clear — Ta peau nette en 90 jours" />
+    <meta property="og:title" content="Protocole Clear · Ta peau nette en 90 jours" />
     <meta property="og:description" content="Un protocole acné construit pour ta peau, suivi par un coach pendant 90 jours. Bilan peau + routine sur mesure + ajustements inclus." />
     <meta property="og:image" content="https://protocole-clear.com/icon-512.png" />
     <meta property="og:locale" content="fr_FR" />
@@ -68,7 +69,7 @@ const TESTIMONIALS = [
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Protocole Clear — Ta peau nette en 90 jours" />
+    <meta name="twitter:title" content="Protocole Clear · Ta peau nette en 90 jours" />
     <meta name="twitter:description" content="Un protocole acné construit pour ta peau, suivi par un coach pendant 90 jours." />
     <meta name="twitter:image" content="https://protocole-clear.com/icon-512.png" />
 
@@ -93,87 +94,62 @@ const TESTIMONIALS = [
         </span>
       </div>
       <a href={CTA_URL} data-cta="navbar" class="btn-primary flex min-h-11 items-center rounded-full px-5 text-sm font-semibold">
-        Commencer →
+        Changer ma peau →
       </a>
     </nav>
 
     <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
-    <section class="hero-section relative min-h-screen flex flex-col items-center px-6 pt-32 pb-12 text-center overflow-hidden">
+    <section class="hero-section relative min-h-screen flex flex-col items-center px-4 pt-20 md:pt-32 pb-12 text-center overflow-hidden">
 
       <!-- Animated blobs -->
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
 
-      <!-- Contenu centré verticalement dans l'espace disponible -->
-      <div class="flex-1 flex flex-col items-center justify-center w-full">
+      <div class="flex-1 flex flex-col items-center justify-center w-full gap-4 md:gap-6">
 
         <!-- Headline -->
-        <h1 class="hero-title text-balance max-w-3xl text-[2.25rem] font-bold leading-[1.12] sm:text-5xl md:text-7xl mb-6">
+        <h1 class="hero-title text-balance max-w-3xl text-[2rem] font-bold leading-[1.12] sm:text-5xl md:text-7xl">
           Tu as tout essayé.<br />
           <span class="text-gradient">L'acné est <br class="sm:hidden" />toujours là.</span>
         </h1>
 
-        <!-- Subheadline -->
-        <p class="hero-sub max-w-xl text-lg leading-relaxed mb-8" style="color:oklch(0.5 0.03 45)">
+        <!-- Sous-ligne mobile — visible uniquement sur mobile sous le titre -->
+        <p class="text-base italic sm:hidden max-w-sm" style="color:oklch(0.5 0.03 45)">
+          Le problème n'a jamais été toi, c'était l'absence de méthode.
+        </p>
+
+        <!-- Subheadline — masquée sur mobile, la VSL la remplace -->
+        <p class="hero-sub hidden sm:block max-w-xl text-lg leading-relaxed" style="color:oklch(0.5 0.03 45)">
           Un protocole acné construit pour <em>ta</em> peau, suivi par un coach semaine après semaine.
           Objectif&nbsp;: <strong style="color:oklch(0.32 0.03 40)">une peau que tu reconnais, en 90 jours.</strong>
         </p>
 
-        <!-- Preuve visuelle — VSL si disponible, sinon photos avant/après -->
-        <div class="hero-proof w-full max-w-md mx-auto">
-          {VSL_URL ? (
-            <>
-              <div id="vsl-facade" class="vsl-facade relative overflow-hidden rounded-3xl" role="button" tabindex="0"
-                aria-label="Lire la vidéo : mon histoire et le protocole en 2 minutes">
-                <div class="grid grid-cols-2">
-                  <div class="relative">
-                    <img src="/avant.jpg" class="w-full aspect-[3/4] object-cover" alt="Ma peau avant le protocole" fetchpriority="high" />
-                    <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-                      style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
-                  </div>
-                  <div class="relative">
-                    <img src="/apres.jpg" class="w-full aspect-[3/4] object-cover" alt="Ma peau après 90 jours de protocole" fetchpriority="high" />
-                    <div class="absolute bottom-3 right-3 rounded-full px-3 py-1 text-xs font-bold"
-                      style="background:oklch(0.66 0.14 45);color:white">Après</div>
-                  </div>
-                </div>
-                <div class="vsl-overlay absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <span class="vsl-play flex items-center justify-center rounded-full" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                  </span>
-                  <span class="rounded-full px-4 py-1.5 text-sm font-bold"
-                    style="background:oklch(0.22 0.03 40 / 0.8);color:white">Mon histoire en 2 minutes</span>
-                </div>
-              </div>
-              <video id="vsl-player" class="hidden w-full rounded-3xl" src={VSL_URL} controls playsinline preload="none"></video>
-            </>
-          ) : (
-            <div class="grid grid-cols-2 gap-2 px-2">
-              <div class="hero-photo photo-tilt-l relative overflow-hidden rounded-2xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
-                <img src="/avant.jpg" class="w-full h-full object-cover" alt="Ma peau avant le protocole" fetchpriority="high" />
-                <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-                  style="background:oklch(0.22 0.03 40 / 0.75);color:white">Avant</div>
-              </div>
-              <div class="hero-photo photo-tilt-r relative overflow-hidden rounded-2xl aspect-[3/4]" style="background:oklch(0.93 0.05 55)">
-                <img src="/apres.jpg" class="w-full h-full object-cover" alt="Ma peau après 90 jours de protocole" fetchpriority="high" />
-                <div class="absolute bottom-3 left-3 rounded-full px-3 py-1 text-xs font-bold"
-                  style="background:oklch(0.66 0.14 45);color:white">Après</div>
-              </div>
-            </div>
-          )}
-          <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
-            Ma peau, après 90 jours du protocole. Sans filtre ni retouche.
+        <!-- VSL Bunny Stream -->
+        <div class="hero-proof w-full max-w-lg mx-auto">
+          <div class="vsl-wrapper rounded-3xl overflow-hidden" style="position:relative;padding-top:56.25%">
+            <iframe
+              src="https://iframe.mediadelivery.net/embed/664092/02e31b9c-375e-423c-8074-850966638aae?autoplay=true&loop=false&muted=false&preload=true&responsive=true"
+              loading="eager"
+              style="position:absolute;top:0;left:0;width:100%;height:100%;border:0"
+              allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- CTA sous la vidéo -->
+        <div class="hero-cta flex flex-col items-center gap-2">
+          <a href={CTA_URL} data-cta="hero" class="btn-primary inline-block rounded-full px-7 py-4 text-base font-bold">
+            Je veux changer ma peau →
+          </a>
+          <p class="text-xs" style="color:oklch(0.55 0.03 50)">
+            {PRICE}€ unique · Bilan peau en 48h · Garantie 90 jours
           </p>
         </div>
 
       </div>
 
-      <!-- Scroll indicator — toujours en bas -->
-      <div class="scroll-indicator flex flex-col items-center gap-2">
-        <span class="text-xs uppercase tracking-widest" style="color:oklch(0.7 0.03 60)">Scroll</span>
-        <div class="scroll-line"></div>
-      </div>
     </section>
 
     <!-- ─── BANDE BÉNÉFICES (compacte, sous le hero) ─────────────────────────── -->
@@ -207,25 +183,12 @@ const TESTIMONIALS = [
     <section style="background:oklch(0.965 0.025 75)" class="px-6 py-16">
       <div class="max-w-2xl mx-auto">
         <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-          <p>La photo de gauche, là-haut&nbsp;? <strong>C'est moi.</strong></p>
-          <p>Il y a <strong>5 ans</strong>, j'avais une peau que je ne reconnaissais plus.</p>
-          <p>Des boutons. Des marques. Des cicatrices rouges qui ne partaient pas.</p>
-          <p>
-            Je refusais qu'on me prenne en photo.<br />
-            Je regardais en bas quand je parlais aux gens.<br />
-            J'annulais des sorties avec mes amis et mes proches.
-          </p>
-          <p>Ce qui me tuait intérieurement, c'était pas juste les boutons.</p>
-          <p>C'était le regard des autres.<br />Ou plutôt, le regard que j'imaginais qu'ils posaient sur moi.</p>
-          <p><strong>Alors j'ai cherché. J'ai tout essayé... produits, traitements, routines.</strong></p>
-          <p>Des centaines d'euros engloutis. Des mois à attendre des résultats qui ne venaient pas.</p>
-          <p>Jusqu'au jour où, au travail, un collègue m'a regardé et m'a lâché :</p>
+          <p>La photo de gauche, là-haut&nbsp;? <strong>C'est moi.</strong> Il y a 5 ans.</p>
+          <p>Des boutons. Des marques. Des cicatrices que rien ne faisait partir. J'ai tout essayé : produits, traitements, routines. Des centaines d'euros engloutis pour des résultats qui ne venaient pas.</p>
+          <p>Jusqu'au jour où un collègue m'a lâché :</p>
           <blockquote class="pull-quote">
             <p>« Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil… »</p>
           </blockquote>
-          <p>J'étais désemparé.</p>
-          <p>Un soir, je me retrouve là, face au miroir, à regarder ma peau.</p>
-          <p>Et je me dis : <em>c'est ça pour toujours ?</em></p>
         </div>
       </div>
     </section>
@@ -240,26 +203,9 @@ const TESTIMONIALS = [
             Et toi, t'es pas tout le monde.
           </p>
         </div>
-      </div>
-    </section>
-
-    <!-- ─── LE DÉCLIC — suite directe, même fond crème ───────────────────────── -->
-    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-      <div class="max-w-2xl mx-auto">
-        <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-          <p>Ce jour-là, j'ai arrêté de chercher <strong>LE produit miracle</strong>.</p>
-          <p>J'ai commencé à construire <strong>UN protocole</strong>.</p>
-          <p>Pas une liste d'ingrédients au hasard. Pas une routine Tiktok.</p>
-          <p>Un système. Adapté à <em>mon</em> type de peau, <em>mes</em> déclencheurs, <em>mes</em> habitudes.</p>
-          <p>
-            J'ai appris à lire les INCI. À comprendre pourquoi certains produits irritaient ma barrière cutanée.
-            À ajuster semaine après semaine ce qui fonctionnait ou pas.
-          </p>
-          <p>
-            Et pour la première fois en <strong>5 ans</strong>, j'ai regardé mon visage dans le miroir sans détourner les yeux.
-          </p>
-          <p>C'est ça, le protocole que j'ai codifié pour toi.</p>
-        </div>
+        <p class="mt-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
+          J'ai arrêté de chercher le prochain produit miracle. J'ai construit un système adapté à <em>ma</em> peau, ajusté semaine après semaine. C'est ce protocole que j'ai codifié pour toi.
+        </p>
       </div>
     </section>
 
@@ -273,8 +219,7 @@ const TESTIMONIALS = [
           <div class="text-center sm:text-left">
             <p class="font-display text-xl font-semibold mb-1" style="color:oklch(0.22 0.03 40)">Moi, c'est Mehdi.</p>
             <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">
-              J'ai 27 ans, et je souffrais d'acné depuis 10 ans. 10 ans à me battre contre mes boutons, des centaines d'heures à étudier les compositions des produits et la barrière cutanée.
-              Aujourd'hui, j'ai enfin gagné le combat. Je crée du contenu sur la skincare et comment traiter son acné, et je suis chaque élève personnellement jusqu'à amélioration de leur peau.
+              5 ans d'acné, des centaines d'heures à décortiquer les compositions et la barrière cutanée. Aujourd'hui, j'accompagne chaque élève personnellement pendant 90 jours jusqu'à amélioration visible.
             </p>
           </div>
         </div>
@@ -282,7 +227,7 @@ const TESTIMONIALS = [
         <!-- CTA intégré au flux — même fond, pas de rupture visuelle -->
         <div class="mt-10 text-center">
           <a href={CTA_URL} data-cta="mi-page" class="btn-primary inline-block rounded-full px-7 py-4 text-base font-bold">
-            Je veux ma routine sur mesure →
+            Je veux changer ma peau →
           </a>
           <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
             Paiement unique de {PRICE}€ · Bilan peau prêt en 48h max · Garantie résultat 90 jours
@@ -299,40 +244,7 @@ const TESTIMONIALS = [
         </svg>
       </div>
     )}
-    {SHOW_TESTIMONIALS && (
-      <section class="py-16 px-6" data-reveal>
-        <div class="max-w-5xl mx-auto">
-          <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
-            Ils ont suivi le protocole.
-          </h2>
-          <p class="text-center text-lg mb-12" style="color:oklch(0.5 0.03 45)">
-            Des retours d'élèves, avec leur profil peau et leur durée de suivi.
-          </p>
-
-          <!-- Mobile : carrousel scroll-snap · Desktop : grille 3 colonnes -->
-          <div class="testimonial-track flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0">
-            {TESTIMONIALS.map((t) => (
-              <figure class="testimonial-card snap-center shrink-0 w-[85%] sm:w-[70%] md:w-auto rounded-3xl p-7 flex flex-col gap-5">
-                <span class="text-4xl leading-none font-display" style="color:oklch(0.66 0.14 45)" aria-hidden="true">“</span>
-                <blockquote class="text-base leading-relaxed flex-1" style="color:oklch(0.32 0.03 40)">
-                  {t.quote}
-                </blockquote>
-                <figcaption class="flex items-center gap-3 pt-2 border-t" style="border-color:oklch(0.93 0.02 65)">
-                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
-                    style="background:oklch(0.93 0.05 55);color:oklch(0.58 0.13 40)">
-                    {t.name.replace(/[[\]]/g, "").charAt(0)}
-                  </span>
-                  <span class="min-w-0">
-                    <span class="block text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{t.name} · {t.age}</span>
-                    <span class="block text-xs mt-0.5" style="color:oklch(0.55 0.03 50)">{t.profile} · {t.duration}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
+    {SHOW_TESTIMONIALS && <Testimonials testimonials={TESTIMONIALS} />}
 
     {SHOW_TESTIMONIALS && (
       <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
@@ -416,7 +328,7 @@ const TESTIMONIALS = [
         <div class="pricing-glow absolute inset-0 -z-0"></div>
         <div class="relative z-10">
           <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:oklch(0.66 0.14 45)">
-            Protocole Clear — 90 jours
+            Protocole Clear · 90 jours
           </p>
           <div class="flex items-center justify-center gap-3 mb-2">
             <span class="text-2xl font-medium line-through" style="color:oklch(0.55 0.03 60)">{PRICE_ORIGINAL}€</span>
@@ -424,15 +336,18 @@ const TESTIMONIALS = [
           </div>
           <p class="text-sm mb-8" style="color:oklch(0.7 0.03 60)">90 jours de suivi coach · Application à vie</p>
           <a href={CTA_URL} data-cta="pricing" class="btn-primary block rounded-full px-8 py-4 text-base font-bold mb-4">
-            Commencer maintenant →
+            Je veux changer ma peau →
           </a>
           <p class="text-xs js-places" style="color:oklch(0.7 0.03 60)">Suivi individuel · Places limitées chaque mois</p>
           <div style="margin-top:20px;padding:14px 16px;border-radius:16px;background:oklch(0.18 0.02 40);border:1px solid oklch(0.3 0.04 45)">
             <p style="margin:0;font-size:12px;color:oklch(0.75 0.05 60);line-height:1.55">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="oklch(0.85 0.06 60)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><strong style="color:oklch(0.85 0.06 60)">Garantie résultat 90 jours</strong><br>
-              Si tu n'as pas d'amélioration visible après 90 jours, je t'accompagne jusqu'à ce que tu en aies, gratuitement.
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="oklch(0.85 0.06 60)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><strong style="color:oklch(0.85 0.06 60)">Garantie d'accompagnement sérieux</strong><br>
+              Si tu as suivi le protocole, complété tes suivis et envoyé tes photos, mais qu'aucune évolution positive n'est visible après 90 jours, je prolonge ton accompagnement de 30 jours, sans frais.
             </p>
           </div>
+          <p class="text-xs mt-4 text-left leading-relaxed" style="color:oklch(0.62 0.02 50)">
+            Je ne suis pas dermatologue et ne remplace pas un avis médical. Mon rôle : optimiser ta routine, identifier les associations irritantes, suivre la réaction de ta peau. Si ta situation nécessite un dermatologue, je te le dirai.
+          </p>
         </div>
       </div>
     </section>
@@ -502,7 +417,7 @@ const TESTIMONIALS = [
           La seule différence entre les deux, c'est une décision. Celle que tu prends maintenant.
         </p>
         <a href={CTA_URL} data-cta="deux-portes" class="btn-primary inline-block rounded-full px-8 py-4 text-base font-bold">
-          Je commence le protocole →
+          Je veux changer ma peau →
         </a>
       </div>
     </div>
@@ -529,7 +444,7 @@ const TESTIMONIALS = [
             { q: "Je dois acheter les produits en plus ?", a: "Oui, les produits ne sont pas inclus. Ils sont choisis selon ton profil et ton budget : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
             { q: "Je suis sous traitement (Roaccutane, antibiotiques…), c'est compatible ?", a: "Oui, dans la plupart des cas. La routine est construite en tenant compte de ton traitement : on évite les actifs qui font doublon ou qui sur-irritent une peau déjà sensibilisée. Indique-le simplement dans ton bilan peau, et en cas de doute on en parle directement." },
             { q: "Combien de temps avant de voir des résultats ?", a: "En général, les premières améliorations se voient entre 4 à 6 semaines. La peau a son propre rythme (renouvellement d'environ 28 jours). Les 90 jours sont nécessaires pour stabiliser les résultats." },
-            { q: "Et si ça ne marche pas pour moi ?", a: "C'est exactement pour ça qu'il y a la garantie résultat : si après 90 jours de suivi sérieux tu n'as pas d'amélioration visible, je continue à t'accompagner gratuitement jusqu'à ce que tu en aies. Le risque est de mon côté, pas du tien." },
+            { q: "Et si ça ne marche pas pour moi ?", a: "Si tu as suivi le protocole sérieusement pendant 90 jours sans amélioration visible, l'accompagnement est prolongé 30 jours sans frais supplémentaires pour ajuster le protocole en profondeur." },
             { q: "C'est une application ? Ça marche sur téléphone ?", a: "Oui. L'application est accessible depuis n'importe quel navigateur, mobile ou desktop. Aucun téléchargement requis." },
             { q: "Le prix inclut tout ?", a: `Le paiement de ${PRICE}€ est unique. Il couvre les 90 jours de suivi coach, l'accès à vie à l'application, le bilan initial, les ajustements de routine et en bonus, un analyseur INCI. Aucun abonnement caché.` },
           ].map((item) => (
@@ -558,7 +473,7 @@ const TESTIMONIALS = [
     <section class="final-cta relative overflow-hidden py-20 px-6 text-center" style="background:oklch(0.22 0.03 40)" data-reveal>
       <div class="relative z-10 max-w-2xl mx-auto">
         <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.99 0.01 80)">
-          Ta peau clean, dans<br />
+          Une peau comprise, dans<br />
           <span class="text-gradient">90 jours.</span>
         </h2>
         <p class="text-lg leading-relaxed mb-10 max-w-lg mx-auto" style="color:oklch(0.72 0.03 60)">
@@ -566,14 +481,14 @@ const TESTIMONIALS = [
           Commence un protocole fait pour toi, suivi par quelqu'un qui comprend ce que tu traverses.
         </p>
         <a href={CTA_URL} data-cta="final" class="btn-primary inline-block rounded-full px-10 py-5 text-lg font-bold mb-4">
-          Commencer le protocole
+          Je veux changer ma peau
         </a>
         <p class="text-sm" style="color:oklch(0.65 0.03 60)">
           <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · 90 jours de suivi coach · <span class="js-places-inline">Places limitées</span>
         </p>
         <p class="text-sm mt-4 inline-flex items-center gap-1.5" style="color:oklch(0.72 0.03 60)">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="oklch(0.75 0.12 50)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
-          Garantie résultat 90 jours. Si pas d'amélioration visible, je continue avec toi gratuitement.
+          Garantie 90 jours. Protocole suivi sérieusement sans résultat → 30 jours prolongés sans frais.
         </p>
 
         <!-- Chemin DM — transforme les hésitants en conversations -->
@@ -584,7 +499,7 @@ const TESTIMONIALS = [
           <p class="text-sm mb-4" style="color:oklch(0.68 0.03 60)">
             Écris-moi directement, je te réponds personnellement. Pas de script, pas de pression.
           </p>
-          <a href="https://www.instagram.com/glowupbymehdi/" target="_blank" rel="noopener" data-cta="dm-instagram"
+          <a href={INSTAGRAM_URL} target="_blank" rel="noopener" data-cta="dm-instagram"
             class="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-bold transition-colors"
             style="border-color:oklch(0.66 0.14 45);color:oklch(0.85 0.08 50)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
@@ -600,7 +515,7 @@ const TESTIMONIALS = [
     {STICKY_CTA && (
       <div id="sticky-cta" class="sticky-cta fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-3 md:hidden" aria-hidden="true">
         <a href={CTA_URL} data-cta="sticky" class="btn-primary flex items-center justify-center rounded-full px-6 py-4 text-base font-bold">
-          Commencer le protocole
+          Je veux changer ma peau
         </a>
       </div>
     )}
@@ -736,17 +651,6 @@ const TESTIMONIALS = [
   /* ─── Proof checkmarks ─── */
   .proof-check { color: oklch(0.66 0.14 45); font-weight: 700; }
 
-  /* ─── Scroll indicator ─── */
-  .scroll-indicator { opacity: 0; animation: fade-up 1s ease 1.2s both; }
-  .scroll-line {
-    width: 1px; height: 40px;
-    background: linear-gradient(to bottom, oklch(0.66 0.14 45), transparent);
-    animation: scroll-pulse 2s ease-in-out infinite;
-  }
-  @keyframes scroll-pulse {
-    0%, 100% { opacity: 0.4; transform: scaleY(1); }
-    50%       { opacity: 1;   transform: scaleY(1.2); }
-  }
 
   /* ─── Wave dividers ─── */
   .wave-divider { line-height: 0; overflow: hidden; }
@@ -1008,7 +912,7 @@ const TESTIMONIALS = [
 
   /* ─── Accessibilité : respect du reduced motion ─── */
   @media (prefers-reduced-motion: reduce) {
-    .blob, .scroll-line, .hero-title, .hero-sub, .hero-proof, .scroll-indicator, .vsl-play {
+    .blob, .hero-title, .hero-sub, .hero-proof, .vsl-play {
       animation: none !important;
     }
     [data-reveal] { opacity: 1; transform: none; transition: none; }
@@ -1077,32 +981,14 @@ const TESTIMONIALS = [
     window.addEventListener('scroll', updateSticky, { passive: true });
   }
 
-  // ─── VSL : façade légère → player au tap, avec tracking de visionnage
-  const facade = document.getElementById('vsl-facade');
-  const player = document.getElementById('vsl-player') as HTMLVideoElement | null;
-  if (facade && player) {
-    const startVideo = () => {
-      facade.classList.add('hidden');
-      player.classList.remove('hidden');
-      player.play();
-      track('vsl_play');
-    };
-    facade.addEventListener('click', startVideo);
-    facade.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startVideo(); }
-    });
-    const watched = new Set<number>();
-    player.addEventListener('timeupdate', () => {
-      if (!player.duration) return;
-      const pct = (player.currentTime / player.duration) * 100;
-      for (const mark of [25, 50, 75, 95]) {
-        if (pct >= mark && !watched.has(mark)) {
-          watched.add(mark);
-          track('vsl_progress', { percent: mark });
-        }
-      }
-    });
-  }
+  // ─── VSL Bunny Stream : tracking via postMessage
+  window.addEventListener('message', (e) => {
+    if (!String(e.origin).includes('mediadelivery.net')) return;
+    const { event } = (e.data || {}) as { event?: string };
+    if (event === 'play') track('vsl_play');
+    if (event === 'pause') track('vsl_pause');
+    if (event === 'ended') track('vsl_ended');
+  });
 
   // ─── Scroll reveal (sections 3+ only)
   const observer = new IntersectionObserver((entries) => {
