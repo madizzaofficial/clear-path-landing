@@ -27,8 +27,8 @@ const { testimonials } = Astro.props;
 
   <div class="carousel-outer">
     <!-- Les cartes sont dupliquées une fois dans le HTML pour le loop infini -->
-    <div class="carousel-track" id="testimonial-track">
-      {[...testimonials, ...testimonials].map((t, idx) => (
+    <div class="carousel-track" id="testimonial-track" data-orig-count={testimonials.length}>
+      {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
         <figure class="testimonial-card" aria-hidden={idx >= testimonials.length ? "true" : undefined}>
           <div class="photo-area">
             {t.avant.map((src, i) => (
@@ -156,8 +156,7 @@ const { testimonials } = Astro.props;
   const card = track.children[0] as HTMLElement;
   const GAP = 20;
   const cardW = () => card.offsetWidth + GAP;
-  // La moitié des cartes = les originales (l'autre moitié = les clones)
-  const origCount = track.children.length / 2;
+  const origCount = parseInt(track.dataset.origCount || '3');
   const loopW = () => cardW() * origCount;
 
   let offset = 0;
