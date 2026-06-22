@@ -145,10 +145,10 @@ const TESTIMONIALS = [
     <section class="px-6 py-16" style="background:oklch(0.985 0.012 75)">
       <div class="max-w-xl mx-auto space-y-10">
         {[
-          { title: "Tu sais enfin pourquoi ta peau réagit.", desc: "Fini les achats au hasard. Chaque produit a une raison d'être dans ta routine." },
-          { title: "Tu acceptes une photo sans calculer l'angle.", desc: "Plus besoin de te préparer psychologiquement avant de sortir." },
-          { title: "Tu vas en rendez-vous pro sans penser à ta peau.", desc: "Ta peau n'est plus la première chose à laquelle tu penses le matin." },
-          { title: "Tu arrêtes de perdre de l'argent en produits inutiles.", desc: "Le protocole est construit pour toi. Ajusté si nécessaire. Pas de cycle d'essai-erreur." },
+          { title: "Tu sais enfin pourquoi ta peau réagit.", desc: "Fini les achats au hasard. Chaque produit a un rôle dans ta routine." },
+          { title: "Tu acceptes de te prendre en photo sans avoir peur", desc: "Plus besoin de te préparer psychologiquement avant de sortir ou d'éviter les lumières." },
+          { title: "Fini la crainte du jugement et du regard des autres", desc: "Ta peau n'est plus la première chose à laquelle tu penses le matin." },
+          { title: "Tu arrêtes de perdre de l'argent en produits inutiles.", desc: "Le protocole est construit pour toi. Ajusté si nécessaire." },
         ].map((b) => (
           <div class="flex items-start gap-4" data-reveal>
             <span class="mt-1 shrink-0 text-xl" style="color:oklch(0.66 0.14 45)">✓</span>
@@ -174,33 +174,63 @@ const TESTIMONIALS = [
 
         <!-- Photo AVANT (rectangle) -->
         <div class="relative rounded-3xl overflow-hidden mb-10" data-reveal>
-          <img src="/avant.jpg" alt="Mehdi — il y a 5 ans" loading="lazy"
+          <img src="/avant.jpg" alt="Mehdi — avant" loading="lazy"
             class="w-full object-cover" style="aspect-ratio:4/3;object-position:center 30%" />
-          <span class="absolute bottom-4 left-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.22 0.03 40/0.80);color:white">Il y a 5 ans</span>
+          <span class="absolute bottom-4 left-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.22 0.03 40/0.80);color:white">Avant</span>
         </div>
 
         <!-- Histoire -->
         <div class="space-y-5 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)" data-reveal>
-          <p>Cette photo, c'est moi. <strong>À 18 ans.</strong></p>
-          <p>Des boutons depuis 4 ans. Des marques. Des cicatrices. Des centaines d'euros de produits qui ne servaient à rien. Chaque matin, même miroir, même honte.</p>
-          <p>Jusqu'au jour où un mec en cours me lâche :</p>
+          <p><strong>Je m'appelle Mehdi.</strong></p>
+
+          <p>Pendant des années, j'avais de l'acné. Pas le genre "quelques boutons". Le genre qui te fait refuser des photos, annuler des sorties, éviter la lumière pour pas montrer encore plus tes boutons et te faire juger par les gens.</p>
+
+          <p>J'ai essayé des dizaines de crèmes, de sérums, de gels. Des trucs vendus en pharmacie, des produits vus sur les réseaux, des routines copiées sur des gens qui avaient l'air d'avoir une belle peau. Rien ne marchait.</p>
+
+          <p>Alors j'ai fini par aller voir un dermatologue. Il m'a prescrit un traitement lourd, le genre qu'on réserve aux cas sérieux : le Roaccutane. Ça a marché. Ma peau s'est calmée. Je me sentais enfin normal.</p>
+
+          <p>Mais 2 ans après, j'ai rechuté. Plus fort qu'avant.</p>
+
+          <p>Et là, c'est la phase que personne ne te prépare vraiment. Tu pensais que c'était réglé. Tu pensais que tu avais passé le pire. Et là tu te retrouves dans le miroir, à zéro, avec en plus le sentiment d'avoir gâché la seule solution qui avait marché.</p>
+
+          <p>Mon dermatologue m'a recommandé une deuxième cure. J'ai recommencé. Nouveau traitement lourd. Ça n'a rien changé. J'ai refait Roaccutane une deuxième fois. Effets secondaires qui m'ont handicapé la vie. Puis quelques mois après… j'ai rechuté à nouveau.</p>
+
+          <p>Pendant tout ce temps, les gens qui n'ont jamais eu un seul bouton me donnaient des pseudo-conseils. "T'as essayé de boire plus d'eau ?" "C'est peut-être ton alimentation." "T'as vu ce produit sur TikTok ?"</p>
+
+          <p>On regardait mon visage avec un dégoût qu'ils ne cachaient même pas. Un collègue m'a dit un jour :</p>
           <blockquote class="pull-quote">
-            <p>« Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil… »</p>
+            <p>« Je sais pas comment tu es sorti de chez toi avec un visage pareil. »</p>
           </blockquote>
-          <p>Ce jour-là, j'ai arrêté de chercher le bon produit. J'ai commencé à comprendre <em>ma</em> peau. Son type exact. Ses déclencheurs. Les associations qui l'irritaient sans que je le sache.</p>
-          <p>Deux ans plus tard, j'ai codifié tout ce système. Testé sur moi d'abord. Puis sur d'autres.</p>
+
+          <p>J'avais eu un date quelques temps avant. La fille m'a regardé et m'a dit : "Ah ouais, c'est pas la même personne que sur les photos."</p>
+
+          <p>Ce jour-là, j'avais touché le fond.</p>
+
+          <p>Je suis rentré chez moi. Je me suis regardé dans le miroir. Pas parce que ma peau était abîmée. Parce que je n'attirais plus les gens, je ne voulais plus me montrer, j'évitais les situations où on pouvait me voir de près.</p>
+
+          <p>L'acné ne détruisait pas juste ma peau. <strong>Elle détruisait ma confiance, mon rapport aux autres, et la façon dont les autres me regardaient.</strong></p>
+
+          <p>C'est là que j'ai compris que le problème n'était pas les produits que j'utilisais. C'était que personne n'avait jamais pris le temps de regarder comment ils interagissaient entre eux, comment ma peau réagissait vraiment, et ce dont elle avait spécifiquement besoin.</p>
+
+          <p>Alors j'ai arrêté de chercher LE produit miracle.</p>
+
+          <p>J'ai commencé à comprendre comment la peau et la barrière cutanée fonctionnent vraiment. J'ai construit une méthode. Adaptée à ma peau. Je l'ai appliquée. Et j'ai vu ma peau changer… pour la première fois de façon durable.</p>
         </div>
 
         <!-- Photo APRÈS (rectangle) -->
         <div class="relative rounded-3xl overflow-hidden mt-10" data-reveal>
-          <img src="/mehdi.jpg" alt="Mehdi — aujourd'hui" loading="lazy"
+          <img src="/mehdi.jpg" alt="Mehdi — après" loading="lazy"
             class="w-full object-cover" style="aspect-ratio:4/3;object-position:center 30%" />
-          <span class="absolute bottom-4 right-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.66 0.14 45);color:white">Aujourd'hui</span>
+          <span class="absolute bottom-4 right-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.66 0.14 45);color:white">Après</span>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="space-y-5 text-lg leading-relaxed mt-10" style="color:oklch(0.32 0.03 40)" data-reveal>
+          <p>Aujourd'hui j'accompagne d'autres personnes avec cette méthode. Pour qu'elles arrêtent de se cacher. Pour qu'elles acceptent de prendre des photos sans avoir peur. Pour qu'elles reprennent confiance en elles et dans leur propre peau.</p>
         </div>
 
         <div class="mt-6 text-center" data-reveal>
           <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Mehdi · Fondateur de Protocole Clear</p>
-          <p class="text-xs mt-1" style="color:oklch(0.55 0.03 50)">5 ans d'acné · Des centaines d'heures à décortiquer la barrière cutanée</p>
         </div>
 
       </div>
