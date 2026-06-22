@@ -93,7 +93,7 @@ const TESTIMONIALS = [
     </nav>
 
     <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
-    <section class="hero-section relative min-h-screen flex flex-col items-center px-4 pt-20 md:pt-32 pb-12 text-center overflow-hidden">
+    <section data-section="hero" class="hero-section relative min-h-screen flex flex-col items-center px-4 pt-20 md:pt-32 pb-12 text-center overflow-hidden">
 
       <!-- Animated blobs -->
       <div class="blob blob-1"></div>
@@ -142,7 +142,7 @@ const TESTIMONIALS = [
     </section>
 
     <!-- ─── BÉNÉFICES ───────────────────────────────────────────────────────────── -->
-    <section class="px-6 py-16" style="background:oklch(0.985 0.012 75)">
+    <section data-section="benefices" class="px-6 py-16" style="background:oklch(0.985 0.012 75)">
       <div class="max-w-xl mx-auto space-y-10">
         {[
           { title: "Tu sais enfin pourquoi ta peau réagit.", desc: "Fini les achats au hasard. Chaque produit a un rôle dans ta routine." },
@@ -169,7 +169,7 @@ const TESTIMONIALS = [
     </div>
 
     <!-- ─── STORYTELLING ──────────────────────────────────────────────────────── -->
-    <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)">
+    <section data-section="storytelling" class="px-6 py-16" style="background:oklch(0.965 0.025 75)">
       <div class="max-w-lg mx-auto">
 
         <!-- Photo AVANT (rectangle portrait) -->
@@ -247,7 +247,7 @@ const TESTIMONIALS = [
     </div>
 
     <!-- ─── TÉMOIGNAGES (carousel) ────────────────────────────────────────────── -->
-    <div style="background:oklch(0.985 0.012 75)">
+    <div data-section="temoignages" style="background:oklch(0.985 0.012 75)">
       <Testimonials testimonials={TESTIMONIALS} />
     </div>
 
@@ -259,7 +259,7 @@ const TESTIMONIALS = [
     </div>
 
     <!-- ─── FAQ ──────────────────────────────────────────────────────────────── -->
-    <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
+    <section data-section="faq" class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
         <p class="eyebrow text-center">Questions fréquentes</p>
         <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
@@ -298,7 +298,7 @@ const TESTIMONIALS = [
     </div>
 
     <!-- ─── CTA FINAL (sombre — miroir de la pricing card) ───────────────────── -->
-    <section class="final-cta relative overflow-hidden py-20 px-6 text-center" style="background:oklch(0.22 0.03 40)" data-reveal>
+    <section data-section="cta_final" class="final-cta relative overflow-hidden py-20 px-6 text-center" style="background:oklch(0.22 0.03 40)" data-reveal>
       <div class="relative z-10 max-w-2xl mx-auto">
         <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.99 0.01 80)">
           Une peau comprise, dans<br />
@@ -817,14 +817,38 @@ const TESTIMONIALS = [
     window.addEventListener('scroll', updateSticky, { passive: true });
   }
 
-  // ─── VSL Bunny Stream : tracking via postMessage
+  // ─── VSL Bunny Stream : tracking via postMessage (play/pause/ended + % regardé)
+  const vslMarks = new Set<number>();
   window.addEventListener('message', (e) => {
     if (!String(e.origin).includes('mediadelivery.net')) return;
-    const { event } = (e.data || {}) as { event?: string };
-    if (event === 'play') track('vsl_play');
-    if (event === 'pause') track('vsl_pause');
-    if (event === 'ended') track('vsl_ended');
+    const data = (e.data || {}) as { event?: string; currentTime?: number; duration?: number };
+    if (data.event === 'play') track('vsl_play');
+    if (data.event === 'pause') track('vsl_pause');
+    if (data.event === 'ended') { track('vsl_ended'); vslMarks.add(100); }
+    if (data.event === 'timeupdate' && data.currentTime && data.duration) {
+      const pct = (data.currentTime / data.duration) * 100;
+      for (const mark of [25, 50, 75]) {
+        if (pct >= mark && !vslMarks.has(mark)) {
+          vslMarks.add(mark);
+          track('vsl_watched', { percent: mark });
+        }
+      }
+    }
   });
+
+  // ─── Sections vues : savoir quelles sections l'utilisateur a réellement atteintes
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const section = (entry.target as HTMLElement).dataset.section;
+        if (section) {
+          track('section_viewed', { section });
+          sectionObserver.unobserve(entry.target);
+        }
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('[data-section]').forEach((el) => sectionObserver.observe(el));
 
   // ─── Scroll reveal (sections 3+ only)
   const observer = new IntersectionObserver((entries) => {
