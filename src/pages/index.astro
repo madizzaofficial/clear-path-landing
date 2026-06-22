@@ -172,10 +172,10 @@ const TESTIMONIALS = [
     <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)">
       <div class="max-w-lg mx-auto">
 
-        <!-- Photo AVANT (rectangle) -->
-        <div class="relative rounded-3xl overflow-hidden mb-10" data-reveal>
+        <!-- Photo AVANT (rectangle portrait) -->
+        <div class="relative rounded-3xl overflow-hidden mb-10 mx-auto" style="max-width:260px" data-reveal>
           <img src="/avant.jpg" alt="Mehdi — avant" loading="lazy"
-            class="w-full object-cover" style="aspect-ratio:4/3;object-position:center 30%" />
+            class="w-full object-cover" style="aspect-ratio:3/4;object-position:center 30%" />
           <span class="absolute bottom-4 left-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.22 0.03 40/0.80);color:white">Avant</span>
         </div>
 
@@ -202,7 +202,10 @@ const TESTIMONIALS = [
             <p>« Je sais pas comment tu es sorti de chez toi avec un visage pareil. »</p>
           </blockquote>
 
-          <p>J'avais eu un date quelques temps avant. La fille m'a regardé et m'a dit : "Ah ouais, c'est pas la même personne que sur les photos."</p>
+          <p>J'avais eu un date quelques temps avant. La fille m'a regardé et m'a dit :</p>
+          <blockquote class="pull-quote">
+            <p>« Ah ouais, c'est pas la même personne que sur les photos. »</p>
+          </blockquote>
 
           <p>Ce jour-là, j'avais touché le fond.</p>
 
@@ -217,10 +220,10 @@ const TESTIMONIALS = [
           <p>J'ai commencé à comprendre comment la peau et la barrière cutanée fonctionnent vraiment. J'ai construit une méthode. Adaptée à ma peau. Je l'ai appliquée. Et j'ai vu ma peau changer… pour la première fois de façon durable.</p>
         </div>
 
-        <!-- Photo APRÈS (rectangle) -->
-        <div class="relative rounded-3xl overflow-hidden mt-10" data-reveal>
-          <img src="/mehdi.jpg" alt="Mehdi — après" loading="lazy"
-            class="w-full object-cover" style="aspect-ratio:4/3;object-position:center 30%" />
+        <!-- Photo APRÈS (rectangle portrait) -->
+        <div class="relative rounded-3xl overflow-hidden mt-10 mx-auto" style="max-width:260px" data-reveal>
+          <img src="/apres.jpg" alt="Mehdi — après" loading="lazy"
+            class="w-full object-cover" style="aspect-ratio:3/4;object-position:center 30%" />
           <span class="absolute bottom-4 right-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.66 0.14 45);color:white">Après</span>
         </div>
 
@@ -264,13 +267,13 @@ const TESTIMONIALS = [
         </h2>
         <div class="space-y-4">
           {[
-            { q: "Est-ce que ça marche vraiment ?", a: "Les témoignages sur cette page sont réels, avec leurs photos avant/après. Ce n'est pas une méthode universelle : elle est construite sur ton profil peau spécifique, ajustée chaque semaine. Les premières améliorations apparaissent généralement entre 4 et 6 semaines." },
+            { q: "Est-ce que ça marche vraiment ?", a: "Les témoignages sur cette page sont réels, avec leurs photos avant/après. Ce n'est pas une méthode universelle : elle est construite sur ton profil peau spécifique, ajustée chaque semaine. Les premières améliorations apparaissent généralement entre 8 et 12 semaines." },
             { q: "Et si ça ne marche pas pour moi ?", a: "Si tu as suivi le protocole sérieusement pendant 90 jours, complété tes suivis et envoyé tes photos, mais qu'aucune évolution positive n'est visible, je prolonge l'accompagnement 30 jours sans frais. Et si ta situation nécessite un avis médical, je te le dis clairement plutôt que de te faire perdre ton temps." },
             { q: "C'est quoi la différence avec une routine trouvée sur TikTok ?", a: "Une routine TikTok est copiée-collée sans tenir compte de ton type de peau, de ton type d'acné, de tes produits actuels, ni de ta réaction réelle. Ici, chaque produit est sélectionné pour toi, et la routine est ajustée chaque semaine selon tes métriques." },
             { q: "Je dois acheter de nouveaux produits en plus ?", a: "Oui, les produits ne sont pas inclus dans les 97€. Ils sont sélectionnés selon ton profil et ton budget existant : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
             { q: "Combien de temps ça prend par jour ?", a: "La routine prend 5 à 10 minutes matin et soir. Les suivis hebdomadaires dans l'app prennent 5 minutes. Le reste, c'est moi qui travaille." },
             { q: "Est-ce que tu es dermatologue ?", a: "Non. Je ne suis pas dermatologue et je ne remplace pas un avis médical. Je ne diagnostique pas de maladie et je ne modifie jamais un traitement prescrit. Mon rôle : optimiser ta routine cosmétique, identifier les associations irritantes, et suivre méthodiquement la réaction de ta peau. Si ta situation nécessite un dermatologue, je te le dirai." },
-            { q: `Pourquoi ${PRICE}€ et pas plus cher ?`, a: `Le prix couvre 90 jours de suivi individuel, l'accès à vie à l'application, le bilan initial et tous les ajustements de routine. Pour comparaison : 3 mois d'essais de produits au hasard en pharmacie coûtent facilement 150 à 300€ sans résultat garanti.` },
+            { q: `Pourquoi ${PRICE}€ et pas plus cher ?`, a: `Le prix couvre 90 jours de suivi individuel, l'accès à vie à l'application, le bilan initial et tous les ajustements de routine. Pour comparaison : 3 mois d'essais de produits au hasard en pharmacie coûtent facilement 300€ sans résultat garanti.` },
             { q: "C'est quoi exactement Protocole Clear ?", a: "Un protocole acné en 3 étapes : un bilan peau complet, une routine matin/soir construite pour ton profil exact, et 90 jours de suivi coach avec ajustements inclus. Tout centralisé dans une application web, sans téléchargement." },
           ].map((item) => (
             <details class="faq-item group rounded-2xl border overflow-hidden" style="border-color:oklch(0.91 0.02 65)">
