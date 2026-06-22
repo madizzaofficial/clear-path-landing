@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
+import Testimonials from "../components/Testimonials.astro";
 
 const PRICE = "97";
 const PRICE_ORIGINAL = "197";
@@ -12,6 +13,33 @@ const INSTAGRAM_URL = "https://instagram.com/glowupbymehdi";
 // VSL hébergée sur Bunny Stream — iframe intégrée directement dans le hero.
 
 const STICKY_CTA = false;
+
+const TESTIMONIALS = [
+  {
+    name: "Camélia",
+    age: "20 ans",
+    profile: "Peau grasse · Acné hormonal sur menton + joues",
+    duration: "90 jours de protocole",
+    avant: ["/camelia-avant-joues.png", "/camelia-avant-menton.png"],
+    apres: ["/camelia-apres-joues.png", "/camelia-apres-menton.png"],
+  },
+  {
+    name: "Georges",
+    age: "21 ans",
+    profile: "Peau grasse · Comédons + Acné",
+    duration: "70 jours de protocole",
+    avant: ["/georges-avant.png"],
+    apres: ["/georges-apres.png"],
+  },
+  {
+    name: "Nathan",
+    age: "19 ans",
+    profile: "Peau grasse · Acné inflammatoire générale",
+    duration: "90 jours de protocole",
+    avant: ["/nathan-avant.png"],
+    apres: ["/nathan-apres.png"],
+  },
+];
 ---
 
 <!doctype html>
@@ -82,7 +110,7 @@ const STICKY_CTA = false;
 
         <!-- Sous-ligne — visible sur tous les écrans -->
         <p class="text-base italic max-w-sm" style="color:oklch(0.5 0.03 45)">
-          Une méthode sur mesure pour ta peau. Les places sont limitées.
+          Protocole acné sur mesure. Suivi coach 90 jours. Peu de places.
         </p>
 
         <!-- VSL Bunny Stream -->
@@ -105,7 +133,7 @@ const STICKY_CTA = false;
           </a>
           <div class="text-center max-w-xs space-y-1">
             <p class="text-sm" style="color:oklch(0.45 0.03 45)">⏳ Le suivi est individuel. Lorsque ma capacité est atteinte, les inscriptions ferment temporairement.</p>
-            <p class="text-sm" style="color:oklch(0.55 0.03 50)">Chaque semaine sans méthode, c'est une semaine de plus à tester au hasard.</p>
+            <p class="text-sm" style="color:oklch(0.55 0.03 50)">Chaque semaine sans méthode, c'est une semaine de plus à tester des produits au hasard et à laisser des cicatrices sur ta peau à vie.</p>
           </div>
         </div>
 
@@ -236,6 +264,73 @@ const STICKY_CTA = false;
 
     </section>
 
+    <!-- ─── WAVE (crème → foncé) ─────────────────────────────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
+      </svg>
+    </div>
+
+    <!-- ─── STORYTELLING ──────────────────────────────────────────────────────── -->
+    <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)">
+      <div class="max-w-2xl mx-auto">
+
+        <!-- Photo AVANT — en tête du storytelling -->
+        <div class="mb-10 text-center" data-reveal>
+          <div class="inline-block relative">
+            <img src="/avant.jpg" alt="Mehdi avant — 5 ans d'acné" loading="lazy"
+              class="w-48 h-48 sm:w-56 sm:h-56 object-cover rounded-full mx-auto"
+              style="object-position:center 30%;border:4px solid oklch(0.86 0.08 50);box-shadow:0 8px 32px oklch(0.4 0.05 40/0.15)" />
+            <span class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-bold px-3 py-1 rounded-full" style="background:oklch(0.22 0.03 40/0.80);color:white;white-space:nowrap">Il y a 5 ans</span>
+          </div>
+        </div>
+
+        <!-- Histoire -->
+        <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)" data-reveal>
+          <p>Cette photo, c'est moi. <strong>À 18 ans.</strong></p>
+          <p>Des boutons depuis 4 ans. Des marques. Des cicatrices. Des centaines d'euros de produits qui ne servaient à rien. Chaque matin, même miroir, même honte.</p>
+          <p>Jusqu'au jour où un mec en cours me lâche :</p>
+          <blockquote class="pull-quote">
+            <p>« Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil… »</p>
+          </blockquote>
+          <p>Ce jour-là, j'ai arrêté de chercher le bon produit. J'ai commencé à comprendre <em>ma</em> peau. Son type exact. Ses déclencheurs. Les associations qui l'irritaient sans que je le sache.</p>
+          <p>Deux ans plus tard, j'ai codifié tout ce système. Testé sur moi d'abord. Puis sur d'autres. Les résultats parlent d'eux-mêmes.</p>
+        </div>
+
+        <!-- Photo APRÈS — à la fin du storytelling -->
+        <div class="mt-10 text-center" data-reveal>
+          <div class="inline-block relative">
+            <img src="/mehdi.jpg" alt="Mehdi après — peau claire" loading="lazy"
+              class="w-48 h-48 sm:w-56 sm:h-56 object-cover rounded-full mx-auto"
+              style="object-position:center 30%;border:4px solid oklch(0.66 0.14 45);box-shadow:0 8px 32px oklch(0.66 0.14 45/0.25)" />
+            <span class="absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-bold px-3 py-1 rounded-full" style="background:oklch(0.66 0.14 45);color:white;white-space:nowrap">Aujourd'hui</span>
+          </div>
+          <p class="mt-4 text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Mehdi · Fondateur de Protocole Clear</p>
+          <p class="text-xs mt-1" style="color:oklch(0.55 0.03 50)">5 ans d'acné · Des centaines d'heures à décortiquer la barrière cutanée</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── WAVE (foncé → crème) ─────────────────────────────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,45 C480,0 960,60 1440,15 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
+      </svg>
+    </div>
+
+    <!-- ─── TÉMOIGNAGES (carousel) ────────────────────────────────────────────── -->
+    <div style="background:oklch(0.985 0.012 75)">
+      <Testimonials testimonials={TESTIMONIALS} />
+    </div>
+
+    <!-- ─── WAVE (crème → crème : FAQ garde le même fond) ────────────────────── -->
+    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
+      </svg>
+    </div>
+
     <!-- ─── FAQ ──────────────────────────────────────────────────────────────── -->
     <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
       <div class="max-w-2xl mx-auto">
@@ -245,7 +340,7 @@ const STICKY_CTA = false;
         </h2>
         <div class="space-y-4">
           {[
-            { q: "Est-ce que ça marche vraiment ?", a: "Les trois témoignages sur cette page, Camélia, Georges, Nathan, sont réels, avec leurs photos avant/après. Ce n'est pas une méthode universelle : elle est construite sur ton profil peau spécifique, ajustée chaque semaine. Les premières améliorations apparaissent généralement entre 4 et 6 semaines." },
+            { q: "Est-ce que ça marche vraiment ?", a: "Les témoignages sur cette page sont réels, avec leurs photos avant/après. Ce n'est pas une méthode universelle : elle est construite sur ton profil peau spécifique, ajustée chaque semaine. Les premières améliorations apparaissent généralement entre 4 et 6 semaines." },
             { q: "Et si ça ne marche pas pour moi ?", a: "Si tu as suivi le protocole sérieusement pendant 90 jours, complété tes suivis et envoyé tes photos, mais qu'aucune évolution positive n'est visible, je prolonge l'accompagnement 30 jours sans frais. Et si ta situation nécessite un avis médical, je te le dis clairement plutôt que de te faire perdre ton temps." },
             { q: "C'est quoi la différence avec une routine trouvée sur TikTok ?", a: "Une routine TikTok est copiée-collée sans tenir compte de ton type de peau, de ton type d'acné, de tes produits actuels, ni de ta réaction réelle. Ici, chaque produit est sélectionné pour toi, et la routine est ajustée chaque semaine selon tes métriques." },
             { q: "Je dois acheter de nouveaux produits en plus ?", a: "Oui, les produits ne sont pas inclus dans les 97€. Ils sont sélectionnés selon ton profil et ton budget existant : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
@@ -624,6 +719,20 @@ const STICKY_CTA = false;
     color: oklch(0.66 0.14 45 / 0.08);
     pointer-events: none;
     user-select: none;
+  }
+
+  /* ─── Pull quote (storytelling) ─── */
+  .pull-quote {
+    border-left: 3px solid oklch(0.66 0.14 45);
+    padding: 12px 20px;
+    margin: 4px 0;
+    border-radius: 0 12px 12px 0;
+    background: oklch(0.86 0.08 50 / 0.25);
+  }
+  .pull-quote p {
+    font-style: italic;
+    color: oklch(0.38 0.04 40);
+    font-size: 1.05rem;
   }
 
   /* ─── Eyebrow (label de section) ─── */
