@@ -1,7 +1,6 @@
 ---
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
-import Testimonials from "../components/Testimonials.astro";
 
 const PRICE = "97";
 const PRICE_ORIGINAL = "197";
@@ -12,40 +11,7 @@ const INSTAGRAM_URL = "https://instagram.com/glowupbymehdi";
 
 // VSL hébergée sur Bunny Stream — iframe intégrée directement dans le hero.
 
-// Barre CTA sticky mobile en bas d'écran. Désactivée : redondante avec le CTA
-// navbar toujours visible. Repasse à true si les données montrent qu'elle manque.
 const STICKY_CTA = false;
-
-// ── Témoignages ──────────────────────────────────────────────────────────────
-// Passe à `true` quand tu as remplacé les placeholders par de vrais retours.
-// N'active JAMAIS avec des témoignages fictifs (risque légal + confiance).
-const SHOW_TESTIMONIALS = true;
-const TESTIMONIALS = [
-  {
-    name: "Camélia",
-    age: "20 ans",
-    profile: "Peau grasse · Acné hormonal sur menton + joues",
-    duration: "90 jours de protocole",
-    avant: ["/camelia-avant-joues.png", "/camelia-avant-menton.png"],
-    apres: ["/camelia-apres-joues.png", "/camelia-apres-menton.png"],
-  },
-  {
-    name: "Georges",
-    age: "21 ans",
-    profile: "Peau grasse · Comédons + Acné",
-    duration: "70 jours de protocole",
-    avant: ["/georges-avant.png"],
-    apres: ["/georges-apres.png"],
-  },
-  {
-    name: "Nathan",
-    age: "19 ans",
-    profile: "Peau grasse · Acné inflammatoire générale",
-    duration: "90 jours de protocole",
-    avant: ["/nathan-avant.png"],
-    apres: ["/nathan-apres.png"],
-  },
-];
 ---
 
 <!doctype html>
@@ -94,7 +60,7 @@ const TESTIMONIALS = [
         </span>
       </div>
       <a href={CTA_URL} data-cta="navbar" class="btn-primary flex min-h-11 items-center rounded-full px-5 text-sm font-semibold">
-        Changer ma peau →
+        Commencer le protocole →
       </a>
     </nav>
 
@@ -116,7 +82,7 @@ const TESTIMONIALS = [
 
         <!-- Sous-ligne — visible sur tous les écrans -->
         <p class="text-base italic max-w-sm" style="color:oklch(0.5 0.03 45)">
-          Le problème n'a jamais été toi, c'était l'absence de méthode.
+          Une méthode sur mesure pour ta peau. Les places sont limitées.
         </p>
 
         <!-- VSL Bunny Stream -->
@@ -132,297 +98,143 @@ const TESTIMONIALS = [
           </div>
         </div>
 
-        <!-- CTA sous la vidéo -->
-        <div class="hero-cta flex flex-col items-center gap-2">
-          <a href={CTA_URL} data-cta="hero" class="btn-primary inline-block rounded-full px-7 py-4 text-base font-bold">
-            Je veux changer ma peau →
+        <!-- CTA + urgence sous la vidéo -->
+        <div class="hero-cta flex flex-col items-center gap-3 w-full">
+          <a href={CTA_URL} data-cta="hero" class="btn-primary rounded-full px-8 py-4 text-base font-bold w-full sm:w-auto" style="min-height:56px;display:flex;align-items:center;justify-content:center;max-width:360px">
+            Commencer le protocole →
           </a>
-          <p class="text-xs" style="color:oklch(0.55 0.03 50)">
-            {PRICE}€ unique · Bilan peau en 48h · Garantie 90 jours
-          </p>
+          <div class="text-center max-w-xs space-y-1">
+            <p class="text-sm" style="color:oklch(0.45 0.03 45)">⏳ Le suivi est individuel. Lorsque ma capacité est atteinte, les inscriptions ferment temporairement.</p>
+            <p class="text-sm" style="color:oklch(0.55 0.03 50)">Chaque semaine sans méthode, c'est une semaine de plus à tester au hasard.</p>
+          </div>
         </div>
 
       </div>
 
     </section>
 
-    <!-- ─── BANDE BÉNÉFICES (compacte, sous le hero) ─────────────────────────── -->
-    <section class="px-6 pb-14" data-reveal>
-      <div class="max-w-3xl mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {[
-          { title: "Bilan peau personnalisé", desc: "Questionnaire complet + analyse de tes photos par le coach" },
-          { title: "Routine sur mesure", desc: "Produits AM/PM sélectionnés pour ton profil exact, avec instructions" },
-          { title: "Suivi coach 90 jours", desc: "Métriques hebdomadaires + ajustements de routine inclus" },
-          { title: "WhatsApp privé", desc: "Accès direct à Mehdi pour toutes tes questions" },
-        ].map((b) => (
-          <div class="flex items-start gap-3 rounded-2xl border p-4" style="border-color:oklch(0.91 0.02 65);background:oklch(0.995 0.006 80)">
-            <span class="proof-check mt-0.5 shrink-0">✓</span>
-            <div>
-              <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">{b.title}</p>
-              <p class="text-xs mt-0.5 leading-snug" style="color:oklch(0.55 0.03 50)">{b.desc}</p>
+    <!-- ─── BLOC 5 : BÉNÉFICES + TÉMOIGNAGES (alternés) ─────────────────────── -->
+    <section style="background:oklch(0.985 0.012 75)">
+
+      <!-- Bénéfice 1 -->
+      <div class="px-6 pt-16 pb-10 max-w-xl mx-auto text-center" data-reveal>
+        <p class="text-2xl font-bold leading-snug" style="color:oklch(0.22 0.03 40)">
+          Tu sais enfin pourquoi ta peau réagit,<br />et comment la calmer.
+        </p>
+        <p class="text-base mt-3" style="color:oklch(0.5 0.03 45)">
+          Fini les achats au hasard. Chaque produit a une raison d'être dans ta routine.
+        </p>
+      </div>
+
+      <!-- Témoignage Camélia -->
+      <div class="px-6 pb-14 max-w-xl mx-auto" data-reveal>
+        <figure class="rounded-3xl overflow-hidden" style="box-shadow:0 1px 2px oklch(0.4 0.05 40/0.04),0 8px 24px oklch(0.4 0.05 40/0.08)">
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="relative">
+              <img src="/camelia-avant-joues.png" alt="Camélia avant" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--avant">Avant</span>
+            </div>
+            <div class="relative">
+              <img src="/camelia-apres-joues.png" alt="Camélia après" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--apres">Après</span>
             </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    <!-- ─── WAVE 1 ────────────────────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── HOOK : HISTOIRE (no reveal — 2ème bloc visible) ─────────────────── -->
-    <section style="background:oklch(0.965 0.025 75)" class="px-6 py-16">
-      <div class="max-w-2xl mx-auto">
-        <div class="space-y-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-          <p>La photo de gauche, là-haut&nbsp;? <strong>C'est moi.</strong> Il y a 5 ans.</p>
-          <p>Des boutons. Des marques. Des cicatrices que rien ne faisait partir. J'ai tout essayé : produits, traitements, routines. Des centaines d'euros engloutis pour des résultats qui ne venaient pas.</p>
-          <p>Jusqu'au jour où un collègue m'a lâché :</p>
-          <blockquote class="pull-quote">
-            <p>« Mon pauvre, je sais pas comment tu es sorti de chez toi avec un visage pareil… »</p>
-          </blockquote>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── PIVOT — conclusion du bloc histoire ──────────────────────────────── -->
-    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-      <div class="max-w-2xl mx-auto">
-        <div class="rounded-3xl p-8 text-center" style="background:oklch(0.86 0.08 50)">
-          <p class="text-xl font-semibold leading-snug" style="color:oklch(0.32 0.08 40)">
-            Le problème, c'est pas les produits.<br />
-            C'est qu'ils sont faits pour <em>tout le monde</em>.<br />
-            Et toi, t'es pas tout le monde.
-          </p>
-        </div>
-        <p class="mt-6 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)">
-          J'ai arrêté de chercher le prochain produit miracle. J'ai construit un système adapté à <em>ma</em> peau, ajusté semaine après semaine. C'est ce protocole que j'ai codifié pour toi.
-        </p>
-      </div>
-    </section>
-
-    <!-- ─── QUI JE SUIS ──────────────────────────────────────────────────────── -->
-    <section class="px-6 pb-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-      <div class="max-w-2xl mx-auto">
-        <div class="coach-card flex flex-col sm:flex-row items-center gap-6 rounded-3xl p-7" style="background:oklch(0.995 0.006 80)">
-          <img src="/mehdi.jpg" alt="Mehdi, fondateur de Protocole Clear"
-            class="h-28 w-28 shrink-0 rounded-full object-cover"
-            style="border:3px solid oklch(0.86 0.08 50)" loading="lazy" />
-          <div class="text-center sm:text-left">
-            <p class="font-display text-xl font-semibold mb-1" style="color:oklch(0.22 0.03 40)">Moi, c'est Mehdi.</p>
-            <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">
-              5 ans d'acné, des centaines d'heures à décortiquer les compositions et la barrière cutanée. Aujourd'hui, j'accompagne chaque élève personnellement pendant 90 jours jusqu'à amélioration visible.
-            </p>
-          </div>
-        </div>
-
-        <!-- CTA intégré au flux — même fond, pas de rupture visuelle -->
-        <div class="mt-10 text-center">
-          <a href={CTA_URL} data-cta="mi-page" class="btn-primary inline-block rounded-full px-7 py-4 text-base font-bold">
-            Je veux changer ma peau →
-          </a>
-          <p class="text-xs mt-3" style="color:oklch(0.55 0.03 50)">
-            Paiement unique de {PRICE}€ · Bilan peau prêt en 48h max · Garantie résultat 90 jours
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── TÉMOIGNAGES (îlot blanc complet : vague + section + vague) ───────── -->
-    {SHOW_TESTIMONIALS && (
-      <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
-        </svg>
-      </div>
-    )}
-    {SHOW_TESTIMONIALS && <Testimonials testimonials={TESTIMONIALS} />}
-
-    {SHOW_TESTIMONIALS && (
-      <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
-        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-        </svg>
-      </div>
-    )}
-
-    <!-- ─── LA MÉTHODE ───────────────────────────────────────────────────────── -->
-    <section class="pt-8 pb-16 px-6 md:py-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-      <div class="max-w-4xl mx-auto">
-        <p class="eyebrow text-center">La méthode</p>
-        <h2 class="text-3xl font-bold text-center mb-4 md:text-5xl text-balance" style="color:oklch(0.22 0.03 40)">
-          Protocole Clear, c'est pas une routine.<br />
-          <span class="text-gradient">C'est un système.</span>
-        </h2>
-        <p class="text-center text-lg max-w-xl mx-auto mb-16" style="color:oklch(0.5 0.03 45)">
-          Construit autour de ton profil peau unique, ajusté chaque semaine par un coach.
-        </p>
-
-        <div class="grid gap-6 md:grid-cols-3">
-          {[
-            { num: "01", title: "Bilan peau", desc: "Tu remplis ton bilan complet : type de peau, types d'acné, intensité, routine actuelle, objectif. Tu envoies tes photos. Le coach analyse et construit ta routine sur mesure.",
-              icon: "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9 2 2 4-4" },
-            { num: "02", title: "Routine sur mesure", desc: "Le coach sélectionne les produits adaptés à ton profil exact dans l'application. Routine matin et soir, ordre d'application, instructions précises. Analyseur INCI inclus.",
-              icon: "M12 2.7 6.3 8.4a8 8 0 1 0 11.4 0L12 2.7Z" },
-            { num: "03", title: "Suivi 90 jours", desc: "Chaque semaine, tu notes tes métriques. Le coach analyse l'évolution et ajuste la routine si nécessaire.",
-              icon: "m22 7-8.5 8.5-5-5L2 17M16 7h6v6" },
-          ].map((p) => (
-            <div class="method-card relative overflow-hidden rounded-3xl p-8 flex flex-col gap-4">
-              <span class="ghost-num font-display" aria-hidden="true">{p.num}</span>
-              <span class="method-icon flex h-11 w-11 items-center justify-center rounded-2xl" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={p.icon} />
-                </svg>
-              </span>
-              <h3 class="text-xl font-bold" style="color:oklch(0.22 0.03 40)">{p.title}</h3>
-              <p class="text-sm leading-relaxed" style="color:oklch(0.5 0.03 45)">{p.desc}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="relative">
+              <img src="/camelia-avant-menton.png" alt="Camélia avant (menton)" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--avant">Avant</span>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── WAVE 4 ────────────────────────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,45 C360,0 1080,60 1440,15 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── CE QUE TU REÇOIS ─────────────────────────────────────────────────── -->
-    <section class="max-w-4xl mx-auto px-6 py-16" data-reveal>
-      <p class="eyebrow text-center">L'offre</p>
-      <h2 class="text-3xl font-bold text-center mb-16 md:text-5xl" style="color:oklch(0.22 0.03 40)">
-        Tout ce dont tu as besoin.<br />Rien de superflu.
-      </h2>
-
-      <div class="grid gap-4 md:grid-cols-2 mb-16">
-        {[
-          ["Application web privée", "Accès à vie à ton espace personnel avec des outils pour soutenir ton protocole"],
-          ["Bilan peau initial", "Formulaire complet + analyse de tes photos par le coach"],
-          ["Routine matin/soir sur mesure", "Produits sélectionnés pour ton profil exact, avec instructions précises"],
-          ["Analyseur INCI", "Scanne n'importe quel produit et sache instantanément s'il est adapté à ta peau"],
-          ["Suivi hebdomadaire coach", "90 jours de suivi avec métriques, photos de progression et ajustements"],
-          ["Ajustements de routine inclus", "Si quelque chose ne marche pas, la routine est adaptée. Pas de frais supplémentaires."],
-        ].map(([title, desc]) => (
-          <div class="feature-card flex gap-4 rounded-2xl border p-5" style="border-color:oklch(0.91 0.02 65)">
-            <span class="mt-0.5 text-lg" style="color:oklch(0.66 0.14 45)">✓</span>
-            <div>
-              <p class="font-semibold" style="color:oklch(0.22 0.03 40)">{title}</p>
-              <p class="text-sm mt-0.5" style="color:oklch(0.5 0.03 45)">{desc}</p>
+            <div class="relative">
+              <img src="/camelia-apres-menton.png" alt="Camélia après (menton)" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--apres">Après</span>
             </div>
           </div>
-        ))}
+          <figcaption class="px-5 py-4" style="background:oklch(0.995 0.006 80)">
+            <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Camélia · 20 ans · Peau grasse</p>
+            <p class="text-xs mt-0.5" style="color:oklch(0.55 0.03 50)">Acné hormonal sur menton et joues · 90 jours de protocole</p>
+            <p class="text-sm mt-2 italic" style="color:oklch(0.4 0.03 42)">"Acné au menton et sur les joues depuis des années. Nette amélioration visible en 90 jours."</p>
+          </figcaption>
+        </figure>
       </div>
 
-      <!-- Pricing card -->
-      <div class="pricing-card max-w-md mx-auto rounded-4xl p-10 text-center relative overflow-hidden">
-        <div class="pricing-glow absolute inset-0 -z-0"></div>
-        <div class="relative z-10">
-          <p class="text-xs font-bold uppercase tracking-widest mb-4" style="color:oklch(0.66 0.14 45)">
-            Protocole Clear · 90 jours
-          </p>
-          <div class="flex items-center justify-center gap-3 mb-2">
-            <span class="text-2xl font-medium line-through" style="color:oklch(0.55 0.03 60)">{PRICE_ORIGINAL}€</span>
-            <span class="text-6xl font-bold font-display" style="color:oklch(0.99 0.01 80)">{PRICE}€</span>
-          </div>
-          <p class="text-sm mb-8" style="color:oklch(0.7 0.03 60)">90 jours de suivi coach · Application à vie</p>
-          <a href={CTA_URL} data-cta="pricing" class="btn-primary block rounded-full px-8 py-4 text-base font-bold mb-4">
-            Je veux changer ma peau →
-          </a>
-          <p class="text-xs js-places" style="color:oklch(0.7 0.03 60)">Suivi individuel · Places limitées chaque mois</p>
-          <div style="margin-top:20px;padding:14px 16px;border-radius:16px;background:oklch(0.18 0.02 40);border:1px solid oklch(0.3 0.04 45)">
-            <p style="margin:0;font-size:12px;color:oklch(0.75 0.05 60);line-height:1.55">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="oklch(0.85 0.06 60)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:-2px;margin-right:4px"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><strong style="color:oklch(0.85 0.06 60)">Garantie d'accompagnement sérieux</strong><br>
-              Si tu as suivi le protocole, complété tes suivis et envoyé tes photos, mais qu'aucune évolution positive n'est visible après 90 jours, je prolonge ton accompagnement de 30 jours, sans frais.
-            </p>
-          </div>
-          <p class="text-xs mt-4 text-left leading-relaxed" style="color:oklch(0.62 0.02 50)">
-            Je ne suis pas dermatologue et ne remplace pas un avis médical. Mon rôle : optimiser ta routine, identifier les associations irritantes, suivre la réaction de ta peau. Si ta situation nécessite un dermatologue, je te le dirai.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ─── WAVE 5 (blanc → crème) ──────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── DEUX CHEMINS (comparatif) ────────────────────────────────────────── -->
-    <section class="px-6 py-16" style="background:oklch(0.965 0.025 75)" data-reveal>
-    <div class="max-w-3xl mx-auto">
-      <p class="eyebrow text-center">Le choix</p>
-      <h2 class="text-3xl font-bold mb-12 md:text-4xl text-balance text-center" style="color:oklch(0.22 0.03 40)">
-        Là, maintenant, t'as deux options.
-      </h2>
-
-      <div class="grid gap-4 md:grid-cols-2 md:gap-6">
-        <!-- Porte 1 : ne rien faire (affichée en premier, on finit sur le positif) -->
-        <div class="compare-card rounded-3xl p-7" style="background:oklch(0.99 0.01 75);border:1px solid oklch(0.89 0.03 50)">
-          <p class="text-sm font-bold uppercase tracking-widest mb-5" style="color:oklch(0.55 0.10 30)">
-            Si tu ne fais rien
-          </p>
-          <ul class="space-y-4">
-            {[
-              "Tu continues à tester des produits au hasard",
-              "Encore 200 ou 300€ qui finissent dans le vent",
-              "Les marques s'installent, et elles sont plus dures à traiter chaque mois",
-              "Dans 3 mois : même miroir, même honte",
-            ].map((t) => (
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5 shrink-0 font-bold" style="color:oklch(0.60 0.14 30)">✗</span>
-                <span class="text-sm leading-relaxed" style="color:oklch(0.45 0.04 40)">{t}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Porte 2 : rejoindre le protocole -->
-        <div class="compare-card rounded-3xl p-7" style="background:oklch(0.995 0.006 80);border:2px solid oklch(0.66 0.14 45)">
-          <p class="text-sm font-bold uppercase tracking-widest mb-5" style="color:oklch(0.66 0.14 45)">
-            Si tu rejoins le protocole
-          </p>
-          <ul class="space-y-4">
-            {[
-              "Une routine construite pour ta peau, dès le premier jour",
-              `${PRICE}€ une seule fois, ajustements inclus pendant 90 jours`,
-              "Premiers résultats visibles vers 6 à 8 semaines",
-              "Un coach qui te répond et ajuste si nécessaire, chaque semaine",
-            ].map((t) => (
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5 shrink-0 font-bold" style="color:oklch(0.66 0.14 45)">✓</span>
-                <span class="text-sm leading-relaxed" style="color:oklch(0.32 0.03 40)">{t}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div class="dark-cta mt-8 rounded-3xl p-8" style="background:oklch(0.22 0.03 40)">
-        <p class="text-xl font-semibold leading-snug mb-6 text-balance" style="color:oklch(0.99 0.01 80)">
-          Dans 90 jours, tu seras soit le même, soit quelqu'un avec une peau que tu reconnais.
+      <!-- Bénéfice 2 -->
+      <div class="px-6 py-10 max-w-xl mx-auto text-center" data-reveal>
+        <p class="text-2xl font-bold leading-snug" style="color:oklch(0.22 0.03 40)">
+          Tu acceptes une photo<br />sans calculer l'angle.
         </p>
-        <p class="text-base mb-8" style="color:oklch(0.7 0.03 60)">
-          La seule différence entre les deux, c'est une décision. Celle que tu prends maintenant.
+        <p class="text-base mt-3" style="color:oklch(0.5 0.03 45)">
+          Plus besoin de te préparer psychologiquement avant de sortir.
         </p>
-        <a href={CTA_URL} data-cta="deux-portes" class="btn-primary inline-block rounded-full px-8 py-4 text-base font-bold">
-          Je veux changer ma peau →
+      </div>
+
+      <!-- Témoignage Georges -->
+      <div class="px-6 pb-14 max-w-xl mx-auto" data-reveal>
+        <figure class="rounded-3xl overflow-hidden" style="box-shadow:0 1px 2px oklch(0.4 0.05 40/0.04),0 8px 24px oklch(0.4 0.05 40/0.08)">
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="relative">
+              <img src="/georges-avant.png" alt="Georges avant" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--avant">Avant</span>
+            </div>
+            <div class="relative">
+              <img src="/georges-apres.png" alt="Georges après" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--apres">Après</span>
+            </div>
+          </div>
+          <figcaption class="px-5 py-4" style="background:oklch(0.995 0.006 80)">
+            <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Georges · 21 ans · Peau grasse</p>
+            <p class="text-xs mt-0.5" style="color:oklch(0.55 0.03 50)">Comédons + Acné · 70 jours de protocole</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Bénéfice 3 -->
+      <div class="px-6 py-10 max-w-xl mx-auto text-center" data-reveal>
+        <p class="text-2xl font-bold leading-snug" style="color:oklch(0.22 0.03 40)">
+          Tu vas en rendez-vous pro<br />sans penser à ta peau.
+        </p>
+        <p class="text-base mt-3" style="color:oklch(0.5 0.03 45)">
+          Ta peau n'est plus la première chose à laquelle tu penses le matin.
+        </p>
+      </div>
+
+      <!-- Témoignage Nathan -->
+      <div class="px-6 pb-14 max-w-xl mx-auto" data-reveal>
+        <figure class="rounded-3xl overflow-hidden" style="box-shadow:0 1px 2px oklch(0.4 0.05 40/0.04),0 8px 24px oklch(0.4 0.05 40/0.08)">
+          <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="relative">
+              <img src="/nathan-avant.png" alt="Nathan avant" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--avant">Avant</span>
+            </div>
+            <div class="relative">
+              <img src="/nathan-apres.png" alt="Nathan après" loading="lazy" class="w-full aspect-[3/4] object-cover" style="object-position:center 40%" />
+              <span class="photo-label photo-label--apres">Après</span>
+            </div>
+          </div>
+          <figcaption class="px-5 py-4" style="background:oklch(0.995 0.006 80)">
+            <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Nathan · 19 ans · Peau grasse</p>
+            <p class="text-xs mt-0.5" style="color:oklch(0.55 0.03 50)">Acné inflammatoire générale · 90 jours de protocole</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Bénéfice 4 -->
+      <div class="px-6 py-10 max-w-xl mx-auto text-center" data-reveal>
+        <p class="text-2xl font-bold leading-snug" style="color:oklch(0.22 0.03 40)">
+          Tu arrêtes de dépenser en produits<br />qui ne marchent pas pour toi.
+        </p>
+        <p class="text-base mt-3" style="color:oklch(0.5 0.03 45)">
+          Le protocole est construit une fois. Ajusté si nécessaire. Pas de cycle d'essai-erreur.
+        </p>
+      </div>
+
+      <!-- CTA mid-page -->
+      <div class="text-center px-6 pb-16 flex justify-center" data-reveal>
+        <a href={CTA_URL} data-cta="mid-page" class="btn-primary rounded-full px-8 py-4 text-base font-bold w-full sm:w-auto" style="min-height:56px;display:flex;align-items:center;justify-content:center;max-width:360px">
+          Commencer le protocole →
         </a>
       </div>
-    </div>
-    </section>
 
-    <!-- ─── WAVE 7 (crème → crème : FAQ garde le même fond) ─────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,20 C360,60 1080,0 1440,40 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
+    </section>
 
     <!-- ─── FAQ ──────────────────────────────────────────────────────────────── -->
     <section class="py-16 px-6" style="background:oklch(0.965 0.025 75)" data-reveal>
@@ -433,14 +245,14 @@ const TESTIMONIALS = [
         </h2>
         <div class="space-y-4">
           {[
-            { q: "C'est pour qui ?", a: "Pour toute personne (homme ou femme, à partir de 18 ans) qui a de l'acné légère à modérée : comédons, boutons inflammatoires, microkystes. Si tu as une acné kystique sévère, le protocole peut accompagner un traitement dermatologique, mais il ne le remplace pas." },
-            { q: "C'est quoi exactement le suivi coach ?", a: "Le coach accède à ton espace dans l'application, voit tes métriques hebdomadaires, tes photos de progression et peut ajuster ta routine directement. Tout est centralisé dans l'app, et tu as un accès WhatsApp direct pour tes questions." },
-            { q: "Je dois acheter les produits en plus ?", a: "Oui, les produits ne sont pas inclus. Ils sont choisis selon ton profil et ton budget : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
-            { q: "Je suis sous traitement (Roaccutane, antibiotiques…), c'est compatible ?", a: "Oui, dans la plupart des cas. La routine est construite en tenant compte de ton traitement : on évite les actifs qui font doublon ou qui sur-irritent une peau déjà sensibilisée. Indique-le simplement dans ton bilan peau, et en cas de doute on en parle directement." },
-            { q: "Combien de temps avant de voir des résultats ?", a: "En général, les premières améliorations se voient entre 4 à 6 semaines. La peau a son propre rythme (renouvellement d'environ 28 jours). Les 90 jours sont nécessaires pour stabiliser les résultats." },
-            { q: "Et si ça ne marche pas pour moi ?", a: "Si tu as suivi le protocole sérieusement pendant 90 jours sans amélioration visible, l'accompagnement est prolongé 30 jours sans frais supplémentaires pour ajuster le protocole en profondeur." },
-            { q: "C'est une application ? Ça marche sur téléphone ?", a: "Oui. L'application est accessible depuis n'importe quel navigateur, mobile ou desktop. Aucun téléchargement requis." },
-            { q: "Le prix inclut tout ?", a: `Le paiement de ${PRICE}€ est unique. Il couvre les 90 jours de suivi coach, l'accès à vie à l'application, le bilan initial, les ajustements de routine et en bonus, un analyseur INCI. Aucun abonnement caché.` },
+            { q: "Est-ce que ça marche vraiment ?", a: "Les trois témoignages sur cette page, Camélia, Georges, Nathan, sont réels, avec leurs photos avant/après. Ce n'est pas une méthode universelle : elle est construite sur ton profil peau spécifique, ajustée chaque semaine. Les premières améliorations apparaissent généralement entre 4 et 6 semaines." },
+            { q: "Et si ça ne marche pas pour moi ?", a: "Si tu as suivi le protocole sérieusement pendant 90 jours, complété tes suivis et envoyé tes photos, mais qu'aucune évolution positive n'est visible, je prolonge l'accompagnement 30 jours sans frais. Et si ta situation nécessite un avis médical, je te le dis clairement plutôt que de te faire perdre ton temps." },
+            { q: "C'est quoi la différence avec une routine trouvée sur TikTok ?", a: "Une routine TikTok est copiée-collée sans tenir compte de ton type de peau, de ton type d'acné, de tes produits actuels, ni de ta réaction réelle. Ici, chaque produit est sélectionné pour toi, et la routine est ajustée chaque semaine selon tes métriques." },
+            { q: "Je dois acheter de nouveaux produits en plus ?", a: "Oui, les produits ne sont pas inclus dans les 97€. Ils sont sélectionnés selon ton profil et ton budget existant : compte entre 40 et 80€ pour la routine complète, et ces produits durent plusieurs mois. Bien moins que ce que coûtent 3 mois d'essais au hasard en pharmacie." },
+            { q: "Combien de temps ça prend par jour ?", a: "La routine prend 5 à 10 minutes matin et soir. Les suivis hebdomadaires dans l'app prennent 5 minutes. Le reste, c'est moi qui travaille." },
+            { q: "Est-ce que tu es dermatologue ?", a: "Non. Je ne suis pas dermatologue et je ne remplace pas un avis médical. Je ne diagnostique pas de maladie et je ne modifie jamais un traitement prescrit. Mon rôle : optimiser ta routine cosmétique, identifier les associations irritantes, et suivre méthodiquement la réaction de ta peau. Si ta situation nécessite un dermatologue, je te le dirai." },
+            { q: `Pourquoi ${PRICE}€ et pas plus cher ?`, a: `Le prix couvre 90 jours de suivi individuel, l'accès à vie à l'application, le bilan initial et tous les ajustements de routine. Pour comparaison : 3 mois d'essais de produits au hasard en pharmacie coûtent facilement 150 à 300€ sans résultat garanti.` },
+            { q: "C'est quoi exactement Protocole Clear ?", a: "Un protocole acné en 3 étapes : un bilan peau complet, une routine matin/soir construite pour ton profil exact, et 90 jours de suivi coach avec ajustements inclus. Tout centralisé dans une application web, sans téléchargement." },
           ].map((item) => (
             <details class="faq-item group rounded-2xl border overflow-hidden" style="border-color:oklch(0.91 0.02 65)">
               <summary class="flex items-center justify-between cursor-pointer px-6 py-5 font-semibold select-none list-none" style="color:oklch(0.22 0.03 40)">
@@ -475,31 +287,11 @@ const TESTIMONIALS = [
           Commence un protocole fait pour toi, suivi par quelqu'un qui comprend ce que tu traverses.
         </p>
         <a href={CTA_URL} data-cta="final" class="btn-primary inline-block rounded-full px-10 py-5 text-lg font-bold mb-4">
-          Je veux changer ma peau
+          Commencer le protocole →
         </a>
-        <p class="text-sm" style="color:oklch(0.65 0.03 60)">
-          <span class="line-through opacity-60">{PRICE_ORIGINAL}€</span> · 90 jours de suivi coach · <span class="js-places-inline">Places limitées</span>
+        <p class="text-sm" style="color:oklch(0.72 0.03 60)">
+          Bilan en 10 min · Première routine sous 48h · Sans abonnement
         </p>
-        <p class="text-sm mt-4 inline-flex items-center gap-1.5" style="color:oklch(0.72 0.03 60)">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="oklch(0.75 0.12 50)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
-          Garantie 90 jours. Protocole suivi sérieusement sans résultat → 30 jours prolongés sans frais.
-        </p>
-
-        <!-- Chemin DM — transforme les hésitants en conversations -->
-        <div class="mt-10 rounded-3xl p-6" style="background:oklch(0.26 0.03 40);border:1px solid oklch(0.34 0.04 45)">
-          <p class="text-base font-semibold mb-1" style="color:oklch(0.95 0.02 75)">
-            Pas encore sûr que ce soit pour toi ?
-          </p>
-          <p class="text-sm mb-4" style="color:oklch(0.68 0.03 60)">
-            Écris-moi directement, je te réponds personnellement. Pas de script, pas de pression.
-          </p>
-          <a href={INSTAGRAM_URL} target="_blank" rel="noopener" data-cta="dm-instagram"
-            class="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-bold transition-colors"
-            style="border-color:oklch(0.66 0.14 45);color:oklch(0.85 0.08 50)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4Z"/></svg>
-            Pose-moi tes questions sur Instagram
-          </a>
-        </div>
       </div>
     </section>
 
@@ -532,6 +324,20 @@ const TESTIMONIALS = [
 </html>
 
 <style>
+  /* ─── Photo labels avant/après ─── */
+  .photo-label {
+    position: absolute;
+    bottom: 8px;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    pointer-events: none;
+  }
+  .photo-label--avant { left: 8px; background: oklch(0.22 0.03 40 / 0.75); }
+  .photo-label--apres { right: 8px; background: oklch(0.66 0.14 45); }
+
   /* ─── Navbar glassmorphism ─── */
   .navbar {
     backdrop-filter: blur(16px);
@@ -966,7 +772,7 @@ const TESTIMONIALS = [
       stickyBar.classList.toggle('visible', show);
       stickyBar.setAttribute('aria-hidden', String(!show));
     };
-    const inlineCtas = document.querySelectorAll('[data-cta="mi-page"], [data-cta="pricing"], [data-cta="deux-portes"], [data-cta="final"]');
+    const inlineCtas = document.querySelectorAll('[data-cta="mid-page"], [data-cta="final"]');
     const ctaObserver = new IntersectionObserver((entries) => {
       entries.forEach((e) => { e.isIntersecting ? visibleCtas.add(e.target) : visibleCtas.delete(e.target); });
       updateSticky();
