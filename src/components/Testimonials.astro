@@ -94,9 +94,26 @@ const { testimonials } = Astro.props;
 
   .photo-cell {
     flex: 1;
-    aspect-ratio: 3/4;
     position: relative;
     overflow: hidden;
+  }
+
+  /* Mobile : aspect-ratio donne une hauteur définie aux cellules */
+  @media (max-width: 639px) {
+    .photo-cell {
+      aspect-ratio: 3/4;
+    }
+  }
+
+  /* Desktop : hauteur fixe sur la zone photo comme avant */
+  @media (min-width: 640px) {
+    .photo-area {
+      height: 340px;
+    }
+    .photo-row {
+      min-height: 0;
+      flex: 1;
+    }
   }
 
   .photo-img {
