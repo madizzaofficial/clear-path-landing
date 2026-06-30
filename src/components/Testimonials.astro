@@ -407,18 +407,26 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
 
       if (bestDomIdx < total) {
         isResetting = true;
+        scroller.style.scrollSnapType = 'none';
         const targetDom = bestDomIdx + total;
         const card = cards[targetDom];
         const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
         scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
-        requestAnimationFrame(() => { isResetting = false; });
+        requestAnimationFrame(() => {
+          scroller.style.scrollSnapType = '';
+          isResetting = false;
+        });
       } else if (bestDomIdx >= 2 * total) {
         isResetting = true;
+        scroller.style.scrollSnapType = 'none';
         const targetDom = bestDomIdx - total;
         const card = cards[targetDom];
         const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
         scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
-        requestAnimationFrame(() => { isResetting = false; });
+        requestAnimationFrame(() => {
+          scroller.style.scrollSnapType = '';
+          isResetting = false;
+        });
       }
     }, 600);
   }
