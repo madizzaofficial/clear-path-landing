@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
 import Testimonials from "../components/Testimonials.astro";
+import BeforeAfterSlider from "../components/BeforeAfterSlider.astro";
 
 const PRICE = "97";
 const PRICE_ORIGINAL = "197";
@@ -80,41 +81,41 @@ const TESTIMONIALS = [
   <body>
 
     <!-- ─── NAVBAR ──────────────────────────────────────────────────────────── -->
-    <nav class="navbar fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4">
+    <nav class="navbar fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3">
       <div class="flex items-center gap-2.5">
-        <img src="/logo_clear.png" alt="Protocole Clear" width="64" height="64" style="border-radius:50%;" />
+        <img src="/logo_clear.png" alt="Protocole Clear" width="44" height="44" style="border-radius:50%;" />
         <span class="hidden sm:inline font-display text-lg font-semibold tracking-tight" style="color:oklch(0.22 0.03 40)">
           Protocole Clear
         </span>
       </div>
       <a href={CTA_URL} data-cta="navbar" class="btn-primary flex min-h-11 items-center rounded-full px-5 text-sm font-semibold">
-        Changer ma peau →
+        Je commence →
       </a>
     </nav>
 
     <!-- ─── HERO ─────────────────────────────────────────────────────────────── -->
-    <section data-section="hero" class="hero-section relative min-h-screen flex flex-col items-center px-4 pt-28 md:pt-32 pb-12 text-center overflow-hidden">
+    <section data-section="hero" class="hero-section relative min-h-screen flex flex-col items-center px-4 pt-20 md:pt-28 pb-12 text-center overflow-hidden">
 
       <!-- Animated blobs -->
       <div class="blob blob-1"></div>
       <div class="blob blob-2"></div>
       <div class="blob blob-3"></div>
 
-      <div class="flex-1 flex flex-col items-center justify-center w-full gap-4 md:gap-6">
+      <div class="flex-1 flex flex-col items-center justify-start md:justify-center w-full gap-4 md:gap-6 pt-2 md:pt-0">
 
         <!-- Headline -->
         <h1 class="hero-title text-balance max-w-3xl text-[2rem] font-bold leading-[1.12] sm:text-5xl md:text-7xl">
-          Tu as tout essayé.<br />
-          <span class="text-gradient">L'acné est <br class="sm:hidden" />toujours là.</span>
+          Tu te trouves moche<br class="sm:hidden" /> à cause de ta peau.<br />
+          <span class="text-gradient">On change ça.</span>
         </h1>
 
-        <!-- Sous-ligne — visible sur tous les écrans -->
+        <!-- Sous-ligne -->
         <p class="text-base italic max-w-sm" style="color:oklch(0.5 0.03 45)">
-          Enfin une méthode pensée pour ta peau. Pas une routine générique.
+          Dans 90 jours, tu te lèves sans redouter le miroir.
         </p>
 
         <!-- VSL Bunny Stream -->
-        <div class="hero-proof w-full max-w-lg mx-auto">
+        <div class="hero-proof w-full max-w-lg md:max-w-3xl mx-auto">
           <div class="vsl-wrapper rounded-3xl overflow-hidden" style="position:relative;padding-top:56.25%">
             <iframe
               src="https://iframe.mediadelivery.net/embed/664092/02e31b9c-375e-423c-8074-850966638aae?autoplay=true&loop=false&muted=false&preload=true&responsive=true"
@@ -129,12 +130,9 @@ const TESTIMONIALS = [
         <!-- CTA + urgence sous la vidéo -->
         <div class="hero-cta flex flex-col items-center gap-3 w-full">
           <a href={CTA_URL} data-cta="hero" class="btn-primary rounded-full px-8 py-4 text-base font-bold w-full sm:w-auto" style="min-height:56px;display:flex;align-items:center;justify-content:center;max-width:360px">
-            Changer ma peau →
+            Je veux changer ça →
           </a>
-          <div class="text-center max-w-xs space-y-1">
-            <p class="text-sm" style="color:oklch(0.45 0.03 45)">⏳ Le suivi est individuel. Lorsque ma capacité est atteinte, les inscriptions ferment temporairement.</p>
-            <p class="text-sm" style="color:oklch(0.55 0.03 50)">Chaque semaine de plus à tester des produits au hasard, c'est une semaine de moins à vivre normalement. </p>
-          </div>
+          <p class="text-sm text-center" style="color:oklch(0.45 0.03 45)">⏳ Suivi individuel. Places restreintes.</p>
         </div>
 
       </div>
@@ -145,10 +143,10 @@ const TESTIMONIALS = [
     <section data-section="benefices" class="px-6 py-16" style="background:oklch(0.985 0.012 75)">
       <div class="max-w-xl mx-auto space-y-10">
         {[
-          { title: "Tu sais enfin pourquoi ta peau réagit.", desc: "Fini les achats au hasard. Chaque produit a un rôle dans ta routine." },
-          { title: "Tu acceptes de te prendre en photo sans avoir peur", desc: "Plus besoin de te préparer psychologiquement avant de sortir ou d'éviter les lumières." },
-          { title: "Fini la crainte du jugement et du regard des autres", desc: "Ta peau n'est plus la première chose à laquelle tu penses le matin." },
-          { title: "Tu arrêtes de perdre de l'argent en produits inutiles.", desc: "Le protocole est construit pour toi. Ajusté si nécessaire." },
+          { title: "Tu n'as plus peur d'une photo.", desc: "Fini de te préparer mentalement avant de sortir ou d'éviter les lumières." },
+          { title: "Fini l'angoisse du miroir le matin.", desc: "Tu arrêtes de scruter chaque bouton en te levant. Ce moment d'angoisse, c'est derrière toi." },
+          { title: "Le regard des autres ne te définit plus.", desc: "Ta peau n'est plus la première chose à laquelle tu penses quand quelqu'un te regarde." },
+          { title: "Chaque produit a un rôle précis.", desc: "Fini les achats au hasard. Le protocole est construit pour ta peau, pas copié d'une vidéo." },
         ].map((b) => (
           <div class="flex items-start gap-4" data-reveal>
             <span class="mt-1 shrink-0 text-xl" style="color:oklch(0.66 0.14 45)">✓</span>
@@ -161,88 +159,26 @@ const TESTIMONIALS = [
       </div>
     </section>
 
-    <!-- ─── WAVE (crème → foncé doux) ────────────────────────────────────────── -->
-    <div class="wave-divider" style="background:oklch(0.985 0.012 75)">
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,15 C480,60 960,0 1440,45 L1440,60 L0,60 Z" fill="oklch(0.965 0.025 75)" />
-      </svg>
-    </div>
-
-    <!-- ─── STORYTELLING ──────────────────────────────────────────────────────── -->
-    <section data-section="storytelling" class="px-6 py-16" style="background:oklch(0.965 0.025 75)">
-      <div class="max-w-lg mx-auto">
-
-        <!-- Photo AVANT (rectangle portrait) -->
-        <div class="relative rounded-3xl overflow-hidden mb-10 mx-auto" style="max-width:260px" data-reveal>
-          <img src="/avant.jpg" alt="Mehdi — avant" loading="lazy"
-            class="w-full object-cover" style="aspect-ratio:3/4;object-position:center 30%" />
-          <span class="absolute bottom-4 left-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.22 0.03 40/0.80);color:white">Avant</span>
-        </div>
-
-        <!-- Histoire -->
-        <div class="space-y-5 text-lg leading-relaxed" style="color:oklch(0.32 0.03 40)" data-reveal>
-          <p><strong>Je m'appelle Mehdi.</strong></p>
-
-          <p>Pendant des années, j'avais de l'acné. Pas le genre "quelques boutons". Le genre qui te fait refuser des photos, annuler des sorties, éviter la lumière pour pas montrer encore plus tes boutons et te faire juger par les gens.</p>
-
-          <p>J'ai essayé des dizaines de crèmes, de sérums, de gels. Des trucs vendus en pharmacie, des produits vus sur les réseaux, des routines copiées sur des gens qui avaient l'air d'avoir une belle peau. Rien ne marchait.</p>
-
-          <p>Alors j'ai fini par aller voir un dermatologue. Il m'a prescrit un traitement lourd, le genre qu'on réserve aux cas sérieux : le Roaccutane. Ça a marché. Ma peau s'est calmée. Je me sentais enfin normal.</p>
-
-          <p>Mais 2 ans après, j'ai rechuté. Plus fort qu'avant.</p>
-
-          <p>Et là, c'est la phase que personne ne te prépare vraiment. Tu pensais que c'était réglé. Tu pensais que tu avais passé le pire. Et là tu te retrouves dans le miroir, à zéro, avec en plus le sentiment d'avoir gâché la seule solution qui avait marché.</p>
-
-          <p>Mon dermatologue m'a recommandé une deuxième cure. J'ai recommencé. Nouveau traitement lourd. Ça n'a rien changé. J'ai refait Roaccutane une deuxième fois. Effets secondaires qui m'ont handicapé la vie. Puis quelques mois après… j'ai rechuté à nouveau.</p>
-
-          <p>Pendant tout ce temps, les gens qui n'ont jamais eu un seul bouton me donnaient des pseudo-conseils. "T'as essayé de boire plus d'eau ?" "C'est peut-être ton alimentation." "T'as vu ce produit sur TikTok ?"</p>
-
-          <p>On regardait mon visage avec un dégoût qu'ils ne cachaient même pas. Un collègue m'a dit un jour :</p>
-          <blockquote class="pull-quote">
-            <p>« Je sais pas comment tu es sorti de chez toi avec un visage pareil. »</p>
-          </blockquote>
-
-          <p>J'avais eu un date quelques temps avant. La fille m'a regardé et m'a dit :</p>
-          <blockquote class="pull-quote">
-            <p>« Ah ouais, c'est pas la même personne que sur les photos. »</p>
-          </blockquote>
-
-          <p>Ce jour-là, j'avais touché le fond.</p>
-
-          <p>Je suis rentré chez moi. Je me suis regardé dans le miroir. Pas parce que ma peau était abîmée. Parce que je n'attirais plus les gens, je ne voulais plus me montrer, j'évitais les situations où on pouvait me voir de près.</p>
-
-          <p>L'acné ne détruisait pas juste ma peau. <strong>Elle détruisait ma confiance, mon rapport aux autres, et la façon dont les autres me regardaient.</strong></p>
-
-          <p>C'est là que j'ai compris que le problème n'était pas les produits que j'utilisais. C'était que personne n'avait jamais pris le temps de regarder comment ils interagissaient entre eux, comment ma peau réagissait vraiment, et ce dont elle avait spécifiquement besoin.</p>
-
-          <p>Alors j'ai arrêté de chercher LE produit miracle.</p>
-
-          <p>J'ai commencé à comprendre comment la peau et la barrière cutanée fonctionnent vraiment. J'ai construit une méthode. Adaptée à ma peau. Je l'ai appliquée. Et j'ai vu ma peau changer… pour la première fois de façon durable.</p>
-        </div>
-
-        <!-- Photo APRÈS (rectangle portrait) -->
-        <div class="relative rounded-3xl overflow-hidden mt-10 mx-auto" style="max-width:260px" data-reveal>
-          <img src="/apres.jpg" alt="Mehdi — après" loading="lazy"
-            class="w-full object-cover" style="aspect-ratio:3/4;object-position:center 30%" />
-          <span class="absolute bottom-4 right-4 text-sm font-bold px-4 py-1.5 rounded-full" style="background:oklch(0.66 0.14 45);color:white">Après</span>
-        </div>
-
-        <!-- Conclusion -->
-        <div class="space-y-5 text-lg leading-relaxed mt-10" style="color:oklch(0.32 0.03 40)" data-reveal>
-          <p>Aujourd'hui j'accompagne d'autres personnes avec cette méthode. Pour qu'elles arrêtent de se cacher. Pour qu'elles acceptent de prendre des photos sans avoir peur. Pour qu'elles reprennent confiance en elles et dans leur propre peau.</p>
-        </div>
-
-        <div class="mt-6 text-center" data-reveal>
-          <p class="text-sm font-semibold" style="color:oklch(0.22 0.03 40)">Mehdi · Fondateur de Protocole Clear</p>
-        </div>
-
+    <!-- ─── AVANT / APRÈS — slider Mehdi ────────────────────────────────────── -->
+    <section data-section="avant-apres" class="py-16 px-6" style="background:oklch(0.965 0.025 75)">
+      <div class="max-w-xl mx-auto text-center">
+        <p class="eyebrow mb-3">Résultat réel</p>
+        <h2 class="text-2xl font-bold mb-8" style="color:oklch(0.22 0.03 40)">Ma transformation en 90 jours.</h2>
+        <BeforeAfterSlider
+          beforeSrc="/avant.jpg"
+          afterSrc="/apres.jpg"
+          beforeAlt="Mehdi — avant le protocole"
+          afterAlt="Mehdi — après 90 jours"
+          initialPosition={42}
+        />
+        <p class="mt-5 text-sm italic" style="color:oklch(0.5 0.03 45)">Mehdi ZA · Peau grasse à tendance acnéique</p>
       </div>
     </section>
 
-    <!-- ─── WAVE (foncé → crème) ─────────────────────────────────────────────── -->
+    <!-- ─── WAVE (crème doux → crème clair) ──────────────────────────────────── -->
     <div class="wave-divider" style="background:oklch(0.965 0.025 75)">
       <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,45 C480,0 960,60 1440,15 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
+        <path d="M0,20 C480,60 960,0 1440,40 L1440,60 L0,60 Z" fill="oklch(0.985 0.012 75)" />
       </svg>
     </div>
 
@@ -263,7 +199,7 @@ const TESTIMONIALS = [
       <div class="max-w-2xl mx-auto">
         <p class="eyebrow text-center">Questions fréquentes</p>
         <h2 class="text-3xl font-bold text-center mb-16 md:text-4xl" style="color:oklch(0.22 0.03 40)">
-          Ce que tu te demandes sûrement.
+          Je sais que t'as des questions.
         </h2>
         <div class="space-y-4">
           {[
@@ -301,15 +237,14 @@ const TESTIMONIALS = [
     <section data-section="cta_final" class="final-cta relative overflow-hidden py-20 px-6 text-center" style="background:oklch(0.22 0.03 40)" data-reveal>
       <div class="relative z-10 max-w-2xl mx-auto">
         <h2 class="text-4xl font-bold mb-6 md:text-6xl text-balance" style="color:oklch(0.99 0.01 80)">
-          Une peau comprise, dans<br />
-          <span class="text-gradient">90 jours.</span>
+          Arrête de subir<br />
+          <span class="text-gradient">le regard des autres.</span>
         </h2>
         <p class="text-lg leading-relaxed mb-10 max-w-lg mx-auto" style="color:oklch(0.72 0.03 60)">
-          Arrête de chercher le prochain produit miracle.
-          Commence un protocole fait pour toi, suivi par quelqu'un qui comprend ce que tu traverses.
+          Commence un protocole construit pour ta peau, suivi par quelqu'un qui comprend ce que tu traverses.
         </p>
         <a href={CTA_URL} data-cta="final" class="btn-primary inline-block rounded-full px-10 py-5 text-lg font-bold mb-4">
-          Changer ma peau →
+          Je commence →
         </a>
         <p class="text-sm" style="color:oklch(0.72 0.03 60)">
           Bilan en 10 min · Première routine sous 48h · Sans abonnement
