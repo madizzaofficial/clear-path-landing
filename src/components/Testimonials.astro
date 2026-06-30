@@ -413,8 +413,10 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
         const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
         scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
         requestAnimationFrame(() => {
-          scroller.style.scrollSnapType = '';
-          isResetting = false;
+          requestAnimationFrame(() => {
+            scroller.style.scrollSnapType = '';
+            isResetting = false;
+          });
         });
       } else if (bestDomIdx >= 2 * total) {
         isResetting = true;
@@ -424,8 +426,10 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
         const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
         scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
         requestAnimationFrame(() => {
-          scroller.style.scrollSnapType = '';
-          isResetting = false;
+          requestAnimationFrame(() => {
+            scroller.style.scrollSnapType = '';
+            isResetting = false;
+          });
         });
       }
     }, 600);
