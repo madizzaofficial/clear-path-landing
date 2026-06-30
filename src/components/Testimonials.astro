@@ -471,6 +471,8 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
   });
 
   // ── Pointer drag ──
+  let activePointerId: number | null = null;
+
   track.addEventListener('pointerdown', (e) => {
     if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
     isDragging = true;
@@ -478,10 +480,12 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     pointerStartX = e.clientX;
     dragStartDomIndex = domIndex;
     dragOffset = 0;
+    activePointerId = e.pointerId;
+    try { track.setPointerCapture(e.pointerId); } catch {}
     track.style.transition = 'none';
   });
 
-  window.addEventListener('pointermove', (e) => {
+  track.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
     dragOffset = pointerStartX - e.clientX;
     if (Math.abs(dragOffset) > SWIPE_THRESHOLD) {
@@ -492,9 +496,13 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     track.style.transform = `translateX(${-newX}px)`;
   });
 
-  window.addEventListener('pointerup', () => {
+  function endDrag() {
     if (!isDragging) return;
     isDragging = false;
+    if (activePointerId !== null) {
+      try { track.releasePointerCapture(activePointerId); } catch {}
+      activePointerId = null;
+    }
 
     const movedCards = Math.round(dragOffset / cardW());
     const targetDom = dragStartDomIndex + movedCards;
@@ -505,7 +513,11 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     }
 
     goToDomIndex(targetDom);
-  });
+  }
+
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  track.addEventListener('lostpointercapture', endDrag);
 
   // ── Dot clicks ──
   dots.forEach((dot) => {
