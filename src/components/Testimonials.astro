@@ -18,10 +18,10 @@ const { testimonials } = Astro.props;
 <section class="py-16" data-reveal>
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-3xl font-bold text-center mb-4 md:text-4xl" style="color:oklch(0.22 0.03 40)">
-      Ils ont suivi le protocole.
+      Ils ont repris confiance en eux.
     </h2>
     <p class="text-center text-lg mb-12" style="color:oklch(0.5 0.03 45)">
-      Des retours d'élèves, avec leur profil peau et leur durée de suivi.
+      Résultats réels, profil peau et durée de suivi.
     </p>
   </div>
 
@@ -84,19 +84,17 @@ const { testimonials } = Astro.props;
   }
 
   .photo-area {
-    height: 340px;
     display: flex;
     flex-direction: column;
   }
 
   .photo-row {
-    flex: 1;
     display: flex;
-    min-height: 0;
   }
 
   .photo-cell {
     flex: 1;
+    aspect-ratio: 3/4;
     position: relative;
     overflow: hidden;
   }
