@@ -6,6 +6,7 @@ interface Testimonial {
   duration: string;
   avant: string[];
   apres: string[];
+  photoPosition?: string;
 }
 
 interface Props {
@@ -13,6 +14,9 @@ interface Props {
 }
 
 const { testimonials } = Astro.props;
+const total = testimonials.length;
+// Triple the cards for infinite scroll illusion
+const tripled = [...testimonials, ...testimonials, ...testimonials];
 ---
 
 <section class="py-16" data-reveal>
@@ -25,32 +29,78 @@ const { testimonials } = Astro.props;
     </p>
   </div>
 
-  <div class="carousel-outer">
-    <!-- Les cartes sont dupliquées une fois dans le HTML pour le loop infini -->
-    <div class="carousel-track" id="testimonial-track" data-orig-count={testimonials.length}>
-      {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
-        <figure class="testimonial-card" aria-hidden={idx >= testimonials.length ? "true" : undefined}>
+  <div class="carousel-outer" id="carousel-outer">
+    <div class="carousel-track" id="testimonial-track" data-total={total}>
+      {tripled.map((t, idx) => {
+        const pos = t.photoPosition || "center 40%";
+        const realIdx = idx % total;
+        return (
+        <figure
+          class="testimonial-card"
+          data-card-index={realIdx}
+          data-seen="false"
+        >
+
+          {/* ── DESKTOP : photos côte à côte ── */}
           <div class="photo-area">
             {t.avant.map((src, i) => (
               <div class="photo-row">
                 <div class="photo-cell">
-                  <img src={src} alt={`${t.name} avant`} loading="lazy" class="photo-img" draggable="false" />
+                  <img src={src} alt={`${t.name} avant`} loading="lazy" class="photo-img" draggable="false" style={`object-position:${pos}`} />
                   <div class="photo-label photo-label--avant">Avant</div>
                 </div>
                 <div class="photo-cell">
-                  <img src={t.apres[i]} alt={`${t.name} après`} loading="lazy" class="photo-img" draggable="false" />
+                  <img src={t.apres[i]} alt={`${t.name} après`} loading="lazy" class="photo-img" draggable="false" style={`object-position:${pos}`} />
                   <div class="photo-label photo-label--apres">Après</div>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* ── MOBILE : tap to toggle ── */}
+          <div class="toggle-mobile" data-toggle>
+            <div class="toggle-images">
+              <div class="toggle-state toggle-state--avant">
+                {t.avant.map((src, i) => (
+                  <img src={src} alt={`${t.name} avant ${i+1}`} loading="lazy" class="toggle-img" draggable="false" style={`object-position:${pos}`} />
+                ))}
+              </div>
+              <div class="toggle-state toggle-state--apres">
+                {t.apres.map((src, i) => (
+                  <img src={src} alt={`${t.name} après ${i+1}`} loading="lazy" class="toggle-img" draggable="false" style={`object-position:${pos}`} />
+                ))}
+              </div>
+            </div>
+            <div class="toggle-hint">
+              <span class="toggle-hint-text">Touchez pour voir l'après</span>
+            </div>
+            <div class="toggle-indicator">
+              <span class="toggle-dot toggle-dot--avant active">Avant</span>
+              <span class="toggle-dot toggle-dot--apres">Après</span>
+            </div>
+          </div>
+
           <figcaption class="caption">
             <span class="caption-name">{t.name} · {t.age}</span>
             <span class="caption-meta">{t.profile} · {t.duration}</span>
           </figcaption>
         </figure>
+      )})}
+    </div>
+  </div>
+
+  {/* ── Navigation (outside carousel-outer to avoid overflow:hidden clipping) ── */}
+  <div class="carousel-nav" aria-label="Navigation des témoignages">
+    <div class="carousel-dots" id="carousel-dots">
+      {testimonials.map((_, i) => (
+        <button
+          class="carousel-dot"
+          data-dot={i}
+          aria-label={`Témoignage ${i + 1}`}
+        ></button>
       ))}
     </div>
+    <span class="carousel-counter" id="carousel-counter" style="display:none">1 / {total}</span>
   </div>
 </section>
 
@@ -58,18 +108,19 @@ const { testimonials } = Astro.props;
   .carousel-outer {
     overflow: hidden;
     cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
   }
   .carousel-outer:active {
     cursor: grabbing;
   }
 
-  /* Le track se déplace via transform, pas overflow scroll */
   .carousel-track {
     display: flex;
     gap: 20px;
     padding: 8px 24px 20px;
-    width: max-content;
     will-change: transform;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .testimonial-card {
@@ -86,10 +137,16 @@ const { testimonials } = Astro.props;
   .photo-area {
     display: flex;
     flex-direction: column;
+    flex: 1;
+  }
+  .toggle-mobile {
+    display: none;
   }
 
   .photo-row {
     display: flex;
+    flex: 1;
+    min-height: 0;
   }
 
   .photo-cell {
@@ -98,21 +155,19 @@ const { testimonials } = Astro.props;
     overflow: hidden;
   }
 
-  /* Mobile : aspect-ratio donne une hauteur définie aux cellules */
-  @media (max-width: 639px) {
-    .photo-cell {
-      aspect-ratio: 3/4;
+  @media (min-width: 640px) {
+    .photo-area {
+      flex: none;
+      height: 340px;
     }
   }
 
-  /* Desktop : hauteur fixe sur la zone photo comme avant */
-  @media (min-width: 640px) {
+  @media (max-width: 639px) {
     .photo-area {
-      height: 340px;
+      display: none;
     }
-    .photo-row {
-      min-height: 0;
-      flex: 1;
+    .toggle-mobile {
+      display: block;
     }
   }
 
@@ -139,6 +194,107 @@ const { testimonials } = Astro.props;
   .photo-label--avant { left: 8px; background: oklch(0.22 0.03 40 / 0.75); }
   .photo-label--apres { right: 8px; background: oklch(0.66 0.14 45); }
 
+  /* ── Mobile tap-to-toggle ── */
+  .toggle-images {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .toggle-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.35s ease;
+  }
+
+  .toggle-state--apres { opacity: 0; }
+  .toggle-state--apres.visible { opacity: 1; }
+  .toggle-state--avant.hidden { opacity: 0; }
+
+  .toggle-img {
+    flex: 1;
+    width: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    pointer-events: none;
+    min-height: 0;
+  }
+
+  .toggle-hint {
+    text-align: center;
+    padding: 6px 0 2px;
+  }
+
+  .toggle-hint-text {
+    display: inline-block;
+    background: oklch(0.22 0.03 40 / 0.82);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 16px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .toggle-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 0 4px;
+  }
+
+  .toggle-dot {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 999px;
+    transition: background 0.25s ease, color 0.25s ease;
+    color: oklch(0.5 0.03 45);
+    background: oklch(0.93 0.02 60);
+  }
+  .toggle-dot.active {
+    background: oklch(0.66 0.14 45);
+    color: white;
+  }
+
+  /* ── Navigation ── */
+  .carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .carousel-dots { display: flex; gap: 8px; }
+
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: oklch(0.85 0.03 55);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+  .carousel-dot.active {
+    background: oklch(0.66 0.14 45);
+    transform: scale(1.4);
+  }
+
+  .carousel-counter {
+    font-size: 12px;
+    font-weight: 600;
+    color: oklch(0.5 0.03 45);
+    min-width: 36px;
+    text-align: center;
+  }
+
   .caption {
     padding: 14px 20px;
     display: flex;
@@ -160,82 +316,221 @@ const { testimonials } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] .testimonial-card { opacity: 1; transform: none; transition: none; }
+    .carousel-track { transition: none; }
   }
 </style>
 
 <script>
   const track = document.getElementById('testimonial-track') as HTMLElement | null;
-  if (!track) throw new Error('no track');
+  const outer = document.getElementById('carousel-outer') as HTMLElement | null;
+  const dotsContainer = document.getElementById('carousel-dots') as HTMLElement | null;
+  const counterEl = document.getElementById('carousel-counter') as HTMLElement | null;
+  if (!track || !outer) throw new Error('no track');
 
-  // Largeur d'une carte + gap, calculée depuis le DOM
-  const card = track.children[0] as HTMLElement;
+  const total = parseInt(track.dataset.total || '3');
+  const allCards = Array.from(track.children) as HTMLElement[];
+  const dots = dotsContainer ? Array.from(dotsContainer.children) as HTMLElement[] : [];
+
   const GAP = 20;
-  const cardW = () => card.offsetWidth + GAP;
-  const origCount = parseInt(track.dataset.origCount || '3');
-  const loopW = () => cardW() * origCount;
+  const cardW = () => allCards[0].offsetWidth + GAP;
 
-  let offset = 0;
-  const SPEED = 0.5;
-  let isPaused = false;
+  // ── State ──
+  // We start in the middle copy (index = total)
+  let domIndex = total;
+  let autoPlayStopped = false;
   let isDragging = false;
   let pointerStartX = 0;
-  let offsetAtDragStart = 0;
+  let dragOffset = 0;
+  let dragStartDomIndex = total;
+  let hasMovedThisDrag = false;
+  const SWIPE_THRESHOLD = 10;
 
-  const clamp = (v: number) => {
-    let w = loopW();
-    v = v % w;
-    if (v < 0) v += w;
-    return v;
-  };
+  // Per-card state (by real index 0..total-1)
+  const cardShowingApres = new Array(total).fill(false);
+  const cardSeen = new Array(total).fill(false);
 
-  const tick = () => {
-    if (!isPaused) {
-      offset = clamp(offset + SPEED);
-      track.style.transform = `translateX(${-offset}px)`;
+  // ── Auto-advance ──
+  let autoTimer: ReturnType<typeof setTimeout> | null = null;
+  const AUTO_DELAY = 5000;
+
+  function clearAutoTimer() {
+    if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+  }
+
+  function scheduleAutoAdvance() {
+    if (autoPlayStopped) return;
+    clearAutoTimer();
+    autoTimer = setTimeout(() => {
+      if (autoPlayStopped) return;
+      goToDomIndex(domIndex + 1);
+    }, AUTO_DELAY);
+  }
+
+  // ── Real index from DOM index ──
+  function realIdx(dom: number): number {
+    return ((dom % total) + total) % total;
+  }
+
+  // ── Jump to DOM index (with animation) ──
+  function goToDomIndex(targetDom: number) {
+    domIndex = targetDom;
+    const x = domIndex * cardW();
+    track.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
+    track.style.transform = `translateX(${-x}px)`;
+
+    const ri = realIdx(domIndex);
+    dots.forEach((d, i) => d.classList.toggle('active', i === ri));
+
+    // Mark card as seen (tracked per real index, not DOM element)
+    const card = allCards[domIndex];
+    if (card && !cardSeen[ri]) {
+      cardSeen[ri] = true;
+      setCardState(card, cardShowingApres[ri]);
     }
-    requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
 
-  // ── Hover pause (desktop) ────────────────────
-  track.addEventListener('mouseenter', () => { if (!isDragging) isPaused = true; });
-  track.addEventListener('mouseleave', () => { if (!isDragging) isPaused = false; });
+    scheduleAutoAdvance();
+  }
 
-  // ── Mouse drag ───────────────────────────────
-  track.addEventListener('mousedown', (e) => {
+  // ── Silent reposition to middle copy ──
+  function maybeResetToMiddle() {
+    // If we drifted into the first or third copy, jump to middle silently
+    if (domIndex < total) {
+      domIndex += total;
+      const x = domIndex * cardW();
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${-x}px)`;
+    } else if (domIndex >= 2 * total) {
+      domIndex -= total;
+      const x = domIndex * cardW();
+      track.style.transition = 'none';
+      track.style.transform = `translateX(${-x}px)`;
+    }
+  }
+
+  // Listen for transition end to do silent reset
+  track.addEventListener('transitionend', () => {
+    maybeResetToMiddle();
+  });
+
+  // ── Toggle ──
+  function setCardState(card: HTMLElement, showApres: boolean) {
+    const avant = card.querySelector('.toggle-state--avant') as HTMLElement;
+    const apres = card.querySelector('.toggle-state--apres') as HTMLElement;
+    const dotAvant = card.querySelector('.toggle-dot--avant') as HTMLElement;
+    const dotApres = card.querySelector('.toggle-dot--apres') as HTMLElement;
+    const hint = card.querySelector('.toggle-hint') as HTMLElement;
+    const hintText = card.querySelector('.toggle-hint-text') as HTMLElement;
+
+    if (!avant || !apres) return;
+
+    if (showApres) {
+      avant.classList.add('hidden');
+      apres.classList.add('visible');
+      if (dotAvant) dotAvant.classList.remove('active');
+      if (dotApres) dotApres.classList.add('active');
+      if (hintText) hintText.textContent = 'Touchez pour revoir l\'avant';
+    } else {
+      avant.classList.remove('hidden');
+      apres.classList.remove('visible');
+      if (dotAvant) dotAvant.classList.add('active');
+      if (dotApres) dotApres.classList.remove('active');
+      if (hintText) hintText.textContent = 'Touchez pour voir l\'après';
+    }
+
+  }
+
+  function toggleCard(card: HTMLElement) {
+    const ri = realIdx(domIndex);
+    const newState = !cardShowingApres[ri];
+    cardShowingApres[ri] = newState;
+    setCardState(card, newState);
+  }
+
+  // ── Click (tap to toggle) ──
+  track.addEventListener('click', (e) => {
+    if (hasMovedThisDrag) return;
+
+    const toggle = (e.target as HTMLElement).closest('[data-toggle]') as HTMLElement | null;
+    if (!toggle) return;
+
+    const card = toggle.closest('.testimonial-card') as HTMLElement;
+    if (!card) return;
+
+    if (!autoPlayStopped) {
+      autoPlayStopped = true;
+      clearAutoTimer();
+    }
+
+    toggleCard(card);
+  });
+
+  // ── Pointer drag ──
+  track.addEventListener('pointerdown', (e) => {
     isDragging = true;
-    isPaused = true;
+    hasMovedThisDrag = false;
     pointerStartX = e.clientX;
-    offsetAtDragStart = offset;
+    dragStartDomIndex = domIndex;
+    dragOffset = 0;
+    track.style.transition = 'none';
   });
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
-    const delta = pointerStartX - e.clientX;
-    offset = clamp(offsetAtDragStart + delta);
-    track.style.transform = `translateX(${-offset}px)`;
+    dragOffset = pointerStartX - e.clientX;
+    if (Math.abs(dragOffset) > SWIPE_THRESHOLD) {
+      hasMovedThisDrag = true;
+    }
+    const baseX = dragStartDomIndex * cardW();
+    const newX = baseX + dragOffset;
+    track.style.transform = `translateX(${-newX}px)`;
   });
 
-  window.addEventListener('mouseup', () => {
+  window.addEventListener('pointerup', () => {
     if (!isDragging) return;
     isDragging = false;
-    setTimeout(() => { isPaused = false; }, 900);
+
+    const movedCards = Math.round(dragOffset / cardW());
+    const targetDom = dragStartDomIndex + movedCards;
+
+    if (hasMovedThisDrag && !autoPlayStopped) {
+      autoPlayStopped = true;
+      clearAutoTimer();
+    }
+
+    goToDomIndex(targetDom);
   });
 
-  // ── Touch drag ───────────────────────────────
-  track.addEventListener('touchstart', (e) => {
-    isPaused = true;
-    pointerStartX = e.touches[0].clientX;
-    offsetAtDragStart = offset;
-  }, { passive: true });
-
-  track.addEventListener('touchmove', (e) => {
-    const delta = pointerStartX - e.touches[0].clientX;
-    offset = clamp(offsetAtDragStart + delta);
-    track.style.transform = `translateX(${-offset}px)`;
-  }, { passive: true });
-
-  track.addEventListener('touchend', () => {
-    setTimeout(() => { isPaused = false; }, 1000);
+  // ── Dot clicks ──
+  dots.forEach((dot) => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetReal = parseInt((dot as HTMLElement).dataset.dot || '0');
+      if (!autoPlayStopped) {
+        autoPlayStopped = true;
+        clearAutoTimer();
+      }
+      // Navigate to the copy closest to current position
+      const offset = targetReal - realIdx(domIndex);
+      goToDomIndex(domIndex + offset);
+    });
   });
+
+  // ── IntersectionObserver ──
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      scheduleAutoAdvance();
+    } else {
+      clearAutoTimer();
+    }
+  }, { threshold: 0.3 });
+  observer.observe(outer);
+
+  // ── Init: position at middle copy ──
+  const initX = total * cardW();
+  track.style.transition = 'none';
+  track.style.transform = `translateX(${-initX}px)`;
+  domIndex = total;
+  dots[0]?.classList.add('active');
+  if (counterEl) counterEl.textContent = `1 / ${total}`;
+  scheduleAutoAdvance();
 </script>
