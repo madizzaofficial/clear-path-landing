@@ -110,6 +110,7 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
+    touch-action: pan-y pinch-zoom;
   }
   .carousel-outer:active {
     cursor: grabbing;
@@ -121,6 +122,7 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     padding: 8px 24px 20px;
     will-change: transform;
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    touch-action: pan-y pinch-zoom;
   }
 
   .testimonial-card {
@@ -389,11 +391,20 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     }
 
     scheduleAutoAdvance();
+    scheduleReset();
   }
 
   // ── Silent reposition to middle copy ──
+  let resetTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function scheduleReset() {
+    if (resetTimer) clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+      maybeResetToMiddle();
+    }, 500); // slightly longer than the 450ms CSS transition
+  }
+
   function maybeResetToMiddle() {
-    // If we drifted into the first or third copy, jump to middle silently
     if (domIndex < total) {
       domIndex += total;
       const x = domIndex * cardW();
@@ -406,11 +417,6 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
       track.style.transform = `translateX(${-x}px)`;
     }
   }
-
-  // Listen for transition end to do silent reset
-  track.addEventListener('transitionend', () => {
-    maybeResetToMiddle();
-  });
 
   // ── Toggle ──
   function setCardState(card: HTMLElement, showApres: boolean) {
@@ -466,6 +472,7 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
 
   // ── Pointer drag ──
   track.addEventListener('pointerdown', (e) => {
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
     isDragging = true;
     hasMovedThisDrag = false;
     pointerStartX = e.clientX;
