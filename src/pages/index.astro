@@ -384,7 +384,9 @@ const TESTIMONIALS = [
   }
 
   /* ─── Hero elements entrance ─── */
-  .hero-section { min-height: 100dvh; } /* dvh : stable avec la barre d'adresse iOS */
+  @media (min-width: 768px) {
+    .hero-section { min-height: 100dvh; } /* dvh : stable avec la barre d'adresse iOS */
+  }
   .hero-section > *:not(.blob) { position: relative; z-index: 1; }
 
   .hero-badge {

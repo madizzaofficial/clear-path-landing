@@ -66,7 +66,6 @@ const { testimonials } = Astro.props;
   /* Le track se déplace via transform, pas overflow scroll */
   .carousel-track {
     display: flex;
-    align-items: flex-start;
     gap: 20px;
     padding: 8px 24px 20px;
     width: max-content;
@@ -87,33 +86,31 @@ const { testimonials } = Astro.props;
   .photo-area {
     display: flex;
     flex-direction: column;
+    flex: 1; /* remplit la hauteur de la carte (étirée par le carousel) */
   }
 
   .photo-row {
     display: flex;
+    flex: 1;
+    min-height: 0;
   }
 
   .photo-cell {
     flex: 1;
+    min-height: 0;
     position: relative;
     overflow: hidden;
   }
 
-  /* Mobile : aspect-ratio donne une hauteur définie aux cellules */
-  @media (max-width: 639px) {
-    .photo-cell {
-      aspect-ratio: 3/4;
-    }
+  .caption {
+    flex-shrink: 0; /* la légende garde sa hauteur, photo-area prend le reste */
   }
 
-  /* Desktop : hauteur fixe sur la zone photo comme avant */
+  /* Desktop : hauteur fixe, pas de flex-grow */
   @media (min-width: 640px) {
     .photo-area {
+      flex: none;
       height: 340px;
-    }
-    .photo-row {
-      min-height: 0;
-      flex: 1;
     }
   }
 
