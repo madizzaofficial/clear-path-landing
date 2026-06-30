@@ -15,8 +15,6 @@ interface Props {
 
 const { testimonials } = Astro.props;
 const total = testimonials.length;
-// Triple the cards for infinite scroll illusion
-const tripled = [...testimonials, ...testimonials, ...testimonials];
 ---
 
 <section class="py-16" data-reveal>
@@ -29,17 +27,15 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     </p>
   </div>
 
-  <div class="carousel-outer" id="carousel-outer">
-    <div class="carousel-track" id="testimonial-track" data-total={total}>
-      {tripled.map((t, idx) => {
-        const pos = t.photoPosition || "center 40%";
-        const realIdx = idx % total;
-        return (
-        <figure
-          class="testimonial-card"
-          data-card-index={realIdx}
-          data-seen="false"
-        >
+  <div class="carousel-scroller" id="carousel-scroller">
+    {testimonials.map((t, idx) => {
+      const pos = t.photoPosition || "center 40%";
+      return (
+      <figure
+        class="testimonial-card"
+        data-card-index={idx}
+        data-seen="false"
+      >
 
           {/* ── DESKTOP : photos côte à côte ── */}
           <div class="photo-area">
@@ -86,7 +82,6 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
           </figcaption>
         </figure>
       )})}
-    </div>
   </div>
 
   {/* ── Navigation (outside carousel-outer to avoid overflow:hidden clipping) ── */}
@@ -105,29 +100,30 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
 </section>
 
 <style>
-  .carousel-outer {
-    overflow: hidden;
+  /* ── Native scroll-snap carousel ── */
+  .carousel-scroller {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 24px 20px;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
-    touch-action: pan-y pinch-zoom;
   }
-  .carousel-outer:active {
-    cursor: grabbing;
-  }
-
-  .carousel-track {
-    display: flex;
-    gap: 20px;
-    padding: 8px 24px 20px;
-    will-change: transform;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    touch-action: pan-y pinch-zoom;
-  }
+  .carousel-scroller::-webkit-scrollbar { display: none; }
+  .carousel-scroller:active { cursor: grabbing; }
 
   .testimonial-card {
     flex-shrink: 0;
     width: min(420px, 78vw);
+    scroll-snap-align: center;
     border-radius: 24px;
     overflow: hidden;
     display: flex;
@@ -318,36 +314,26 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
 
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] .testimonial-card { opacity: 1; transform: none; transition: none; }
-    .carousel-track { transition: none; }
+    .carousel-scroller { scroll-behavior: auto; }
   }
 </style>
 
 <script>
-  const track = document.getElementById('testimonial-track') as HTMLElement | null;
-  const outer = document.getElementById('carousel-outer') as HTMLElement | null;
+  const scroller = document.getElementById('carousel-scroller') as HTMLElement | null;
   const dotsContainer = document.getElementById('carousel-dots') as HTMLElement | null;
   const counterEl = document.getElementById('carousel-counter') as HTMLElement | null;
-  if (!track || !outer) throw new Error('no track');
+  if (!scroller) throw new Error('no scroller');
 
-  const total = parseInt(track.dataset.total || '3');
-  const allCards = Array.from(track.children) as HTMLElement[];
+  const total = scroller.children.length;
+  const cards = Array.from(scroller.children) as HTMLElement[];
   const dots = dotsContainer ? Array.from(dotsContainer.children) as HTMLElement[] : [];
 
-  const GAP = 20;
-  const cardW = () => allCards[0].offsetWidth + GAP;
-
   // ── State ──
-  // We start in the middle copy (index = total)
-  let domIndex = total;
+  let activeIdx = 0;
   let autoPlayStopped = false;
-  let isDragging = false;
-  let pointerStartX = 0;
-  let dragOffset = 0;
-  let dragStartDomIndex = total;
-  let hasMovedThisDrag = false;
-  const SWIPE_THRESHOLD = 10;
+  let scrollEndTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // Per-card state (by real index 0..total-1)
+  // Per-card toggle state
   const cardShowingApres = new Array(total).fill(false);
   const cardSeen = new Array(total).fill(false);
 
@@ -364,59 +350,53 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     clearAutoTimer();
     autoTimer = setTimeout(() => {
       if (autoPlayStopped) return;
-      goToDomIndex(domIndex + 1);
+      const next = (activeIdx + 1) % total;
+      scrollToCard(next);
     }, AUTO_DELAY);
   }
 
-  // ── Real index from DOM index ──
-  function realIdx(dom: number): number {
-    return ((dom % total) + total) % total;
+  // ── Scroll to card ──
+  function scrollToCard(idx: number) {
+    const card = cards[idx];
+    if (!card) return;
+    const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
+    scroller.scrollTo({ left: scrollLeft, behavior: 'smooth' });
   }
 
-  // ── Jump to DOM index (with animation) ──
-  function goToDomIndex(targetDom: number) {
-    domIndex = targetDom;
-    const x = domIndex * cardW();
-    track.style.transition = 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)';
-    track.style.transform = `translateX(${-x}px)`;
+  // ── Update active index from scroll position ──
+  function updateActiveFromScroll() {
+    const center = scroller.scrollLeft + scroller.offsetWidth / 2;
+    let bestIdx = 0;
+    let bestDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(center - cardCenter);
+      if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+    });
 
-    const ri = realIdx(domIndex);
-    dots.forEach((d, i) => d.classList.toggle('active', i === ri));
+    if (bestIdx !== activeIdx) {
+      activeIdx = bestIdx;
+      dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+      if (counterEl) counterEl.textContent = `${activeIdx + 1} / ${total}`;
 
-    // Mark card as seen (tracked per real index, not DOM element)
-    const card = allCards[domIndex];
-    if (card && !cardSeen[ri]) {
-      cardSeen[ri] = true;
-      setCardState(card, cardShowingApres[ri]);
-    }
-
-    scheduleAutoAdvance();
-    scheduleReset();
-  }
-
-  // ── Silent reposition to middle copy ──
-  let resetTimer: ReturnType<typeof setTimeout> | null = null;
-
-  function scheduleReset() {
-    if (resetTimer) clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => {
-      maybeResetToMiddle();
-    }, 500); // slightly longer than the 450ms CSS transition
-  }
-
-  function maybeResetToMiddle() {
-    if (domIndex < total) {
-      domIndex += total;
-      const x = domIndex * cardW();
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${-x}px)`;
-    } else if (domIndex >= 2 * total) {
-      domIndex -= total;
-      const x = domIndex * cardW();
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${-x}px)`;
+      // Mark card as seen
+      if (!cardSeen[activeIdx]) {
+        cardSeen[activeIdx] = true;
+        setCardState(cards[activeIdx], cardShowingApres[activeIdx]);
+      }
     }
   }
+
+  // ── Scroll event (passive for performance) ──
+  scroller.addEventListener('scroll', () => {
+    updateActiveFromScroll();
+
+    if (scrollEndTimer) clearTimeout(scrollEndTimer);
+    scrollEndTimer = setTimeout(() => {
+      updateActiveFromScroll();
+      scheduleAutoAdvance();
+    }, 150);
+  }, { passive: true });
 
   // ── Toggle ──
   function setCardState(card: HTMLElement, showApres: boolean) {
@@ -424,7 +404,6 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     const apres = card.querySelector('.toggle-state--apres') as HTMLElement;
     const dotAvant = card.querySelector('.toggle-dot--avant') as HTMLElement;
     const dotApres = card.querySelector('.toggle-dot--apres') as HTMLElement;
-    const hint = card.querySelector('.toggle-hint') as HTMLElement;
     const hintText = card.querySelector('.toggle-hint-text') as HTMLElement;
 
     if (!avant || !apres) return;
@@ -442,20 +421,17 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
       if (dotApres) dotApres.classList.remove('active');
       if (hintText) hintText.textContent = 'Touchez pour voir l\'après';
     }
-
   }
 
   function toggleCard(card: HTMLElement) {
-    const ri = realIdx(domIndex);
+    const ri = activeIdx;
     const newState = !cardShowingApres[ri];
     cardShowingApres[ri] = newState;
     setCardState(card, newState);
   }
 
   // ── Click (tap to toggle) ──
-  track.addEventListener('click', (e) => {
-    if (hasMovedThisDrag) return;
-
+  scroller.addEventListener('click', (e) => {
     const toggle = (e.target as HTMLElement).closest('[data-toggle]') as HTMLElement | null;
     if (!toggle) return;
 
@@ -470,67 +446,16 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     toggleCard(card);
   });
 
-  // ── Pointer drag ──
-  let activePointerId: number | null = null;
-
-  track.addEventListener('pointerdown', (e) => {
-    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
-    isDragging = true;
-    hasMovedThisDrag = false;
-    pointerStartX = e.clientX;
-    dragStartDomIndex = domIndex;
-    dragOffset = 0;
-    activePointerId = e.pointerId;
-    try { track.setPointerCapture(e.pointerId); } catch {}
-    track.style.transition = 'none';
-  });
-
-  track.addEventListener('pointermove', (e) => {
-    if (!isDragging) return;
-    dragOffset = pointerStartX - e.clientX;
-    if (Math.abs(dragOffset) > SWIPE_THRESHOLD) {
-      hasMovedThisDrag = true;
-    }
-    const baseX = dragStartDomIndex * cardW();
-    const newX = baseX + dragOffset;
-    track.style.transform = `translateX(${-newX}px)`;
-  });
-
-  function endDrag() {
-    if (!isDragging) return;
-    isDragging = false;
-    if (activePointerId !== null) {
-      try { track.releasePointerCapture(activePointerId); } catch {}
-      activePointerId = null;
-    }
-
-    const movedCards = Math.round(dragOffset / cardW());
-    const targetDom = dragStartDomIndex + movedCards;
-
-    if (hasMovedThisDrag && !autoPlayStopped) {
-      autoPlayStopped = true;
-      clearAutoTimer();
-    }
-
-    goToDomIndex(targetDom);
-  }
-
-  track.addEventListener('pointerup', endDrag);
-  track.addEventListener('pointercancel', endDrag);
-  track.addEventListener('lostpointercapture', endDrag);
-
   // ── Dot clicks ──
   dots.forEach((dot) => {
     dot.addEventListener('click', (e) => {
       e.stopPropagation();
-      const targetReal = parseInt((dot as HTMLElement).dataset.dot || '0');
+      const targetIdx = parseInt((dot as HTMLElement).dataset.dot || '0');
       if (!autoPlayStopped) {
         autoPlayStopped = true;
         clearAutoTimer();
       }
-      // Navigate to the copy closest to current position
-      const offset = targetReal - realIdx(domIndex);
-      goToDomIndex(domIndex + offset);
+      scrollToCard(targetIdx);
     });
   });
 
@@ -542,13 +467,9 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
       clearAutoTimer();
     }
   }, { threshold: 0.3 });
-  observer.observe(outer);
+  observer.observe(scroller);
 
-  // ── Init: position at middle copy ──
-  const initX = total * cardW();
-  track.style.transition = 'none';
-  track.style.transform = `translateX(${-initX}px)`;
-  domIndex = total;
+  // ── Init ──
   dots[0]?.classList.add('active');
   if (counterEl) counterEl.textContent = `1 / ${total}`;
   scheduleAutoAdvance();
