@@ -292,6 +292,15 @@ const total = testimonials.length;
     text-align: center;
   }
 
+  /* Centrage desktop quand toutes les cartes sont visibles */
+  .carousel-scroller.is-centered {
+    justify-content: center;
+  }
+  .carousel-nav.is-hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .caption {
     padding: 14px 20px;
     display: flex;
@@ -446,4 +455,14 @@ const total = testimonials.length;
   dots[0]?.classList.add('active');
   if (counterEl) counterEl.textContent = `1 / ${total}`;
   scheduleAutoAdvance();
+
+  // Centrage + masquage des dots quand toutes les cartes sont visibles (desktop large)
+  const navEl = document.querySelector('.carousel-nav') as HTMLElement | null;
+  function updateLayout() {
+    const scrollable = scroller.scrollWidth > scroller.clientWidth + 2;
+    scroller.classList.toggle('is-centered', !scrollable);
+    navEl?.classList.toggle('is-hidden', !scrollable);
+  }
+  updateLayout();
+  window.addEventListener('resize', updateLayout, { passive: true });
 </script>
