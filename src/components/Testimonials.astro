@@ -15,7 +15,6 @@ interface Props {
 
 const { testimonials } = Astro.props;
 const total = testimonials.length;
-const tripled = [...testimonials, ...testimonials, ...testimonials];
 ---
 
 <section class="py-16" data-reveal>
@@ -29,13 +28,12 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
   </div>
 
   <div class="carousel-scroller" id="carousel-scroller">
-    {tripled.map((t, idx) => {
+    {testimonials.map((t, idx) => {
       const pos = t.photoPosition || "center 40%";
-      const realIdx = idx % total;
       return (
       <figure
         class="testimonial-card"
-        data-card-index={realIdx}
+        data-card-index={idx}
         data-seen="false"
       >
 
@@ -325,22 +323,17 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
   const counterEl = document.getElementById('carousel-counter') as HTMLElement | null;
   if (!scroller) throw new Error('no scroller');
 
-  const total = parseInt(scroller.dataset.total || String(scroller.children.length / 3));
+  const total = scroller.children.length;
   const cards = Array.from(scroller.children) as HTMLElement[];
   const dots = dotsContainer ? Array.from(dotsContainer.children) as HTMLElement[] : [];
 
-  // ── State ──
-  let activeIdx = 0;        // real index (0..total-1)
+  let activeIdx = 0;
   let autoPlayStopped = false;
   let scrollEndTimer: ReturnType<typeof setTimeout> | null = null;
-  let resetTimer: ReturnType<typeof setTimeout> | null = null;
-  let isResetting = false;
 
-  // Per-card toggle state (by real index)
   const cardShowingApres = new Array(total).fill(false);
   const cardSeen = new Array(total).fill(false);
 
-  // ── Auto-advance ──
   let autoTimer: ReturnType<typeof setTimeout> | null = null;
   const AUTO_DELAY = 5000;
 
@@ -358,96 +351,44 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     }, AUTO_DELAY);
   }
 
-  // ── Scroll to card (by real index, always in middle copy) ──
-  function scrollToCard(realIdx: number) {
-    const domIdx = total + realIdx;
-    const card = cards[domIdx];
+  function scrollToCard(idx: number) {
+    const card = cards[idx];
     if (!card) return;
     const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
     scroller.scrollTo({ left: scrollLeft, behavior: 'smooth' });
   }
 
-  // ── Update active index from scroll position ──
   function updateActiveFromScroll() {
-    if (isResetting) return;
     const center = scroller.scrollLeft + scroller.offsetWidth / 2;
-    let bestDomIdx = 0;
+    let bestIdx = 0;
     let bestDist = Infinity;
     cards.forEach((card, i) => {
       const cardCenter = card.offsetLeft + card.offsetWidth / 2;
       const dist = Math.abs(center - cardCenter);
-      if (dist < bestDist) { bestDist = dist; bestDomIdx = i; }
+      if (dist < bestDist) { bestDist = dist; bestIdx = i; }
     });
 
-    const realIdx = ((bestDomIdx % total) + total) % total;
-    if (realIdx !== activeIdx) {
-      activeIdx = realIdx;
+    if (bestIdx !== activeIdx) {
+      activeIdx = bestIdx;
       dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
       if (counterEl) counterEl.textContent = `${activeIdx + 1} / ${total}`;
 
       if (!cardSeen[activeIdx]) {
         cardSeen[activeIdx] = true;
-        setCardState(cards[bestDomIdx], cardShowingApres[activeIdx]);
+        setCardState(cards[activeIdx], cardShowingApres[activeIdx]);
       }
     }
   }
 
-  // ── Silent reset to middle copy ──
-  function scheduleReset() {
-    if (resetTimer) clearTimeout(resetTimer);
-    resetTimer = setTimeout(() => {
-      const center = scroller.scrollLeft + scroller.offsetWidth / 2;
-      let bestDomIdx = 0;
-      let bestDist = Infinity;
-      cards.forEach((card, i) => {
-        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const dist = Math.abs(center - cardCenter);
-        if (dist < bestDist) { bestDist = dist; bestDomIdx = i; }
-      });
-
-      if (bestDomIdx < total) {
-        isResetting = true;
-        scroller.style.scrollSnapType = 'none';
-        const targetDom = bestDomIdx + total;
-        const card = cards[targetDom];
-        const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
-        scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            scroller.style.scrollSnapType = '';
-            isResetting = false;
-          });
-        });
-      } else if (bestDomIdx >= 2 * total) {
-        isResetting = true;
-        scroller.style.scrollSnapType = 'none';
-        const targetDom = bestDomIdx - total;
-        const card = cards[targetDom];
-        const scrollLeft = card.offsetLeft - (scroller.offsetWidth - card.offsetWidth) / 2;
-        scroller.scrollTo({ left: scrollLeft, behavior: 'instant' });
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            scroller.style.scrollSnapType = '';
-            isResetting = false;
-          });
-        });
-      }
-    }, 600);
-  }
-
-  // ── Scroll event ──
   scroller.addEventListener('scroll', () => {
     updateActiveFromScroll();
-
     if (scrollEndTimer) clearTimeout(scrollEndTimer);
     scrollEndTimer = setTimeout(() => {
       updateActiveFromScroll();
-      scheduleReset();
       scheduleAutoAdvance();
     }, 150);
   }, { passive: true });
 
-  // ── Toggle ──
   function setCardState(card: HTMLElement, showApres: boolean) {
     const avant = card.querySelector('.toggle-state--avant') as HTMLElement;
     const apres = card.querySelector('.toggle-state--apres') as HTMLElement;
@@ -478,51 +419,30 @@ const tripled = [...testimonials, ...testimonials, ...testimonials];
     setCardState(card, newState);
   }
 
-  // ── Click (tap to toggle) ──
   scroller.addEventListener('click', (e) => {
     const toggle = (e.target as HTMLElement).closest('[data-toggle]') as HTMLElement | null;
     if (!toggle) return;
-
     const card = toggle.closest('.testimonial-card') as HTMLElement;
     if (!card) return;
-
-    if (!autoPlayStopped) {
-      autoPlayStopped = true;
-      clearAutoTimer();
-    }
-
+    if (!autoPlayStopped) { autoPlayStopped = true; clearAutoTimer(); }
     toggleCard(card);
   });
 
-  // ── Dot clicks ──
   dots.forEach((dot) => {
     dot.addEventListener('click', (e) => {
       e.stopPropagation();
       const targetIdx = parseInt((dot as HTMLElement).dataset.dot || '0');
-      if (!autoPlayStopped) {
-        autoPlayStopped = true;
-        clearAutoTimer();
-      }
+      if (!autoPlayStopped) { autoPlayStopped = true; clearAutoTimer(); }
       scrollToCard(targetIdx);
     });
   });
 
-  // ── IntersectionObserver ──
   const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      scheduleAutoAdvance();
-    } else {
-      clearAutoTimer();
-    }
+    if (entries[0].isIntersecting) { scheduleAutoAdvance(); }
+    else { clearAutoTimer(); }
   }, { threshold: 0.3 });
   observer.observe(scroller);
 
-  // ── Init: scroll to middle copy ──
-  const initCard = cards[total];
-  if (initCard) {
-    const initScrollLeft = initCard.offsetLeft - (scroller.offsetWidth - initCard.offsetWidth) / 2;
-    scroller.scrollTo({ left: initScrollLeft, behavior: 'instant' });
-  }
   dots[0]?.classList.add('active');
   if (counterEl) counterEl.textContent = `1 / ${total}`;
   scheduleAutoAdvance();
